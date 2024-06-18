@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="addOrderContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.AddOrderFormController">
+   <children>
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="19.0" layoutY="59.0" prefHeight="20.0" prefWidth="124.0" text="Add Order" textFill="#c80036">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Separator layoutX="19.0" layoutY="90.0" prefHeight="0.0" prefWidth="922.0" />
+      <JFXComboBox layoutX="19.0" layoutY="107.0" prefHeight="26.0" prefWidth="258.0" promptText="Shop Name" />
+      <TableView fx:id="addOrderTbl" layoutX="19.0" layoutY="150.0" prefHeight="338.0" prefWidth="912.0">
+        <columns>
+          <TableColumn fx:id="colShopName" prefWidth="272.79999923706055" text="Shop Name" />
+          <TableColumn fx:id="colItemName" prefWidth="245.60000610351562" text="Item Name" />
+            <TableColumn fx:id="colQTY" prefWidth="94.39999389648438" text="QTY" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="130.39990234375" text="Unit Price" />
+            <TableColumn fx:id="colTotal" prefWidth="169.60009765625" text="Total" />
+        </columns>
+      </TableView>
+      <JFXComboBox layoutX="308.0" layoutY="109.0" prefHeight="26.0" prefWidth="258.0" promptText="Item Name" />
+      <TextField layoutX="605.0" layoutY="107.0" prefHeight="30.0" prefWidth="99.0" promptText="QTY" />
+      <JFXButton fx:id="btnAddtoCart" buttonType="RAISED" layoutX="789.0" layoutY="107.0" onAction="#addtoCartOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="+ Add to Cart" textFill="WHITE" />
+      <JFXButton fx:id="btnPlaceOrder" buttonType="RAISED" layoutX="807.0" layoutY="505.0" onAction="#placeOrderOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="Place Order" textFill="WHITE" />
+   </children>
+</AnchorPane>

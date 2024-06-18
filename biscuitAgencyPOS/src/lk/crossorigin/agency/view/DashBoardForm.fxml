@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="dashboardContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.DashBoardFormController">
+   <children>
+      <ImageView fitHeight="275.0" fitWidth="463.0" layoutX="477.0" layoutY="7.0" onMouseClicked="#loadOrderDetailsForm" pickOnBounds="true">
+         <image>
+            <Image url="@../assert/order_details.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="275.0" fitWidth="452.0" layoutX="14.0" layoutY="7.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
+         <image>
+            <Image url="@../assert/load_Stock.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="256.0" fitWidth="452.0" layoutX="14.0" layoutY="287.0" onMouseClicked="#loadAddShopForm" pickOnBounds="true">
+         <image>
+            <Image url="@../assert/add_shop.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="128.0" layoutY="98.0" style="-fx-background-color: 0C1844;" text="Load Stock" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+      <Label layoutX="605.0" layoutY="68.0" style="-fx-background-color: 0C1844;" text="Order Details" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="42.0" />
+         </font>
+      </Label>
+      <Label layoutX="223.0" layoutY="464.0" style="-fx-background-color: 0C1844;" text="Add Shop" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="44.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="256.0" fitWidth="463.0" layoutX="477.0" layoutY="287.0" onMouseClicked="#loadAddOrderForm" pickOnBounds="true">
+         <image>
+            <Image url="@../assert/add_order.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="723.0" layoutY="465.0" text="Add Order" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

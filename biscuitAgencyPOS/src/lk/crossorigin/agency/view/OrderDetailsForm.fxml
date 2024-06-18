@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="orderHistoryContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.OrderDetailsFormController">
+   <children>
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="19.0" layoutY="59.0" prefHeight="20.0" prefWidth="124.0" text="Order History" textFill="#c80036">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Separator layoutX="19.0" layoutY="94.0" prefHeight="0.0" prefWidth="922.0" />
+      <TableView fx:id="orderHistoryTbl" layoutX="14.0" layoutY="175.0" prefHeight="366.0" prefWidth="930.0">
+        <columns>
+          <TableColumn fx:id="colOrderId" prefWidth="103.99999713897705" text="Order Id" />
+          <TableColumn fx:id="colShopId" prefWidth="98.39999389648438" text="Shop Id" />
+            <TableColumn fx:id="colShopName" prefWidth="217.6000213623047" text="Shop Name" />
+            <TableColumn fx:id="colItemName" prefWidth="195.199951171875" text="Item Name" />
+            <TableColumn fx:id="colQTY" prefWidth="54.4000244140625" text="QTY" />
+            <TableColumn fx:id="colDate" prefWidth="136.800048828125" text="Date" />
+            <TableColumn fx:id="colTotal" prefWidth="127.199951171875" text="Total" />
+        </columns>
+      </TableView>
+      <DatePicker layoutX="12.0" layoutY="113.0" prefHeight="26.0" prefWidth="197.0" promptText="Filter By Date" />
+      <TextField layoutX="247.0" layoutY="113.0" prefHeight="26.0" prefWidth="682.0" promptText="Search here" />
+   </children>
+</AnchorPane>
