@@ -10,10 +10,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.dto.ShopDTO;
 import lk.crossorigin.agency.view.tm.ShopTM;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class AddShopFormController {
@@ -62,15 +65,12 @@ public class AddShopFormController {
     public void SaveShopOnAction(ActionEvent actionEvent) {
         if(btnSaveShop.getText().equalsIgnoreCase("Save Shop")){
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-                String sql = "INSERT INTO Shop VALUES(?,?,?)";
-                PreparedStatement stm = con.prepareStatement(sql);
-                stm.setObject(1,shopIdTxt.getText());
-                stm.setObject(2,shopNameTxt.getText());
-                stm.setObject(3,shopAddressTxt.getText());
-                boolean isSaved = stm.executeUpdate()>0;
-                if(isSaved) {
+                ShopDTO dto = new ShopDTO(
+                        shopIdTxt.getText(),
+                        shopNameTxt.getText(),
+                        shopAddressTxt.getText()
+                );
+                if(new DataBaseAccessCode().saveShop(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
                     loadAllShops("");
                 }else{
@@ -81,16 +81,13 @@ public class AddShopFormController {
             }
         }else{
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-                String sql = "UPDATE Shop SET name=?,address=? WHERE id=?";
-                PreparedStatement stm = con.prepareStatement(sql);
-                stm.setObject(1,shopNameTxt.getText());
-                stm.setObject(2,shopAddressTxt.getText());
-                stm.setObject(3,shopIdTxt.getText());
-                boolean isSaved = stm.executeUpdate()>0;
-                if(isSaved) {
-                    new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
+                ShopDTO dto = new ShopDTO(
+                        shopIdTxt.getText(),
+                        shopNameTxt.getText(),
+                        shopAddressTxt.getText()
+                );
+                if(new DataBaseAccessCode().updateShop(dto)) {
+                    new Alert(Alert.AlertType.CONFIRMATION,"Shop was Updated", ButtonType.OK).show();
                     loadAllShops("");
                 }else{
                     new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
@@ -104,23 +101,16 @@ public class AddShopFormController {
     private void loadAllShops(String searchText){
         ObservableList<ShopTM> obList = FXCollections.observableArrayList();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-            String sql = "SELECT * FROM Shop WHERE id LIKE ? OR name LIKE ? OR address LIKE ?";
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setObject(1,"%" + searchText + "%");
-            stm.setObject(2,"%" + searchText + "%");
-            stm.setObject(3,"%" + searchText + "%");
-
-            ResultSet rst = stm.executeQuery();
-            while (rst.next()){
+            ArrayList<ShopDTO> dtoList = new DataBaseAccessCode().getAllShops("%" + searchText + "%");
+            for (ShopDTO dto:dtoList) {
                 Button btn = new Button("Delete");
                 ShopTM shopTM = new ShopTM(
-                        rst.getString(1),
-                        rst.getString(2),
-                        rst.getString(3),
+                        dto.getId(),
+                        dto.getName(),
+                        dto.getAddress(),
                         btn);
                 obList.add(shopTM);
+
 
                 //Delete------------------------
                 btn.setOnAction(e->{
@@ -132,20 +122,12 @@ public class AddShopFormController {
                     Optional<ButtonType> confirmState = confirmation.showAndWait();
                     if(confirmState.get().equals(ButtonType.YES)){
                         try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-                            String sql1 = "DELETE FROM Shop WHERE id=?";
-                            PreparedStatement stm1 = con1.prepareStatement(sql1);
-                            stm1.setObject(1,shopTM.getId());
-                            boolean isDeleted = stm1.executeUpdate() > 0;
-
-                            if(isDeleted) {
+                            if(new DataBaseAccessCode().deleteShop(shopTM.getId())) {
                                 new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                                 loadAllShops("");
                             }else{
                                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                             }
-
                         } catch (ClassNotFoundException | SQLException e1) {
                             e1.printStackTrace();
                         }

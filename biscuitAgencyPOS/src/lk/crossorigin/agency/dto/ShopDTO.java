@@ -1,22 +1,17 @@
-package lk.crossorigin.agency.view.tm;
+package lk.crossorigin.agency.dto;
 
-import javafx.scene.control.Button;
-
-public class ShopTM {
+public class ShopDTO {
     private String id;
     private String name;
     private String address;
-    private Button btn;
 
-
-    public ShopTM() {
+    public ShopDTO() {
     }
 
-    public ShopTM(String id, String name, String address, Button btn) {
+    public ShopDTO(String id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.btn = btn;
     }
 
     public String getId() {
@@ -43,21 +38,12 @@ public class ShopTM {
         this.address = address;
     }
 
-    public Button getBtn() {
-        return btn;
-    }
-
-    public void setBtn(Button btn) {
-        this.btn = btn;
-    }
-
     @Override
     public String toString() {
-        return "ShopTM{" +
+        return "ShopDTO{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", btn=" + btn +
                 '}';
     }
 }

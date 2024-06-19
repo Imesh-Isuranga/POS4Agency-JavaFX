@@ -1,24 +1,24 @@
-package lk.crossorigin.agency.view.tm;
+package lk.crossorigin.agency.dto;
 
-import javafx.scene.control.Button;
-
-public class ItemTM {
+public class ItemDTO {
     private String code;
     private String name;
     private double unitPrice;
     private int qty;
 
-    Button btn;
-
-    public ItemTM() {
+    public ItemDTO() {
     }
 
-    public ItemTM(String code, String name, double unitPrice, int qty, Button btn) {
+    public ItemDTO(String code, int qty) {
+        this.code = code;
+        this.qty = qty;
+    }
+
+    public ItemDTO(String code, String name, double unitPrice, int qty) {
         this.code = code;
         this.name = name;
         this.unitPrice = unitPrice;
         this.qty = qty;
-        this.btn = btn;
     }
 
     public String getCode() {
@@ -53,22 +53,13 @@ public class ItemTM {
         this.qty = qty;
     }
 
-    public Button getBtn() {
-        return btn;
-    }
-
-    public void setBtn(Button btn) {
-        this.btn = btn;
-    }
-
     @Override
     public String toString() {
-        return "ItemTM{" +
+        return "ItemDTO{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", unitPrice=" + unitPrice +
                 ", qty=" + qty +
-                ", btn=" + btn +
                 '}';
     }
 }

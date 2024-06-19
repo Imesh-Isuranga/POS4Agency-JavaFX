@@ -11,11 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.dto.ItemDTO;
 import lk.crossorigin.agency.view.tm.ItemTM;
 import lk.crossorigin.agency.view.tm.ShopTM;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class LoadStockFormController {
@@ -54,18 +57,9 @@ public class LoadStockFormController {
     private ObservableList<String> loadComboBox(String searchText){
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-            String sql = "SELECT * FROM Item WHERE code LIKE ? OR name LIKE ? OR unitPrice LIKE ? OR qty LIKE ?";
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setObject(1,"%" + searchText + "%");
-            stm.setObject(2,"%" + searchText + "%");
-            stm.setObject(3,"%" + searchText + "%");
-            stm.setObject(4,"%" + searchText + "%");
-
-            ResultSet rst = stm.executeQuery();
-            while (rst.next()){
-                obList.add(rst.getString(1));
+            ArrayList<ItemDTO> dtoList = new DataBaseAccessCode().getAllItems("%" + searchText + "%");
+            for (ItemDTO dto: dtoList) {
+                obList.add(dto.getCode());
             }
             return obList;
         } catch (ClassNotFoundException | SQLException e) {
@@ -77,24 +71,17 @@ public class LoadStockFormController {
     private void loadAllItems(String searchText){
         ObservableList<ItemTM> obList = FXCollections.observableArrayList();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-            String sql = "SELECT * FROM Item WHERE code LIKE ? OR name LIKE ? OR unitPrice LIKE ? OR qty LIKE ?";
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setObject(1,"%" + searchText + "%");
-            stm.setObject(2,"%" + searchText + "%");
-            stm.setObject(3,"%" + searchText + "%");
-            stm.setObject(4,"%" + searchText + "%");
+            ArrayList<ItemDTO> dtoList = new DataBaseAccessCode().getAllItems("%" + searchText + "%");
 
-            ResultSet rst = stm.executeQuery();
-            while (rst.next()){
+            for (ItemDTO dto: dtoList) {
                 Button btn = new Button("Delete");
                 ItemTM itemTM = new ItemTM(
-                        rst.getString(1),
-                        rst.getString(2),
-                        rst.getDouble(3),
-                        rst.getInt(4),
+                        dto.getCode(),
+                        dto.getName(),
+                        dto.getUnitPrice(),
+                        dto.getQty(),
                         btn);
+
                 obList.add(itemTM);
 
                 //Delete------------------------
@@ -107,14 +94,7 @@ public class LoadStockFormController {
                     Optional<ButtonType> confirmState = confirmation.showAndWait();
                     if(confirmState.get().equals(ButtonType.YES)){
                         try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-                            String sql1 = "DELETE FROM Item WHERE code=?";
-                            PreparedStatement stm1 = con1.prepareStatement(sql1);
-                            stm1.setObject(1,itemTM.getCode());
-                            boolean isDeleted = stm1.executeUpdate() > 0;
-
-                            if(isDeleted) {
+                            if(new DataBaseAccessCode().deleteItem(itemTM.getCode())) {
                                 new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                                 loadAllItems("");
                             }else{
@@ -141,15 +121,8 @@ public class LoadStockFormController {
 
     public void UpdateStockOnAction(ActionEvent actionEvent) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BiscuitAgency", "root", "1313");
-            String sql = "UPDATE Item SET qty=? WHERE code=?";
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setObject(1,qtyTxt.getText());
-            stm.setObject(2,selectedCode);
-
-            boolean isSaved = stm.executeUpdate()>0;
-            if(isSaved) {
+            ItemDTO dto = new ItemDTO(selectedCode,Integer.parseInt(qtyTxt.getText()));
+            if(new DataBaseAccessCode().updateItem(dto)) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
                 loadAllItems("");
             }else{

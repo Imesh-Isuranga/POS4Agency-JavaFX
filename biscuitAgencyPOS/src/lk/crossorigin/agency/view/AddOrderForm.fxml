@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="addOrderContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.AddOrderFormController">
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
@@ -38,5 +37,36 @@
       <TextField layoutX="605.0" layoutY="107.0" prefHeight="30.0" prefWidth="99.0" promptText="QTY" />
       <JFXButton fx:id="btnAddtoCart" buttonType="RAISED" layoutX="789.0" layoutY="107.0" onAction="#addtoCartOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="+ Add to Cart" textFill="WHITE" />
       <JFXButton fx:id="btnPlaceOrder" buttonType="RAISED" layoutX="807.0" layoutY="505.0" onAction="#placeOrderOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="Place Order" textFill="WHITE" />
+      <Label layoutX="224.0" layoutY="35.0" text="Order Id : ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderId" layoutX="308.0" layoutY="35.0" text="D - 0001">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="516.0" layoutY="34.0" text="Date : ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDate" layoutX="591.0" layoutY="35.0" text="06/19/2024">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnRemove" buttonType="RAISED" layoutX="783.0" layoutY="28.0" onAction="#removeOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="- Remove" textFill="WHITE" />
+      <Label layoutX="34.0" layoutY="505.0" text="Total : ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="112.0" layoutY="505.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
