@@ -14,12 +14,9 @@ import lk.crossorigin.agency.DataBaseAccessCode;
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ItemDTO;
-import lk.crossorigin.agency.entity.Item;
-import lk.crossorigin.agency.entity.Order;
-import lk.crossorigin.agency.entity.OrderDetail;
-import lk.crossorigin.agency.entity.Shop;
-import lk.crossorigin.agency.view.tm.ItemTM;
+import lk.crossorigin.agency.dto.OrderDetailsDTO;
 import lk.crossorigin.agency.view.tm.OrderDetailsTM;
+import lk.crossorigin.agency.view.tm.ShopTM;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -53,84 +50,21 @@ public class OrderDetailsFormController {
         loadAllDetails("");
     }
 
-    private Shop getShop(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM Shop WHERE id=?";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        stm.setObject(1,id);
-        ResultSet rst = stm.executeQuery();
-
-        if(rst.next()){
-            return new Shop(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3)
-            );
-        }
-        return null;
-    }
-
-    private Item getItem(String code) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM Item WHERE code=?";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        stm.setObject(1,code);
-        ResultSet rst = stm.executeQuery();
-
-        if(rst.next()){
-            return new Item(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getDouble(3),
-                    rst.getInt(4)
-            );
-        }
-        return null;
-    }
-
-    private Order getOrder(String orderId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM Orders WHERE id=?";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        stm.setObject(1,orderId);
-        ResultSet rst = stm.executeQuery();
-
-        if(rst.next()){
-            return new Order(
-                    rst.getString(1),
-                    rst.getDate(2)
-            );
-        }
-        return null;
-    }
     private void loadAllDetails(String searchText){
         ObservableList<OrderDetailsTM> obList = FXCollections.observableArrayList();
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "SELECT * FROM OrderDetail WHERE orderId LIKE ? OR shopId LIKE ? OR itemCode LIKE ? OR qty LIKE ? OR unitPrice LIKE ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setObject(1,"%" + searchText + "%");
-            stm.setObject(2,"%" + searchText + "%");
-            stm.setObject(3,"%" + searchText + "%");
-            stm.setObject(4,"%" + searchText + "%");
-            stm.setObject(5,"%" + searchText + "%");
-            ResultSet rst = stm.executeQuery();
-
-            System.out.println("--=-=-=-=-===-=-=-=-=");
-            System.out.println(rst.next());
-            while (rst.next()){
-                OrderDetailsTM orderDetailTM = new OrderDetailsTM(
-                        rst.getString(1),
-                        rst.getString(2),
-                        getShop(rst.getString(2)).getName(),
-                        getItem(rst.getString(3)).getName(),
-                        Integer.parseInt(rst.getString(4)),
-                        getOrder(rst.getString(1)).getDate(),
-                        rst.getInt(4)*rst.getDouble(5)
+            ArrayList<OrderDetailsDTO> dtoList = new DataBaseAccessCode().getAllOrderDetails("%" + searchText + "%");
+            for (OrderDetailsDTO dto:dtoList) {
+                OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
+                        dto.getOrderId(),
+                        dto.getShopId(),
+                        new DataBaseAccessCode().getShop(dto.getShopId()).getName(),
+                        new DataBaseAccessCode().getItem(dto.getItemCode()).getName(),
+                        dto.getQty(),
+                        new DataBaseAccessCode().getOrderDate(dto.getOrderId()),
+                        dto.getQty()*dto.getUnitPrice()
                 );
-                System.out.println("--=-=-=-=-===-=-=-=-=]]]]]]]]");
-                System.out.println(orderDetailTM);
-                obList.add(orderDetailTM);
+                obList.add(orderDetailsTM);
             }
             orderHistoryTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {

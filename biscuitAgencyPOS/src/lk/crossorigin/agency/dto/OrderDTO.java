@@ -1,17 +1,19 @@
-package lk.crossorigin.agency.entity;
+package lk.crossorigin.agency.dto;
+
+import lk.crossorigin.agency.entity.OrderDetail;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Order {
+public class OrderDTO {
     private String id;
     private Date date;
     private ArrayList<OrderDetail> orderDetails;
 
-    public Order() {
+    public OrderDTO() {
     }
 
-    public Order(String id, Date date) {
+    public OrderDTO(String id, Date date) {
         this.id = id;
         this.date = date;
     }
@@ -42,10 +44,11 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "OrderDTO{" +
                 "id='" + id + '\'' +
                 ", date=" + date +
                 ", orderDetails=" + orderDetails +
                 '}';
     }
+
 }

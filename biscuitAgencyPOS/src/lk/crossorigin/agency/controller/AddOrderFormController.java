@@ -15,8 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.crossorigin.agency.DataBaseAccessCode;
 import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ItemDTO;
+import lk.crossorigin.agency.dto.OrderDTO;
+import lk.crossorigin.agency.dto.ShopDTO;
 import lk.crossorigin.agency.entity.Item;
 import lk.crossorigin.agency.entity.Order;
 import lk.crossorigin.agency.entity.OrderDetail;
@@ -64,10 +67,10 @@ public class AddOrderFormController {
         String formatDate = formatDate(new Date());
         lblDate.setText(formatDate);
 
-        lblOrderId.setText(generateOrderId());
+        lblOrderId.setText(new DataBaseAccessCode().getLastOrderId());
 
-        cmbShopName.setItems(loadAllShopNames());
-        cmbItemName.setItems(loadAllItemNames());
+        cmbShopName.setItems(loadAllShopIds());
+        cmbItemName.setItems(loadAllItemCodes());
 
         colShopName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -89,7 +92,7 @@ public class AddOrderFormController {
     public void addtoCartOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
         int qty = Integer.parseInt(txtqty.getText());
-        double unitPrice = getSelectItem(cmbItemName.getValue().toString()).getUnitPrice();
+        double unitPrice = new DataBaseAccessCode().getItemByName(cmbItemName.getValue().toString()).getUnitPrice();
         double total = qty * unitPrice;
 
         int rowIndex = isAlreadyExists(cmbShopName.getValue().toString(),cmbItemName.getValue().toString());
@@ -111,55 +114,22 @@ public class AddOrderFormController {
         lblTotal.setText(String.valueOf(calculateTotalValue()));
     }
 
-    private Item getSelectItem(String name) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM Item WHERE name = ?";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        stm.setObject(1,name);
-        ResultSet rst = stm.executeQuery();
-
-        if(rst.next()){
-            return new Item(rst.getString(1),
-                            rst.getString(2),
-                            rst.getDouble(3),
-                            rst.getInt(4));
-        }else {
-            return null;
-        }
-    }
-
-    private Shop getSelectShop(String name) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM Shop WHERE name = ?";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        stm.setObject(1,name);
-        ResultSet rst = stm.executeQuery();
-
-        if(rst.next()){
-            return new Shop(rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3));
-        }else {
-            return null;
-        }
-
-    }
-
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException {
         ArrayList <OrderDetail>orderDetailList=new ArrayList<>();
 
 
         for (int i = 0; i < addOrderTbl.getItems().size(); i++) {
-            String shopId = getSelectShop(getCellValue(i,0).toString()).getId();
-            String itemCode = getSelectItem(getCellValue(i,1).toString()).getCode();
+            String shopId = getCellValue(i,0).toString();
+            String itemCode = getCellValue(i,1).toString();
             int orderQty=Integer.parseInt(getCellValue(i,2).toString());
             double unitPrice=Double.parseDouble(getCellValue(i,3).toString());
             OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), shopId, itemCode, orderQty, unitPrice);
             orderDetailList.add(orderDetail);
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Order order=new Order(lblOrderId.getText(), format.parse(lblDate.getText()), orderDetailList);
-        boolean isAdded = OrderController.addOrder(order);
+        OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()));
+        boolean isAdded = new DataBaseAccessCode().saveOrder(orderDTO);
+
         if (isAdded) {
             System.out.println("----------------------------------------------------------");
         }
@@ -174,51 +144,26 @@ public class AddOrderFormController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(date);
     }
-    private String generateOrderId() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT id FROM Orders ORDER BY id DESC  LIMIT 1";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        ResultSet resultSet = stm.executeQuery();
+    private ObservableList<String> loadAllShopIds() throws SQLException, ClassNotFoundException {
+        ObservableList<String> shopIdsObList = FXCollections.observableArrayList();;
+        ArrayList<ShopDTO> shopDTOArrayList = new DataBaseAccessCode().getAllShops("%"+""+"%");
 
-        if(resultSet.next()){
-            String orderID = resultSet.getString(1);
-            orderID = orderID.split("[A-Z]")[1];
-            orderID = Integer.parseInt(orderID)+1+"";
-            return "D" + orderID;
-        }else{
-            return "D001";
+        for (ShopDTO shopDTO:shopDTOArrayList) {
+            shopIdsObList.add(shopDTO.getId());
         }
+
+        return shopIdsObList;
     }
-    private ObservableList<String> loadAllShopNames() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT name FROM Shop";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        ResultSet resultSet = stm.executeQuery();
 
-        ObservableList<String> shopNames = FXCollections.observableArrayList();;
+    private ObservableList<String> loadAllItemCodes() throws SQLException, ClassNotFoundException {
+        ObservableList<String> itemCodesObList = FXCollections.observableArrayList();;
+        ArrayList<ItemDTO> itemDTOArrayList = new DataBaseAccessCode().getAllItems("%"+""+"%");
 
-        if(resultSet != null){
-            while(resultSet.next()){
-                shopNames.add(resultSet.getString(1));
-            }
+        for (ItemDTO itemDTO:itemDTOArrayList) {
+            itemCodesObList.add(itemDTO.getCode());
         }
 
-        return shopNames;
-    }
-    private ObservableList<String> loadAllItemNames() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT name FROM Item";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        ResultSet resultSet = stm.executeQuery();
-
-        ObservableList<String> itemNames = FXCollections.observableArrayList();;
-
-        if(resultSet != null){
-            while(resultSet.next()){
-                itemNames.add(resultSet.getString(1));
-            }
-        }
-        return itemNames;
+        return itemCodesObList;
     }
 
     private int isAlreadyExists(String shopName,String itemName){

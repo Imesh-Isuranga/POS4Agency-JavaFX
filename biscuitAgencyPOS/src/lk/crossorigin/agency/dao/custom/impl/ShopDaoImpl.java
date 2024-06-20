@@ -4,6 +4,7 @@ import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.dao.custom.ShopDAO;
 import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ShopDTO;
+import lk.crossorigin.agency.entity.Item;
 import lk.crossorigin.agency.entity.Shop;
 
 import java.sql.PreparedStatement;
@@ -31,9 +32,14 @@ public class ShopDaoImpl implements ShopDAO {
         return CrudUtil.executeUpdate(sql,id);
     }
 
-    /*public boolean getShop(String id){
-        //get Shop
-    }*/
+    public Shop getShop(String id) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM Shop WHERE id=?";
+        ResultSet rst = CrudUtil.executeQuery(sql,id);
+        if(rst.next()){
+            return new Shop(rst.getString(1),rst.getString(2),rst.getString(3));
+        }
+        return null;
+    }
 
     @Override
     public ArrayList<Shop> getAllShops(String text) throws SQLException, ClassNotFoundException {

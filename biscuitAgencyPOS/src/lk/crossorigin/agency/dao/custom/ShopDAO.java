@@ -10,6 +10,7 @@ public interface ShopDAO {
     public boolean saveShop(Shop s) throws SQLException, ClassNotFoundException;
     public boolean updateShop(Shop s) throws SQLException, ClassNotFoundException;
     public boolean deleteShop(String id) throws SQLException, ClassNotFoundException;
+    public Shop getShop(String id) throws SQLException, ClassNotFoundException;
     public ArrayList<Shop> getAllShops(String text) throws SQLException, ClassNotFoundException;
 
 }
