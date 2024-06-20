@@ -23,7 +23,7 @@
          </font>
       </Label>
       <Separator layoutX="19.0" layoutY="90.0" prefHeight="0.0" prefWidth="922.0" />
-      <JFXComboBox layoutX="19.0" layoutY="107.0" prefHeight="26.0" prefWidth="258.0" promptText="Shop Name" />
+      <JFXComboBox fx:id="cmbShopName" layoutX="19.0" layoutY="107.0" prefHeight="26.0" prefWidth="258.0" promptText="Shop Name" />
       <TableView fx:id="addOrderTbl" layoutX="19.0" layoutY="150.0" prefHeight="338.0" prefWidth="912.0">
         <columns>
           <TableColumn fx:id="colShopName" prefWidth="272.79999923706055" text="Shop Name" />
@@ -33,8 +33,8 @@
             <TableColumn fx:id="colTotal" prefWidth="169.60009765625" text="Total" />
         </columns>
       </TableView>
-      <JFXComboBox layoutX="308.0" layoutY="109.0" prefHeight="26.0" prefWidth="258.0" promptText="Item Name" />
-      <TextField layoutX="605.0" layoutY="107.0" prefHeight="30.0" prefWidth="99.0" promptText="QTY" />
+      <JFXComboBox fx:id="cmbItemName" layoutX="308.0" layoutY="109.0" prefHeight="26.0" prefWidth="258.0" promptText="Item Name" />
+      <TextField fx:id="txtqty" layoutX="605.0" layoutY="107.0" prefHeight="30.0" prefWidth="99.0" promptText="QTY" />
       <JFXButton fx:id="btnAddtoCart" buttonType="RAISED" layoutX="789.0" layoutY="107.0" onAction="#addtoCartOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="+ Add to Cart" textFill="WHITE" />
       <JFXButton fx:id="btnPlaceOrder" buttonType="RAISED" layoutX="807.0" layoutY="505.0" onAction="#placeOrderOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="Place Order" textFill="WHITE" />
       <Label layoutX="224.0" layoutY="35.0" text="Order Id : ">
@@ -63,7 +63,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="112.0" layoutY="505.0" text="0.00">
+      <Label fx:id="lblTotal" layoutX="112.0" layoutY="505.0" text="0.00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
