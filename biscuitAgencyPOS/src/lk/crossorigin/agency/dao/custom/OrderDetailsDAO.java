@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public interface OrderDetailsDAO {
     public boolean saveOrderDetails(OrderDetail s) throws SQLException, ClassNotFoundException;
-
+    public boolean deleteOrderDelete(String orderId) throws SQLException, ClassNotFoundException;
+    public OrderDetail getOrderDetail(String orderId,String itemCode) throws SQLException, ClassNotFoundException;
     public ArrayList<OrderDetail> getAllOrderDetails(String text) throws SQLException, ClassNotFoundException;
 }

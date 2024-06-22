@@ -1,53 +1,43 @@
 package lk.crossorigin.agency.view.tm;
 
 public class OrderTM {
-    private String name;
-    private String code;
-    private int qty;
-    private double unitPrice;
+    private String itemCode;
+    private int boxQty;
+    private int itemQty;
     private double total;
 
     public OrderTM() {
     }
 
-    public OrderTM(String name, String code, int qty, double unitPrice, double total) {
-        this.name = name;
-        this.code = code;
-        this.qty = qty;
-        this.unitPrice = unitPrice;
+    public OrderTM(String itemCode, int boxQty, int itemQty, double total) {
+        this.itemCode = itemCode;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
         this.total = total;
     }
 
-    public String getName() {
-        return name;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-    public String getCode() {
-        return code;
+    public int getBoxQty() {
+        return boxQty;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setBoxQty(int boxQty) {
+        this.boxQty = boxQty;
     }
 
-    public int getQty() {
-        return qty;
+    public int getItemQty() {
+        return itemQty;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setItemQty(int itemQty) {
+        this.itemQty = itemQty;
     }
 
     public double getTotal() {
@@ -61,10 +51,9 @@ public class OrderTM {
     @Override
     public String toString() {
         return "OrderTM{" +
-                "name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                ", qty=" + qty +
-                ", unitPrice=" + unitPrice +
+                ", itemCode='" + itemCode + '\'' +
+                ", boxQty=" + boxQty +
+                ", itemQty=" + itemQty +
                 ", total=" + total +
                 '}';
     }

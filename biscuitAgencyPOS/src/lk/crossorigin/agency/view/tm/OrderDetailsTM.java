@@ -4,10 +4,9 @@ import java.util.Date;
 
 public class OrderDetailsTM {
     private String orderId;
-    private String shopId;
-    private String shopName;
-    private String itemName;
-    private int qty;
+    private String itemCode;
+    private int boxQty;
+    private int itemQty;
     private Date date;
     private double total;
 
@@ -15,12 +14,11 @@ public class OrderDetailsTM {
     public OrderDetailsTM() {
     }
 
-    public OrderDetailsTM(String orderId, String shopId, String shopName, String itemName, int qty, Date date, double total) {
+    public OrderDetailsTM(String orderId, String itemCode, int boxQty, int itemQty, Date date, double total) {
         this.orderId = orderId;
-        this.shopId = shopId;
-        this.shopName = shopName;
-        this.itemName = itemName;
-        this.qty = qty;
+        this.itemCode = itemCode;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
         this.date = date;
         this.total = total;
     }
@@ -33,36 +31,29 @@ public class OrderDetailsTM {
         this.orderId = orderId;
     }
 
-    public String getShopId() {
-        return shopId;
+
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-    public String getShopName() {
-        return shopName;
+    public int getBoxQty() {
+        return boxQty;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setBoxQty(int boxQty) {
+        this.boxQty = boxQty;
     }
 
-    public String getItemName() {
-        return itemName;
+    public int getItemQty() {
+        return itemQty;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setItemQty(int itemQty) {
+        this.itemQty = itemQty;
     }
 
     public Date getDate() {
@@ -85,10 +76,9 @@ public class OrderDetailsTM {
     public String toString() {
         return "OrderDetailsTM{" +
                 "orderId='" + orderId + '\'' +
-                ", shopId='" + shopId + '\'' +
-                ", shopName='" + shopName + '\'' +
-                ", itemName='" + itemName + '\'' +
-                ", qty=" + qty +
+                ", itemCode='" + itemCode + '\'' +
+                ", boxQty=" + boxQty +
+                ", itemQty=" + itemQty +
                 ", date=" + date +
                 ", total=" + total +
                 '}';

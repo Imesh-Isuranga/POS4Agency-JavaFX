@@ -22,12 +22,11 @@
          </font>
       </Label>
       <Separator layoutX="24.0" layoutY="100.0" prefHeight="0.0" prefWidth="922.0" />
-      <TableView fx:id="addShoptbl" layoutX="14.0" layoutY="194.0" prefHeight="350.0" prefWidth="922.0">
+      <TableView fx:id="addShoptbl" layoutX="14.0" layoutY="194.0" prefHeight="305.0" prefWidth="922.0">
         <columns>
-          <TableColumn fx:id="colShopId" prefWidth="99.99999713897705" text="Shop Id" />
-          <TableColumn fx:id="colShopName" prefWidth="383.1999969482422" text="Shop Name" />
-            <TableColumn fx:id="colShopAddress" prefWidth="296.79998779296875" text="Shop Address" />
-            <TableColumn fx:id="colOption" prefWidth="140.0" text="Option" />
+          <TableColumn fx:id="colShopId" prefWidth="190.39999103546143" text="Shop Id" />
+          <TableColumn fx:id="colShopName" prefWidth="416.8000030517578" text="Shop Name" />
+            <TableColumn fx:id="colShopAddress" prefWidth="314.39996337890625" text="Shop Address" />
         </columns>
       </TableView>
       <TextField fx:id="shopNameTxt" layoutX="185.0" layoutY="113.0" prefHeight="26.0" prefWidth="266.0" promptText="Shop Name" />
@@ -37,5 +36,6 @@
       <TextField fx:id="searchTxt" layoutX="24.0" layoutY="160.0" prefHeight="26.0" prefWidth="735.0" promptText="Search" />
       <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="778.0" layoutY="158.0" onAction="#searchOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="Search" textFill="WHITE" />
       <JFXButton fx:id="btnNewShop" buttonType="RAISED" layoutX="778.0" layoutY="54.0" onAction="#NewShopOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="+ New Shop" textFill="WHITE" />
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="17.0" layoutY="509.0" onAction="#deleteOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="Delete" textFill="WHITE" />
    </children>
 </AnchorPane>

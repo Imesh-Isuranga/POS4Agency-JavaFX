@@ -1,24 +1,25 @@
 package lk.crossorigin.agency.view.tm;
 
-import javafx.scene.control.Button;
-
 public class ItemTM {
     private String code;
     private String name;
-    private double unitPrice;
-    private int qty;
-
-    Button btn;
+    private double unitPrice_Box_Agency;
+    private double unitPrice_Box;
+    private int boxQty;
+    private int itemQty;
+    private double total;
 
     public ItemTM() {
     }
 
-    public ItemTM(String code, String name, double unitPrice, int qty, Button btn) {
+    public ItemTM(String code, String name, double unitPrice_Box_Agency, double unitPrice_Box, int boxQty, int itemQty, double total) {
         this.code = code;
         this.name = name;
-        this.unitPrice = unitPrice;
-        this.qty = qty;
-        this.btn = btn;
+        this.unitPrice_Box_Agency = unitPrice_Box_Agency;
+        this.unitPrice_Box = unitPrice_Box;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
+        this.total = total;
     }
 
     public String getCode() {
@@ -37,28 +38,44 @@ public class ItemTM {
         this.name = name;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
+    public double getUnitPrice_Box_Agency() {
+        return unitPrice_Box_Agency;
     }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setUnitPrice_Box_Agency(double unitPrice_Box_Agency) {
+        this.unitPrice_Box_Agency = unitPrice_Box_Agency;
     }
 
-    public int getQty() {
-        return qty;
+    public double getUnitPrice_Box() {
+        return unitPrice_Box;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setUnitPrice_Box(double unitPrice_Box) {
+        this.unitPrice_Box = unitPrice_Box;
     }
 
-    public Button getBtn() {
-        return btn;
+    public int getBoxQty() {
+        return boxQty;
     }
 
-    public void setBtn(Button btn) {
-        this.btn = btn;
+    public void setBoxQty(int boxQty) {
+        this.boxQty = boxQty;
+    }
+
+    public int getItemQty() {
+        return itemQty;
+    }
+
+    public void setItemQty(int itemQty) {
+        this.itemQty = itemQty;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     @Override
@@ -66,9 +83,11 @@ public class ItemTM {
         return "ItemTM{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", unitPrice=" + unitPrice +
-                ", qty=" + qty +
-                ", btn=" + btn +
+                ", unitPrice_Box_Agency=" + unitPrice_Box_Agency +
+                ", unitPrice_Box=" + unitPrice_Box +
+                ", boxQty=" + boxQty +
+                ", itemQty=" + itemQty +
+                ", total=" + total +
                 '}';
     }
 }

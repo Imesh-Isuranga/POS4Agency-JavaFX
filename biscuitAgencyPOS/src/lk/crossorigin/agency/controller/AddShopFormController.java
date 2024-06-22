@@ -40,7 +40,6 @@ public class AddShopFormController {
         colShopId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colShopName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colShopAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colOption.setCellValueFactory(new PropertyValueFactory<>("btn"));
 
         loadAllShops("");
 
@@ -103,37 +102,12 @@ public class AddShopFormController {
         try {
             ArrayList<ShopDTO> dtoList = new DataBaseAccessCode().getAllShops("%" + searchText + "%");
             for (ShopDTO dto:dtoList) {
-                Button btn = new Button("Delete");
                 ShopTM shopTM = new ShopTM(
                         dto.getId(),
                         dto.getName(),
-                        dto.getAddress(),
-                        btn);
+                        dto.getAddress()
+                );
                 obList.add(shopTM);
-
-
-                //Delete------------------------
-                btn.setOnAction(e->{
-                    Alert confirmation = new Alert(
-                            Alert.AlertType.CONFIRMATION,
-                            "ARE YOU SURE ?",
-                            ButtonType.YES,ButtonType.CANCEL
-                    );
-                    Optional<ButtonType> confirmState = confirmation.showAndWait();
-                    if(confirmState.get().equals(ButtonType.YES)){
-                        try {
-                            if(new DataBaseAccessCode().deleteShop(shopTM.getId())) {
-                                new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
-                                loadAllShops("");
-                            }else{
-                                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
-                            }
-                        } catch (ClassNotFoundException | SQLException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-                //Delete------------------------
             }
             addShoptbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {
@@ -150,5 +124,27 @@ public class AddShopFormController {
         shopIdTxt.clear();
         shopNameTxt.clear();
         shopAddressTxt.clear();
+    }
+
+    public void deleteOnAction(ActionEvent actionEvent) {
+
+        Alert confirmation = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "ARE YOU SURE ?",
+                ButtonType.YES,ButtonType.CANCEL
+        );
+        Optional<ButtonType> confirmState = confirmation.showAndWait();
+        if(confirmState.get().equals(ButtonType.YES)){
+            try {
+                if(new DataBaseAccessCode().deleteShop(shopIdTxt.getText())) {
+                    new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
+                    loadAllShops("");
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                }
+            } catch (ClassNotFoundException | SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 }

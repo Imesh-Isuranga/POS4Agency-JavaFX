@@ -27,22 +27,28 @@ public class LoadStockFormController {
     public TableView<ItemTM> itemsTbl;
     public TableColumn colItemCode;
     public TableColumn colItemName;
-    public TableColumn colUnitPrice;
-    public TableColumn colQTYOnHand;
-    public TextField qtyTxt;
+    public TableColumn colUnitPrice_Box;
+    public TableColumn colBoxQty;
+    public TableColumn colItemQty;
+    public TableColumn colTotal;
     public JFXComboBox itemsCmbBox;
-    public TableColumn colOption;
     public JFXButton btnUpdateStock;
-
     public String selectedCode;
+    public JFXButton btnUpdateItem;
+    public ItemTM itemTMSelected;
+    public TextField boxQtyTxt;
+    public TextField itemQtyTxt;
+    public TableColumn colUnitPrice_Box_Agency;
 
 
     public void initialize(){
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        colQTYOnHand.setCellValueFactory(new PropertyValueFactory<>("qty"));
-        colOption.setCellValueFactory(new PropertyValueFactory<>("btn"));
+        colUnitPrice_Box.setCellValueFactory(new PropertyValueFactory<>("unitPrice_Box"));
+        colBoxQty.setCellValueFactory(new PropertyValueFactory<>("boxQty"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colUnitPrice_Box_Agency.setCellValueFactory(new PropertyValueFactory<>("unitPrice_Box_Agency"));
 
         loadAllItems("");
 
@@ -50,6 +56,12 @@ public class LoadStockFormController {
 
         itemsCmbBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             selectedCode = (String) newValue;
+        });
+
+        itemsTbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
+                itemTMSelected = newValue;
+            }
         });
 
     }
@@ -74,39 +86,17 @@ public class LoadStockFormController {
             ArrayList<ItemDTO> dtoList = new DataBaseAccessCode().getAllItems("%" + searchText + "%");
 
             for (ItemDTO dto: dtoList) {
-                Button btn = new Button("Delete");
+                double total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
                 ItemTM itemTM = new ItemTM(
                         dto.getCode(),
                         dto.getName(),
-                        dto.getUnitPrice(),
-                        dto.getQty(),
-                        btn);
-
+                        dto.getUnitPrice_Box_Agency(),
+                        dto.getUnitPrice_Box(),
+                        dto.getBoxQty(),
+                        dto.getItemQty(),
+                        total
+                        );
                 obList.add(itemTM);
-
-                //Delete------------------------
-                btn.setOnAction(e->{
-                    Alert confirmation = new Alert(
-                            Alert.AlertType.CONFIRMATION,
-                            "ARE YOU SURE ?",
-                            ButtonType.YES,ButtonType.CANCEL
-                    );
-                    Optional<ButtonType> confirmState = confirmation.showAndWait();
-                    if(confirmState.get().equals(ButtonType.YES)){
-                        try {
-                            if(new DataBaseAccessCode().deleteItem(itemTM.getCode())) {
-                                new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
-                                loadAllItems("");
-                            }else{
-                                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
-                            }
-
-                        } catch (ClassNotFoundException | SQLException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-                //Delete------------------------
             }
             itemsTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {
@@ -121,9 +111,28 @@ public class LoadStockFormController {
 
     public void UpdateStockOnAction(ActionEvent actionEvent) {
         try {
-            ItemDTO dto = new ItemDTO(selectedCode,Integer.parseInt(qtyTxt.getText()));
-            if(new DataBaseAccessCode().updateItem(dto)) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
+            int boxCount;
+            int itemCount;
+            if(boxQtyTxt.getText().isEmpty()){
+                boxCount=-1;
+            }else{
+                boxCount = Integer.parseInt(boxQtyTxt.getText());
+            }
+
+            if(itemQtyTxt.getText().isEmpty()){
+                itemCount=-1;
+            }else {
+                itemCount = Integer.parseInt(itemQtyTxt.getText());
+            }
+
+            boxQtyTxt.clear();
+            itemQtyTxt.clear();
+
+            ItemDTO dto = new ItemDTO(selectedCode,boxCount,itemCount);
+            if(boxCount == -1 && itemCount == -1){
+                new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
+            }else if(new DataBaseAccessCode().updateItemQtys(dto)) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Item was Saved", ButtonType.OK).show();
                 loadAllItems("");
             }else{
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
@@ -131,5 +140,10 @@ public class LoadStockFormController {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateItemOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) loadStockContext.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/UpdateItems.fxml"))));
     }
 }

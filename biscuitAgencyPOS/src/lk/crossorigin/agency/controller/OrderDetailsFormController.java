@@ -32,18 +32,19 @@ public class OrderDetailsFormController {
     public TableView<OrderDetailsTM> orderHistoryTbl;
     public TableColumn colOrderId;
     public TableColumn colShopId;
-    public TableColumn colShopName;
-    public TableColumn colItemName;
-    public TableColumn colQTY;
+    public TableColumn colItemCode;
+    public TableColumn colBoxQty;
+    public TableColumn colItemQty;
     public TableColumn colDate;
     public TableColumn colTotal;
+
 
     public void initialize(){
         colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         colShopId.setCellValueFactory(new PropertyValueFactory<>("shopId"));
-        colShopName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
-        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        colQTY.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+        colBoxQty.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 
@@ -57,12 +58,11 @@ public class OrderDetailsFormController {
             for (OrderDetailsDTO dto:dtoList) {
                 OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
                         dto.getOrderId(),
-                        dto.getShopId(),
-                        new DataBaseAccessCode().getShop(dto.getShopId()).getName(),
-                        new DataBaseAccessCode().getItem(dto.getItemCode()).getName(),
-                        dto.getQty(),
+                        dto.getItemCode(),
+                        dto.getBoxQty(),
+                        dto.getItemQty(),
                         new DataBaseAccessCode().getOrderDate(dto.getOrderId()),
-                        dto.getQty()*dto.getUnitPrice()
+                        (dto.getUnitPrice_Box()*dto.getBoxQty())+(dto.getUnitPrice_Box() / (new DataBaseAccessCode().getItem(dto.getItemCode()).getItemCountInBox()) *dto.getItemQty())
                 );
                 obList.add(orderDetailsTM);
             }

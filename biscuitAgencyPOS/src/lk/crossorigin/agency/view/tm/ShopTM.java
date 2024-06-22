@@ -6,17 +6,15 @@ public class ShopTM {
     private String id;
     private String name;
     private String address;
-    private Button btn;
 
 
     public ShopTM() {
     }
 
-    public ShopTM(String id, String name, String address, Button btn) {
+    public ShopTM(String id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.btn = btn;
     }
 
     public String getId() {
@@ -43,21 +41,12 @@ public class ShopTM {
         this.address = address;
     }
 
-    public Button getBtn() {
-        return btn;
-    }
-
-    public void setBtn(Button btn) {
-        this.btn = btn;
-    }
-
     @Override
     public String toString() {
         return "ShopTM{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", btn=" + btn +
                 '}';
     }
 }

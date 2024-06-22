@@ -1,18 +1,9 @@
 package lk.crossorigin.agency;
 
-import lk.crossorigin.agency.dao.custom.impl.ItemDaoImpl;
-import lk.crossorigin.agency.dao.custom.impl.OrderDaoImpl;
-import lk.crossorigin.agency.dao.custom.impl.OrderDetailsDaoImpl;
-import lk.crossorigin.agency.dao.custom.impl.ShopDaoImpl;
+import lk.crossorigin.agency.dao.custom.impl.*;
 import lk.crossorigin.agency.db.DBConnection;
-import lk.crossorigin.agency.dto.ItemDTO;
-import lk.crossorigin.agency.dto.OrderDTO;
-import lk.crossorigin.agency.dto.OrderDetailsDTO;
-import lk.crossorigin.agency.dto.ShopDTO;
-import lk.crossorigin.agency.entity.Item;
-import lk.crossorigin.agency.entity.Order;
-import lk.crossorigin.agency.entity.OrderDetail;
-import lk.crossorigin.agency.entity.Shop;
+import lk.crossorigin.agency.dto.*;
+import lk.crossorigin.agency.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -59,7 +50,7 @@ public class DataBaseAccessCode {
 
     //Item Management----------------
     public boolean saveItem(ItemDTO dto) throws ClassNotFoundException, SQLException {
-        return new ItemDaoImpl().saveItem(new Item(dto.getCode(),dto.getName(),dto.getUnitPrice(),dto.getQty()));
+        return new ItemDaoImpl().saveItem(new Item(dto.getCode(),dto.getName(), dto.getUnitPrice_Box_Agency(),dto.getUnitPrice_Box(), dto.getItemCountInBox(), dto.getBoxQty(),dto.getItemQty()));
     }
 
     public boolean deleteItem(String code) throws ClassNotFoundException, SQLException {
@@ -67,13 +58,25 @@ public class DataBaseAccessCode {
     }
 
     public boolean updateItem(ItemDTO dto) throws ClassNotFoundException, SQLException {
-        return new ItemDaoImpl().updateItem(new Item(dto.getCode(),dto.getQty()));
+        return new ItemDaoImpl().updateItem(new Item(dto.getCode(),dto.getName(), dto.getUnitPrice_Box_Agency(),dto.getUnitPrice_Box(),dto.getItemCountInBox(),dto.getBoxQty(),dto.getItemQty()));
+    }
+
+    public boolean updateItemQtys(ItemDTO dto) throws ClassNotFoundException, SQLException {
+        return new ItemDaoImpl().updateItemQtys(new Item(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
     }
 
     public ItemDTO getItem(String id) throws SQLException, ClassNotFoundException {
         Item item = new ItemDaoImpl().getItem(id);
         if(item != null){
-            return new ItemDTO(item.getCode(),item.getName(),item.getUnitPrice(),item.getQty());
+            return new ItemDTO(
+                    item.getCode(),
+                    item.getName(),
+                    item.getUnitPrice_Box_Agency(),
+                    item.getUnitPrice_Box(),
+                    item.getItemCountInBox(),
+                    item.getBoxQty(),
+                    item.getItemQty()
+            );
         }
         return null;
     }
@@ -81,7 +84,15 @@ public class DataBaseAccessCode {
     public ItemDTO getItemByName(String name) throws SQLException, ClassNotFoundException {
         Item item = new ItemDaoImpl().getItem(name);
         if(item != null){
-            return new ItemDTO(item.getCode(),item.getName(),item.getUnitPrice(),item.getQty());
+            return new ItemDTO(
+                    item.getCode(),
+                    item.getName(),
+                    item.getUnitPrice_Box_Agency(),
+                    item.getUnitPrice_Box(),
+                    item.getItemCountInBox(),
+                    item.getBoxQty(),
+                    item.getItemQty()
+            );
         }
         return null;
     }
@@ -93,8 +104,11 @@ public class DataBaseAccessCode {
             ItemDTO itemDTO = new ItemDTO(
                     s.getCode(),
                     s.getName(),
-                    s.getUnitPrice(),
-                    s.getQty()
+                    s.getUnitPrice_Box_Agency(),
+                    s.getUnitPrice_Box(),
+                    s.getItemCountInBox(),
+                    s.getBoxQty(),
+                    s.getItemQty()
             );
             dtoList.add(itemDTO);
         }
@@ -105,7 +119,7 @@ public class DataBaseAccessCode {
 
     //Order Management----------------
     public boolean saveOrder(OrderDTO dto) throws ClassNotFoundException, SQLException {
-        return new OrderDaoImpl().saveOrder(new Order(dto.getId(),dto.getDate()));
+        return new OrderDaoImpl().saveOrder(new Order(dto.getId(),dto.getDate(),dto.getShopId()));
     }
 
     public boolean deleteOrder(String orderId) throws ClassNotFoundException, SQLException {
@@ -124,7 +138,19 @@ public class DataBaseAccessCode {
 
     //OrderDetails Management----------------
     public boolean saveOrderDetails(OrderDetailsDTO dto) throws ClassNotFoundException, SQLException {
-        return new OrderDetailsDaoImpl().saveOrderDetails(new OrderDetail(dto.getOrderId(),dto.getShopId(),dto.getItemCode(),dto.getQty(),dto.getUnitPrice()));
+        return new OrderDetailsDaoImpl().saveOrderDetails(new OrderDetail(dto.getOrderId(),dto.getItemCode(),dto.getUnitPrice_Box(),dto.getBoxQty(),dto.getItemQty(),dto.getBoxQtyFree(),dto.getItemQtyFree()));
+    }
+
+    public boolean deleteOrderDetails(String orderId) throws ClassNotFoundException, SQLException {
+        return new OrderDetailsDaoImpl().deleteOrderDelete(orderId);
+    }
+
+    public OrderDetailsDTO getOrderDetail(String orderId,String itemCode) throws SQLException, ClassNotFoundException {
+        OrderDetail orderDetail = new OrderDetailsDaoImpl().getOrderDetail(orderId,itemCode);
+        if(orderDetail != null){
+            return new OrderDetailsDTO(orderDetail.getOrderId(),orderDetail.getItemCode(),orderDetail.getUnitPrice_Box(),orderDetail.getBoxQty(),orderDetail.getItemQty(),orderDetail.getBoxQtyFree(),orderDetail.getItemQtyFree());
+        }
+        return null;
     }
 
     public ArrayList<OrderDetailsDTO> getAllOrderDetails(String text) throws ClassNotFoundException, SQLException {
@@ -133,14 +159,69 @@ public class DataBaseAccessCode {
         for (OrderDetail s:entityList) {
             OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(
                     s.getOrderId(),
-                    s.getShopId(),
                     s.getItemCode(),
-                    s.getQty(),
-                    s.getUnitPrice()
+                    s.getUnitPrice_Box(),
+                    s.getBoxQty(),
+                    s.getItemQty(),
+                    s.getBoxQtyFree(),
+                    s.getItemQtyFree()
             );
             dtoList.add(orderDetailsDTO);
         }
         return dtoList;
     }
+
+
+    //Discount Management----------------
+    public boolean saveDiscount(DiscountDTO d) throws SQLException, ClassNotFoundException {
+        return new DiscountDaoImpl().saveDiscount(new Discount(d.getIdDup(),d.getOrderId(),d.getItemCode(),d.getDiscountValue()));
+    }
+
+    public boolean updateDiscount(DiscountDTO d) throws SQLException, ClassNotFoundException {
+        return new DiscountDaoImpl().updateDiscount(new Discount(d.getIdDup(),d.getOrderId(),d.getItemCode(),d.getDiscountValue()));
+    }
+
+    public boolean deleteDiscount(String orderId) throws SQLException, ClassNotFoundException {
+        return new DiscountDaoImpl().deleteDiscount(orderId);
+    }
+
+    public DiscountDTO getItemByOrderId(String disId) throws SQLException, ClassNotFoundException {
+        Discount discount = new DiscountDaoImpl().getItemByOrderId(disId);
+        if(discount != null){
+            return new DiscountDTO(discount.getIdDup(),discount.getOrderId(),discount.getItemCode(),discount.getDiscountValue());
+        }
+        return null;
+    }
+
+    public ArrayList<DiscountDTO> getAllDiscountByIdDup(String orderId, String orderIdDup) throws SQLException, ClassNotFoundException {
+        ArrayList<DiscountDTO> dtoList = new ArrayList<>();
+        ArrayList<Discount> entityList= new DiscountDaoImpl().getAllDiscountByIdDup(orderId,orderIdDup);
+        for (Discount d:entityList) {
+            DiscountDTO discountDTO = new DiscountDTO(
+                    d.getIdDup(),
+                    d.getOrderId(),
+                    d.getItemCode(),
+                    d.getDiscountValue()
+            );
+            dtoList.add(discountDTO);
+        }
+        return dtoList;
+    }
+
+    public ArrayList<DiscountDTO> getAllDiscount(String text) throws SQLException, ClassNotFoundException {
+        ArrayList<DiscountDTO> dtoList = new ArrayList<>();
+        ArrayList<Discount> entityList= new DiscountDaoImpl().getAllDiscount(text);
+        for (Discount d:entityList) {
+            DiscountDTO discountDTO = new DiscountDTO(
+                    d.getIdDup(),
+                    d.getOrderId(),
+                    d.getItemCode(),
+                    d.getDiscountValue()
+            );
+            dtoList.add(discountDTO);
+        }
+        return dtoList;
+    }
+
 
 }

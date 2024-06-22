@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="itemUpdateContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.UpdateItemsController">
+   <children>
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="29.0" layoutY="24.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="29.0" layoutY="69.0" prefHeight="26.0" prefWidth="187.0" text="Item Update Or Delete" textFill="#c80036">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Separator layoutX="29.0" layoutY="104.0" prefHeight="0.0" prefWidth="922.0" />
+      <JFXComboBox fx:id="cmbItems" layoutX="41.0" layoutY="135.0" promptText="Items" />
+      <TextField fx:id="nametxt" layoutX="41.0" layoutY="228.0" prefHeight="26.0" prefWidth="279.0" promptText="Name" />
+      <TextField fx:id="unitBoxPricetxt" layoutX="632.0" layoutY="228.0" prefHeight="26.0" prefWidth="150.0" promptText="Unit Box Agency Price" />
+      <TextField fx:id="itemCounttxt" layoutX="40.0" layoutY="288.0" prefHeight="26.0" prefWidth="110.0" promptText="Item Count " />
+      <TextField fx:id="itemQtytxt" layoutX="541.0" layoutY="288.0" prefHeight="26.0" prefWidth="158.0" promptText="Item QTY" />
+      <TextField fx:id="boxQtytxt" layoutX="244.0" layoutY="288.0" prefHeight="26.0" prefWidth="165.0" promptText="Box QTY" />
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="41.0" layoutY="358.0" onAction="#updateOnAction" prefHeight="30.0" prefWidth="109.0" style="-fx-background-color: #1679AB;" text="Update" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="241.0" layoutY="358.0" onAction="#deleteOnAction" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #1679AB;" text="Delete" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnAddItem" buttonType="RAISED" layoutX="283.0" layoutY="134.0" onAction="#addItemOnAction" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #1679AB;" text="Add New Item" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <TextField fx:id="codetxt" layoutX="41.0" layoutY="192.0" prefHeight="26.0" prefWidth="120.0" promptText="Name" />
+      <TextField fx:id="unitBoxPriceAgencytxt" layoutX="378.0" layoutY="228.0" prefHeight="26.0" prefWidth="150.0" promptText="Unit Box Price" />
+   </children>
+</AnchorPane>

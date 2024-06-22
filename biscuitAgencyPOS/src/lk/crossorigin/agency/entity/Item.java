@@ -4,22 +4,37 @@ public class Item {
 
     private String code;
     private String name;
-    private double unitPrice;
-    private int qty;
+    private double unitPrice_Box_Agency;
+    private double unitPrice_Box;
+    private int itemCountInBox;
+    private int boxQty;
+    private int itemQty;
 
     public Item() {
     }
 
-    public Item(String code, int qty) {
+    public Item(String code, int boxQty, int itemQty) {
         this.code = code;
-        this.qty = qty;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
     }
 
-    public Item(String code, String name, double unitPrice, int qty) {
+    public Item(String code, String name, double unitPrice_Box_Agency, double unitPrice_Box, int itemCountInBox, int boxQty, int itemQty) {
         this.code = code;
         this.name = name;
-        this.unitPrice = unitPrice;
-        this.qty = qty;
+        this.unitPrice_Box_Agency = unitPrice_Box_Agency;
+        this.unitPrice_Box = unitPrice_Box;
+        this.itemCountInBox = itemCountInBox;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
+    }
+
+    public double getUnitPrice_Box_Agency() {
+        return unitPrice_Box_Agency;
+    }
+
+    public void setUnitPrice_Box_Agency(double unitPrice_Box_Agency) {
+        this.unitPrice_Box_Agency = unitPrice_Box_Agency;
     }
 
     public String getCode() {
@@ -38,20 +53,36 @@ public class Item {
         this.name = name;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
+    public double getUnitPrice_Box() {
+        return unitPrice_Box;
     }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setUnitPrice_Box(double unitPrice_Box) {
+        this.unitPrice_Box = unitPrice_Box;
     }
 
-    public int getQty() {
-        return qty;
+    public int getItemCountInBox() {
+        return itemCountInBox;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setItemCountInBox(int itemCountInBox) {
+        this.itemCountInBox = itemCountInBox;
+    }
+
+    public int getBoxQty() {
+        return boxQty;
+    }
+
+    public void setBoxQty(int boxQty) {
+        this.boxQty = boxQty;
+    }
+
+    public int getItemQty() {
+        return itemQty;
+    }
+
+    public void setItemQty(int itemQty) {
+        this.itemQty = itemQty;
     }
 
     @Override
@@ -59,8 +90,11 @@ public class Item {
         return "Item{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", unitPrice=" + unitPrice +
-                ", qty=" + qty +
+                ", unitPrice_Box_Agency=" + unitPrice_Box_Agency +
+                ", unitPrice_Box=" + unitPrice_Box +
+                ", itemCountInBox=" + itemCountInBox +
+                ", boxQty=" + boxQty +
+                ", itemQty=" + itemQty +
                 '}';
     }
 }

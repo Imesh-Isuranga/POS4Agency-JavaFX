@@ -6,16 +6,27 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class OrderDTO {
+    private int auto_id;
     private String id;
     private Date date;
+    private String shopId;
     private ArrayList<OrderDetail> orderDetails;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(String id, Date date) {
+    public OrderDTO(String id, Date date, String shopId) {
         this.id = id;
         this.date = date;
+        this.shopId = shopId;
+    }
+
+    public int getAuto_id() {
+        return auto_id;
+    }
+
+    public void setAuto_id(int auto_id) {
+        this.auto_id = auto_id;
     }
 
     public String getId() {
@@ -34,6 +45,14 @@ public class OrderDTO {
         this.date = date;
     }
 
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
     public ArrayList<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
@@ -45,10 +64,11 @@ public class OrderDTO {
     @Override
     public String toString() {
         return "OrderDTO{" +
-                "id='" + id + '\'' +
+                "auto_id=" + auto_id +
+                ", id='" + id + '\'' +
                 ", date=" + date +
+                ", shopId='" + shopId + '\'' +
                 ", orderDetails=" + orderDetails +
                 '}';
     }
-
 }

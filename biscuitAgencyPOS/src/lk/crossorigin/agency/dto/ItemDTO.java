@@ -3,22 +3,36 @@ package lk.crossorigin.agency.dto;
 public class ItemDTO {
     private String code;
     private String name;
-    private double unitPrice;
-    private int qty;
+    private double unitPrice_Box_Agency;
+    private double unitPrice_Box;
+    private int boxQty;
+    private int itemCountInBox;
+    private int itemQty;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(String code, int qty) {
+    public ItemDTO(String code, int boxQty, int itemQty) {
         this.code = code;
-        this.qty = qty;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
     }
-
-    public ItemDTO(String code, String name, double unitPrice, int qty) {
+    public ItemDTO(String code, String name, double unitPrice_Box_Agency, double unitPrice_Box, int itemCountInBox,int boxQty,  int itemQty) {
         this.code = code;
         this.name = name;
-        this.unitPrice = unitPrice;
-        this.qty = qty;
+        this.unitPrice_Box_Agency = unitPrice_Box_Agency;
+        this.unitPrice_Box = unitPrice_Box;
+        this.boxQty = boxQty;
+        this.itemCountInBox = itemCountInBox;
+        this.itemQty = itemQty;
+    }
+
+    public double getUnitPrice_Box_Agency() {
+        return unitPrice_Box_Agency;
+    }
+
+    public void setUnitPrice_Box_Agency(double unitPrice_Box_Agency) {
+        this.unitPrice_Box_Agency = unitPrice_Box_Agency;
     }
 
     public String getCode() {
@@ -37,20 +51,36 @@ public class ItemDTO {
         this.name = name;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
+    public double getUnitPrice_Box() {
+        return unitPrice_Box;
     }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setUnitPrice_Box(double unitPrice_Box) {
+        this.unitPrice_Box = unitPrice_Box;
     }
 
-    public int getQty() {
-        return qty;
+    public int getBoxQty() {
+        return boxQty;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setBoxQty(int boxQty) {
+        this.boxQty = boxQty;
+    }
+
+    public int getItemCountInBox() {
+        return itemCountInBox;
+    }
+
+    public void setItemCountInBox(int itemCountInBox) {
+        this.itemCountInBox = itemCountInBox;
+    }
+
+    public int getItemQty() {
+        return itemQty;
+    }
+
+    public void setItemQty(int itemQty) {
+        this.itemQty = itemQty;
     }
 
     @Override
@@ -58,8 +88,11 @@ public class ItemDTO {
         return "ItemDTO{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", unitPrice=" + unitPrice +
-                ", qty=" + qty +
+                ", unitPrice_Box_Agency=" + unitPrice_Box_Agency +
+                ", unitPrice_Box=" + unitPrice_Box +
+                ", boxQty=" + boxQty +
+                ", itemCountInBox=" + itemCountInBox +
+                ", itemQty=" + itemQty +
                 '}';
     }
 }

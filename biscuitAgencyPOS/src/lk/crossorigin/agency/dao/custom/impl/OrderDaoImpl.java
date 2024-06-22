@@ -13,8 +13,8 @@ import java.util.Date;
 public class OrderDaoImpl implements OrderDAO {
     @Override
     public boolean saveOrder(Order s) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO Orders VALUES(?,?)";
-        return CrudUtil.executeUpdate(sql,s.getId(),s.getDate());
+        String sql = "INSERT INTO Orders VALUES(?,?,?,?)";
+        return CrudUtil.executeUpdate(sql,s.getAuto_id(), s.getId(),s.getDate(),s.getShopId());
     }
 
     @Override
@@ -32,17 +32,18 @@ public class OrderDaoImpl implements OrderDAO {
 
     @Override
     public String getLastOrderId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT id FROM Orders ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT auto_id FROM Orders ORDER BY auto_id DESC LIMIT 1";
         ResultSet rst = CrudUtil.executeQuery(sql);
 
-        if(rst.next()){
-            String orderID = rst.getString(1);
-            orderID = orderID.split("[A-Z]")[1];
-            orderID = Integer.parseInt(orderID)+1+"";
-            return "D" + orderID;
-        }else{
-            return "D001";
+        if (rst.next()) {
+            int autoId = rst.getInt(1);
+            int nextId = autoId + 1;
+            return String.format("D"+nextId);
+        } else {
+            return "D1";
         }
     }
+
+
 
 }
