@@ -14,5 +14,6 @@ public interface ShopDAO {
     public boolean deleteShop(String id) throws SQLException, ClassNotFoundException;
     public Shop getShop(String id) throws SQLException, ClassNotFoundException;
     public ArrayList<Shop> getAllShops(String text) throws SQLException, ClassNotFoundException;
+    public String generateShopId(String name,String address) throws SQLException, ClassNotFoundException ;
 
 }

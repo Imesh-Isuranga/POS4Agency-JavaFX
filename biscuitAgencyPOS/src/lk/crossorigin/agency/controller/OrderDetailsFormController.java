@@ -30,23 +30,30 @@ public class OrderDetailsFormController {
     public AnchorPane orderHistoryContext;
     public JFXButton btnBack;
     public TableView<OrderDetailsTM> orderHistoryTbl;
-    public TableColumn colOrderId;
-    public TableColumn colShopId;
-    public TableColumn colItemCode;
-    public TableColumn colBoxQty;
-    public TableColumn colItemQty;
-    public TableColumn colDate;
+    public TableColumn colNum;
+    public TableColumn colInvNo;
+    public TableColumn colNameodDealer;
     public TableColumn colTotal;
+    public TableColumn colCash;
+    public TableColumn colCredit;
+    public TableColumn colCheque;
+    public TableColumn colChequeNo;
+    public TableColumn colMR;
+    public TableColumn colDiscount;
+    public JFXButton btnSearch;
 
 
     public void initialize(){
-        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-        colShopId.setCellValueFactory(new PropertyValueFactory<>("shopId"));
-        colItemCode.setCellValueFactory(new PropertyValueFactory<>("shopName"));
-        colBoxQty.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colNum.setCellValueFactory(new PropertyValueFactory<>("no"));
+        colInvNo.setCellValueFactory(new PropertyValueFactory<>("invNo"));
+        colNameodDealer.setCellValueFactory(new PropertyValueFactory<>("NameofDealer"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colCash.setCellValueFactory(new PropertyValueFactory<>("cash"));
+        colCredit.setCellValueFactory(new PropertyValueFactory<>("credit"));
+        colCheque.setCellValueFactory(new PropertyValueFactory<>("cheque"));
+        colChequeNo.setCellValueFactory(new PropertyValueFactory<>("chequeNum"));
+        colMR.setCellValueFactory(new PropertyValueFactory<>("MR"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
         loadAllDetails("");
     }
@@ -57,12 +64,7 @@ public class OrderDetailsFormController {
             ArrayList<OrderDetailsDTO> dtoList = new DataBaseAccessCode().getAllOrderDetails("%" + searchText + "%");
             for (OrderDetailsDTO dto:dtoList) {
                 OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
-                        dto.getOrderId(),
-                        dto.getItemCode(),
-                        dto.getBoxQty(),
-                        dto.getItemQty(),
-                        new DataBaseAccessCode().getOrderDate(dto.getOrderId()),
-                        (dto.getUnitPrice_Box()*dto.getBoxQty())+(dto.getUnitPrice_Box() / (new DataBaseAccessCode().getItem(dto.getItemCode()).getItemCountInBox()) *dto.getItemQty())
+
                 );
                 obList.add(orderDetailsTM);
             }
@@ -75,5 +77,8 @@ public class OrderDetailsFormController {
     public void backbtnOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) orderHistoryContext.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
+    }
+
+    public void searchOnAction(ActionEvent actionEvent) {
     }
 }

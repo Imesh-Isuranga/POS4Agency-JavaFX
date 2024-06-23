@@ -28,12 +28,13 @@ public class AddShopFormController {
     public TextField shopNameTxt;
     public TextField shopAddressTxt;
     public JFXButton btnBack;
-    public TextField shopIdTxt;
     public TextField searchTxt;
     public JFXButton btnSearch;
     public TableColumn colOption;
     public JFXButton btnSaveShop;
     public JFXButton btnNewShop;
+
+    private ShopTM shopTM;
 
 
     public void initialize(){
@@ -45,6 +46,7 @@ public class AddShopFormController {
 
         addShoptbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null){
+                shopTM = newValue;
                 setData(newValue);
             }
         });
@@ -52,7 +54,6 @@ public class AddShopFormController {
 
     private void setData(ShopTM tm){
         btnSaveShop.setText("Update Shop");
-        shopIdTxt.setText(tm.getId());
         shopNameTxt.setText(tm.getName());
         shopAddressTxt.setText(tm.getAddress());
     }
@@ -64,14 +65,20 @@ public class AddShopFormController {
     public void SaveShopOnAction(ActionEvent actionEvent) {
         if(btnSaveShop.getText().equalsIgnoreCase("Save Shop")){
             try {
+                System.out.println("`````````````````````````");
+                String id = new DataBaseAccessCode().generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
+
                 ShopDTO dto = new ShopDTO(
-                        shopIdTxt.getText(),
+                        Integer.parseInt(id.substring(0,1)),
+                        id,
                         shopNameTxt.getText(),
                         shopAddressTxt.getText(),
                         0.00
                 );
                 if(new DataBaseAccessCode().saveShop(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
+                    shopNameTxt.clear();
+                    shopAddressTxt.clear();
                     loadAllShops("");
                 }else{
                     new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
@@ -81,8 +88,10 @@ public class AddShopFormController {
             }
         }else{
             try {
+                String id = new DataBaseAccessCode().generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
                 ShopDTO dto = new ShopDTO(
-                        shopIdTxt.getText(),
+                        Integer.parseInt(shopTM.getId().substring(0,1)),
+                        shopTM.getId().substring(0,1) + " "+shopNameTxt.getText().substring(0,3) +"-" +shopAddressTxt.getText(),
                         shopNameTxt.getText(),
                         shopAddressTxt.getText()
                 );
@@ -98,9 +107,6 @@ public class AddShopFormController {
         }
     }
 
-    private String idGenerate(){
-        
-    }
 
     private void loadAllShops(String searchText){
         ObservableList<ShopTM> obList = FXCollections.observableArrayList();
@@ -126,7 +132,6 @@ public class AddShopFormController {
 
     public void NewShopOnAction(ActionEvent actionEvent) {
         btnSaveShop.setText("Save Shop");
-        shopIdTxt.clear();
         shopNameTxt.clear();
         shopAddressTxt.clear();
     }
@@ -141,7 +146,8 @@ public class AddShopFormController {
         Optional<ButtonType> confirmState = confirmation.showAndWait();
         if(confirmState.get().equals(ButtonType.YES)){
             try {
-                if(new DataBaseAccessCode().deleteShop(shopIdTxt.getText())) {
+                String id = String.valueOf(shopTM.getId().charAt(0));
+                if(new DataBaseAccessCode().deleteShop(id)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                     loadAllShops("");
                 }else{

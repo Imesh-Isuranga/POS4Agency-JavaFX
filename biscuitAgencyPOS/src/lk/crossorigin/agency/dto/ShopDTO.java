@@ -1,6 +1,7 @@
 package lk.crossorigin.agency.dto;
 
 public class ShopDTO {
+    private int sh_id;
     private String id;
     private String name;
     private String address;
@@ -9,17 +10,28 @@ public class ShopDTO {
     public ShopDTO() {
     }
 
-    public ShopDTO(String id, String name, String address) {
+
+    public ShopDTO(int sh_id, String id, String name, String address) {
+        this.sh_id = sh_id;
         this.id = id;
         this.name = name;
         this.address = address;
     }
 
-    public ShopDTO(String id, String name, String address, double credit_uptoNow) {
+    public ShopDTO(int sh_id, String id, String name, String address, double credit_uptoNow) {
+        this.sh_id = sh_id;
         this.id = id;
         this.name = name;
         this.address = address;
         this.credit_uptoNow = credit_uptoNow;
+    }
+
+    public int getSh_id() {
+        return sh_id;
+    }
+
+    public void setSh_id(int sh_id) {
+        this.sh_id = sh_id;
     }
 
     public String getId() {
@@ -57,7 +69,8 @@ public class ShopDTO {
     @Override
     public String toString() {
         return "ShopDTO{" +
-                "id='" + id + '\'' +
+                "sh_id=" + sh_id +
+                ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", credit_uptoNow=" + credit_uptoNow +

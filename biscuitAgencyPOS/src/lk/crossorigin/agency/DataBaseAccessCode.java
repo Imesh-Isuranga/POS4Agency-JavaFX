@@ -12,17 +12,17 @@ public class DataBaseAccessCode {
 
     //Shop Management----------------
     public boolean saveShop(ShopDTO dto) throws ClassNotFoundException, SQLException {
-        return new ShopDaoImpl().saveShop(new Shop(dto.getId(),dto.getName(),dto.getAddress(),dto.getCredit_uptoNow()));
+        return new ShopDaoImpl().saveShop(new Shop(dto.getSh_id(),dto.getId(),dto.getName(),dto.getAddress(),dto.getCredit_uptoNow()));
     }
 
     public boolean updateShop(ShopDTO dto) throws ClassNotFoundException, SQLException {
-        return new ShopDaoImpl().updateShop(new Shop(dto.getId(),dto.getName(),dto.getAddress(),dto.getCredit_uptoNow()));
+        return new ShopDaoImpl().updateShop(new Shop(dto.getSh_id(),dto.getId(),dto.getName(),dto.getAddress(),dto.getCredit_uptoNow()));
     }
     public boolean updateShopCredit(String id,double creditAmount) throws ClassNotFoundException, SQLException {
         return new ShopDaoImpl().updateShopCredit(id,creditAmount);
     }
     public boolean updateShopWithoutCredit(ShopDTO dto) throws ClassNotFoundException, SQLException {
-        return new ShopDaoImpl().updateShopWithoutCredit(new Shop(dto.getId(),dto.getName(),dto.getAddress()));
+        return new ShopDaoImpl().updateShopWithoutCredit(new Shop(dto.getSh_id(),dto.getId(),dto.getName(),dto.getAddress()));
     }
 
     public boolean deleteShop(String id) throws ClassNotFoundException, SQLException {
@@ -32,7 +32,7 @@ public class DataBaseAccessCode {
     public ShopDTO getShop(String id) throws SQLException, ClassNotFoundException {
         Shop shop = new ShopDaoImpl().getShop(id);
         if(shop != null){
-            return new ShopDTO(shop.getId(),shop.getName(),shop.getAddress(),shop.getCredit_uptoNow());
+            return new ShopDTO(shop.getSh_id(),shop.getId(),shop.getName(),shop.getAddress(),shop.getCredit_uptoNow());
         }
         return null;
     }
@@ -42,6 +42,7 @@ public class DataBaseAccessCode {
         ArrayList<Shop> entityList= new ShopDaoImpl().getAllShops(text);
         for (Shop s:entityList) {
             ShopDTO shopDTO = new ShopDTO(
+                    s.getSh_id(),
                     s.getId(),
                     s.getName(),
                     s.getAddress(),
@@ -50,6 +51,10 @@ public class DataBaseAccessCode {
             dtoList.add(shopDTO);
         }
         return dtoList;
+    }
+
+    public String generateShopId(String name,String address) throws SQLException, ClassNotFoundException {
+        return new ShopDaoImpl().generateShopId(name,address);
     }
 
 

@@ -3,65 +3,56 @@ package lk.crossorigin.agency.view.tm;
 import java.util.Date;
 
 public class OrderDetailsTM {
-    private String orderId;
-    private String itemCode;
-    private int boxQty;
-    private int itemQty;
-    private Date date;
-    private double total;
 
+    private int no;
+    private String invNo;
+    private String NameofDealer;
+    private double total;
+    private double cash;
+    private double credit;
+    private String cheque;
+    private String chequeNum;
+    private double MR;
+    private double discount;
 
     public OrderDetailsTM() {
     }
 
-    public OrderDetailsTM(String orderId, String itemCode, int boxQty, int itemQty, Date date, double total) {
-        this.orderId = orderId;
-        this.itemCode = itemCode;
-        this.boxQty = boxQty;
-        this.itemQty = itemQty;
-        this.date = date;
+    public OrderDetailsTM(int no, String invNo, String nameofDealer, double total, double cash, double credit, String cheque, String chequeNum, double MR, double discount) {
+        this.no = no;
+        this.invNo = invNo;
+        NameofDealer = nameofDealer;
         this.total = total;
+        this.cash = cash;
+        this.credit = credit;
+        this.cheque = cheque;
+        this.chequeNum = chequeNum;
+        this.MR = MR;
+        this.discount = discount;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public int getNo() {
+        return no;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setNo(int no) {
+        this.no = no;
     }
 
-
-    public String getItemCode() {
-        return itemCode;
+    public String getInvNo() {
+        return invNo;
     }
 
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
+    public void setInvNo(String invNo) {
+        this.invNo = invNo;
     }
 
-    public int getBoxQty() {
-        return boxQty;
+    public String getNameofDealer() {
+        return NameofDealer;
     }
 
-    public void setBoxQty(int boxQty) {
-        this.boxQty = boxQty;
-    }
-
-    public int getItemQty() {
-        return itemQty;
-    }
-
-    public void setItemQty(int itemQty) {
-        this.itemQty = itemQty;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setNameofDealer(String nameofDealer) {
+        NameofDealer = nameofDealer;
     }
 
     public double getTotal() {
@@ -72,15 +63,67 @@ public class OrderDetailsTM {
         this.total = total;
     }
 
+    public double getCash() {
+        return cash;
+    }
+
+    public void setCash(double cash) {
+        this.cash = cash;
+    }
+
+    public double getCredit() {
+        return credit;
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
+
+    public String getCheque() {
+        return cheque;
+    }
+
+    public void setCheque(String cheque) {
+        this.cheque = cheque;
+    }
+
+    public String getChequeNum() {
+        return chequeNum;
+    }
+
+    public void setChequeNum(String chequeNum) {
+        this.chequeNum = chequeNum;
+    }
+
+    public double getMR() {
+        return MR;
+    }
+
+    public void setMR(double MR) {
+        this.MR = MR;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     @Override
     public String toString() {
         return "OrderDetailsTM{" +
-                "orderId='" + orderId + '\'' +
-                ", itemCode='" + itemCode + '\'' +
-                ", boxQty=" + boxQty +
-                ", itemQty=" + itemQty +
-                ", date=" + date +
+                "no=" + no +
+                ", invNo='" + invNo + '\'' +
+                ", NameofDealer='" + NameofDealer + '\'' +
                 ", total=" + total +
+                ", cash=" + cash +
+                ", credit=" + credit +
+                ", cheque='" + cheque + '\'' +
+                ", chequeNum='" + chequeNum + '\'' +
+                ", MR=" + MR +
+                ", discount=" + discount +
                 '}';
     }
 }
