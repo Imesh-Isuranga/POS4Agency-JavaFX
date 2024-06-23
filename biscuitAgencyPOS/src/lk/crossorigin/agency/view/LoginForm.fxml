@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginFormContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoginFormController">
+<AnchorPane fx:id="loginFormContext" prefHeight="550.0" prefWidth="950.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoginFormController">
    <children>
       <ImageView fitHeight="550.0" fitWidth="455.0" layoutX="493.0" pickOnBounds="true">
          <image>
@@ -23,8 +23,8 @@
             <Font name="System Bold" size="27.0" />
          </font>
       </Label>
-      <TextField layoutX="52.0" layoutY="149.0" prefHeight="36.0" prefWidth="407.0" promptText="Email" />
-      <PasswordField layoutX="52.0" layoutY="232.0" prefHeight="36.0" prefWidth="407.0" promptText="Password" />
+      <TextField layoutX="52.0" layoutY="149.0" prefHeight="36.0" prefWidth="407.0" promptText="Email" style="-fx-background-color: #F3F7EC;" />
+      <PasswordField layoutX="52.0" layoutY="232.0" prefHeight="36.0" prefWidth="407.0" promptText="Password" style="-fx-background-color: #F3F7EC;" />
       <JFXButton buttonType="RAISED" layoutX="53.0" layoutY="326.0" onAction="#loginOnAction" prefHeight="36.0" prefWidth="407.0" style="-fx-background-color: FF7F3E;" text="Let's Go">
          <font>
             <Font name="System Bold" size="19.0" />

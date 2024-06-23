@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="orderHistoryContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.OrderDetailsFormController">
+<AnchorPane fx:id="orderHistoryContext" prefHeight="715.0" prefWidth="1087.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.OrderDetailsFormController">
    <children>
-      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
       <Label layoutX="19.0" layoutY="59.0" prefHeight="20.0" prefWidth="124.0" text="Order History" textFill="#c80036">
@@ -21,25 +21,25 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Separator layoutX="19.0" layoutY="94.0" prefHeight="0.0" prefWidth="922.0" />
-      <TableView fx:id="orderHistoryTbl" layoutX="14.0" layoutY="175.0" prefHeight="366.0" prefWidth="930.0">
+      <Separator layoutX="19.0" layoutY="97.0" prefHeight="0.0" prefWidth="1052.0" />
+      <TableView fx:id="orderHistoryTbl" layoutX="14.0" layoutY="175.0" prefHeight="532.0" prefWidth="1066.0">
         <columns>
           <TableColumn fx:id="colNum" prefWidth="34.39999485015869" text="No" />
           <TableColumn fx:id="colInvNo" prefWidth="167.99999618530273" text="Invoice Num" />
-            <TableColumn fx:id="colNameodDealer" prefWidth="195.199951171875" text="Name of Dealer" />
-            <TableColumn fx:id="colTotal" prefWidth="68.0" text="Total" />
-            <TableColumn fx:id="colCash" prefWidth="85.5999755859375" text="Cash" />
-            <TableColumn fx:id="colCredit" prefWidth="97.60003662109375" text="Credit" />
-            <TableColumn fx:id="colCheque" prefWidth="82.40008544921875" text="Cheque" />
-            <TableColumn fx:id="colChequeNo" prefWidth="82.40008544921875" text="Cheque No" />
-            <TableColumn fx:id="colMR" prefWidth="41.60009765625" text="M/R" />
-            <TableColumn fx:id="colDiscount" prefWidth="41.60009765625" text="Discount" />
+            <TableColumn fx:id="colNameodDealer" prefWidth="148.8000030517578" text="Name of Dealer" />
+            <TableColumn fx:id="colTotal" prefWidth="125.60003662109375" text="Total" />
+            <TableColumn fx:id="colCash" prefWidth="89.5999755859375" text="Cash" />
+            <TableColumn fx:id="colCredit" prefWidth="94.4000244140625" text="Credit" />
+            <TableColumn fx:id="colCheque" prefWidth="95.20001220703125" text="Cheque" />
+            <TableColumn fx:id="colChequeNo" prefWidth="129.5999755859375" text="Cheque No" />
+            <TableColumn fx:id="colMR" prefWidth="76.7999267578125" text="M/R" />
+            <TableColumn fx:id="colDiscount" prefWidth="107.199951171875" text="Discount" />
         </columns>
       </TableView>
-      <TextField layoutX="19.0" layoutY="113.0" prefHeight="26.0" prefWidth="682.0" promptText="Search here" />
-      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="730.0" layoutY="111.0" onAction="#searchOnAction" style="-fx-background-color: #1679AB;" text="Search" textFill="WHITE">
+      <TextField layoutX="19.0" layoutY="116.0" prefHeight="36.0" prefWidth="890.0" promptText="Search here" />
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="936.0" layoutY="117.0" onAction="#searchOnAction" prefHeight="36.0" prefWidth="134.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
    </children>

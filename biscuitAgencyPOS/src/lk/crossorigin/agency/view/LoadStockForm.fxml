@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loadStockContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoadStockFormController">
+<AnchorPane fx:id="loadStockContext" prefHeight="715.0" prefWidth="1087.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoadStockFormController">
    <children>
-      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
       <Label layoutX="14.0" layoutY="59.0" prefHeight="20.0" prefWidth="124.0" text="Load Stock" textFill="#c80036">
@@ -22,22 +22,34 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Separator layoutX="14.0" layoutY="90.0" prefHeight="0.0" prefWidth="922.0" />
-      <TableView fx:id="itemsTbl" layoutX="14.0" layoutY="162.0" prefHeight="331.0" prefWidth="922.0">
+      <Separator layoutX="14.0" layoutY="91.0" prefHeight="2.0" prefWidth="1068.0" />
+      <TableView fx:id="itemsTbl" layoutX="14.0" layoutY="162.0" prefHeight="494.0" prefWidth="1068.0">
         <columns>
-          <TableColumn fx:id="colItemCode" prefWidth="98.39999103546143" text="Item Code" />
-          <TableColumn fx:id="colItemName" prefWidth="289.59999084472656" text="Item Name" />
-            <TableColumn fx:id="colUnitPrice_Box" prefWidth="184.800048828125" text="Unit Price(Box)" />
-            <TableColumn fx:id="colBoxQty" prefWidth="106.4000244140625" text="Box QTY" />
-            <TableColumn fx:id="colItemQty" prefWidth="115.199951171875" text="Item QTY" />
-            <TableColumn fx:id="colTotal" prefWidth="50.4000244140625" text="Total" />
-            <TableColumn fx:id="colUnitPrice_Box_Agency" prefWidth="184.800048828125" text="Unit Price(Box)-Agency" />
+          <TableColumn fx:id="colItemCode" prefWidth="163.2000093460083" text="Item Code" />
+          <TableColumn fx:id="colItemName" prefWidth="257.6000213623047" text="Item Name" />
+            <TableColumn fx:id="colUnitPrice_Box" prefWidth="148.800048828125" text="Unit Price(Box)" />
+            <TableColumn fx:id="colBoxQty" prefWidth="80.00006103515625" text="Box QTY" />
+            <TableColumn fx:id="colItemQty" prefWidth="78.4000244140625" text="Item QTY" />
+            <TableColumn fx:id="colTotal" prefWidth="146.39990234375" text="Total" />
+            <TableColumn fx:id="colUnitPrice_Box_Agency" prefWidth="188.0" text="Unit Price(Box)-Agency" />
         </columns>
       </TableView>
-      <TextField fx:id="boxQtyTxt" layoutX="283.0" layoutY="115.0" prefHeight="26.0" prefWidth="92.0" promptText="Box QTY " />
-      <JFXButton fx:id="btnUpdateStock" buttonType="RAISED" layoutX="560.0" layoutY="112.0" onAction="#UpdateStockOnAction" prefHeight="30.0" prefWidth="124.0" text="Add Stock" />
+      <TextField fx:id="boxQtyTxt" layoutX="283.0" layoutY="115.0" prefHeight="26.0" prefWidth="92.0" promptText="Box QTY " style="-fx-background-color: #F3F7EC;">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></TextField>
+      <JFXButton fx:id="btnUpdateStock" buttonType="RAISED" layoutX="560.0" layoutY="111.0" onAction="#UpdateStockOnAction" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #26355D;" text="Add Stock" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></JFXButton>
       <JFXComboBox fx:id="itemsCmbBox" layoutX="21.0" layoutY="113.0" prefHeight="28.0" prefWidth="230.0" promptText="Item Name" />
-      <JFXButton fx:id="btnUpdateItem" buttonType="RAISED" layoutX="21.0" layoutY="505.0" onAction="#updateItemOnAction" prefHeight="30.0" prefWidth="124.0" text="Update Item" />
-      <TextField fx:id="itemQtyTxt" layoutX="420.0" layoutY="114.0" prefHeight="26.0" prefWidth="92.0" promptText="Item QTY " />
+      <JFXButton fx:id="btnUpdateItem" buttonType="RAISED" layoutX="14.0" layoutY="667.0" onAction="#updateItemOnAction" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #26355D;" text="Update Item" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></JFXButton>
+      <TextField fx:id="itemQtyTxt" layoutX="420.0" layoutY="114.0" prefHeight="26.0" prefWidth="92.0" promptText="Item QTY " style="-fx-background-color: #F3F7EC;">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></TextField>
    </children>
 </AnchorPane>

@@ -6,46 +6,55 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="dashboardContext" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.DashBoardFormController">
+<AnchorPane fx:id="dashboardContext" prefHeight="715.0" prefWidth="1087.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.DashBoardFormController">
    <children>
-      <ImageView fitHeight="275.0" fitWidth="463.0" layoutX="477.0" layoutY="7.0" onMouseClicked="#loadOrderDetailsForm" pickOnBounds="true">
+      <ImageView fitHeight="269.0" fitWidth="597.0" layoutX="477.0" layoutY="106.0" onMouseClicked="#loadOrderDetailsForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/order_details.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="275.0" fitWidth="452.0" layoutX="14.0" layoutY="7.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
+      <ImageView fitHeight="372.0" fitWidth="452.0" layoutX="14.0" layoutY="106.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/load_Stock.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="256.0" fitWidth="452.0" layoutX="14.0" layoutY="287.0" onMouseClicked="#loadAddShopForm" pickOnBounds="true">
+      <ImageView fitHeight="211.0" fitWidth="609.0" layoutX="25.0" layoutY="490.0" onMouseClicked="#loadAddShopForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/add_shop.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="128.0" layoutY="98.0" style="-fx-background-color: 0C1844;" text="Load Stock" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="106.0" prefHeight="64.0" prefWidth="451.0" style="-fx-background-color: #003285;" text="Load Stock" textFill="WHITE">
          <font>
             <Font name="System Bold" size="43.0" />
          </font>
       </Label>
-      <Label layoutX="605.0" layoutY="68.0" style="-fx-background-color: 0C1844;" text="Order Details" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="476.0" layoutY="104.0" prefHeight="62.0" prefWidth="597.0" style="-fx-background-color: #003285;" text="Order Details" textFill="WHITE">
          <font>
             <Font name="System Bold" size="42.0" />
          </font>
       </Label>
-      <Label layoutX="223.0" layoutY="464.0" style="-fx-background-color: 0C1844;" text="Add Shop" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="24.0" layoutY="489.0" prefHeight="66.0" prefWidth="609.0" style="-fx-background-color: #003285;" text="Add Shop" textFill="WHITE">
          <font>
             <Font name="System Bold" size="44.0" />
          </font>
       </Label>
-      <ImageView fitHeight="256.0" fitWidth="463.0" layoutX="477.0" layoutY="287.0" onMouseClicked="#loadAddOrderForm" pickOnBounds="true">
+      <ImageView fitHeight="317.0" fitWidth="426.0" layoutX="648.0" layoutY="384.0" onMouseClicked="#loadAddOrderForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/add_order.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="723.0" layoutY="465.0" text="Add Order" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="648.0" layoutY="383.0" prefHeight="64.0" prefWidth="426.0" style="-fx-background-color: #003285;" text="Add Order" textFill="WHITE">
          <font>
             <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="95.0" fitWidth="144.0" layoutX="481.0" layoutY="382.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assert/face.jpeg" />
+         </image></ImageView>
+      <Label layoutX="240.0" layoutY="14.0" text="Mahawaththa Agency" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="44.0" />
          </font>
       </Label>
    </children>
