@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="selectShopToOrderContext" prefHeight="451.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.SelectShopToOrderController">
+   <children>
+      <JFXComboBox fx:id="shopIdcmb" layoutX="118.0" layoutY="134.0" promptText="Shop Id" />
+      <TextField fx:id="bookNumtxt" layoutX="256.0" layoutY="144.0" promptText="Book Num" />
+      <TextField fx:id="invoiceNumtxt" layoutX="483.0" layoutY="143.0" promptText="Invoice Num" />
+      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="550.0" layoutY="271.0" onAction="#nextOnAction" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #1679AB;" text="Next" textFill="WHITE" />
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="34.0" layoutY="34.0" onAction="#backbtnOnAction" style="-fx-background-color: #1679AB;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

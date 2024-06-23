@@ -2,7 +2,6 @@ package lk.crossorigin.agency.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRadioButton;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.crossorigin.agency.DataBaseAccessCode;
@@ -45,7 +46,6 @@ public class AddOrderFormController {
     public TextField txtBoxQty;;
     public TextField txtItemQty;
     public JFXComboBox cmbItemCode;
-    public JFXComboBox cmbShopId;;
     public TextField txtBoxQtyFree;
     public TextField txtItemQtyFree;
     public JFXComboBox cmbFreeItemCode;
@@ -63,18 +63,17 @@ public class AddOrderFormController {
     public TableColumn colDiscountItemCode;
     public TableColumn colRemoveDis;
     public JFXButton btnAddDiscount;
-    public ToggleGroup payment;
-    public JFXRadioButton rbtnCash;
-    public JFXRadioButton rbtnCredit;
     public TextField banktxt;
-    public TextField checkNumtxt;
-    public TextField checkAmounttxt;
     public TextField cashAmounttxt;
     public Label lblCredit;
-    public Label lblSaveCash;
-    public TextField creditAmounttxt;
     public Label paidAmountlbl;
     public Label balanceAmountlbl;
+    public CheckBox cashcbx;
+    public CheckBox creditcbx;
+    public CheckBox chequecbx;
+    public TextField chequeAmounttxt;
+    public TextField chequeNumtxt;
+    public Label shopCreditUptoNowlbl;
     private OrderTM orderTM;
     private FreeItemsTM freeItemsTM;
     private DiscountItemsTM discountItemsTM;
@@ -85,13 +84,17 @@ public class AddOrderFormController {
     int discountGeneratedId = 1;
 
 
+    String shopId = "1";
+
+
+
     public void initialize() throws SQLException, ClassNotFoundException {
         String formatDate = formatDate(new Date());
         lblDate.setText(formatDate);
 
         lblOrderId.setText(new DataBaseAccessCode().getLastOrderId());
 
-        cmbShopId.setItems(loadAllShopIds());
+
         cmbItemCode.setItems(loadAllItemCodes());
         cmbFreeItemCode.setItems(itemDisCodesObList);
         cmbDiscount.setItems(itemDisCodesObList);
@@ -129,7 +132,54 @@ public class AddOrderFormController {
             }
         });
 
+        chequeAmounttxt.textProperty().addListener((observable, oldValue, newValue) -> {
+            double cashAmount ;
+            if(cashAmounttxt.getText().isEmpty()){
+                cashAmount = 0;
+            }else {
+                cashAmount = Double.parseDouble(cashAmounttxt.getText());
+            }
+
+            if(newValue.isEmpty()){
+                newValue = 0.00+"";
+            }
+
+            paidAmountlbl.setText(String.valueOf(cashAmount + Double.parseDouble(newValue)));
+
+            double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+            balanceAmountlbl.setText(String.valueOf(balanceAmount));
+            editCreditBalance();
+        });
+
+        cashAmounttxt.textProperty().addListener((observable, oldValue, newValue) -> {
+            double chequeAmount ;
+            double cashAmount ;
+            if(chequeAmounttxt.getText().isEmpty()){
+                chequeAmount = 0;
+            }else {
+                chequeAmount = Double.parseDouble(chequeAmounttxt.getText());
+            }
+            if(newValue.isEmpty()){
+                newValue = 0.00+"";
+            }
+            paidAmountlbl.setText(String.valueOf(chequeAmount + Double.parseDouble(newValue)));
+            double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+            balanceAmountlbl.setText(String.valueOf(balanceAmount));
+            editCreditBalance();
+        });
+
+        shopCreditUptoNowlbl.setText(String.valueOf(new DataBaseAccessCode().getShop(shopId).getCredit_uptoNow()));
+
         checkTableData();
+        System.out.println("sssssssss");
+    }
+
+    public void setData(String Id,String bNum,String iNum){
+        System.out.println("22222222222");
+    }
+
+    private void editCreditBalance(){
+        lblCredit.setText(String.valueOf(Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText())));
     }
 
     private void checkTableData(){
@@ -194,58 +244,93 @@ public class AddOrderFormController {
     }
 
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException {
-        ArrayList <OrderDetail>orderDetailList=new ArrayList<>();
+        if((Double.parseDouble(lblTotal.getText()) <= Double.parseDouble(paidAmountlbl.getText())) || ((Double.parseDouble(lblTotal.getText()) > Double.parseDouble(paidAmountlbl.getText())) && creditcbx.isSelected()) && Double.parseDouble(lblTotal.getText())!=0.00){
+            ArrayList <OrderDetail>orderDetailList=new ArrayList<>();
 
 
-        for (int i = 0; i < addOrderTbl.getItems().size(); i++) {
-            String itemCode = getCellValue(i,0).toString();
-            double unitPrice_Box = new DataBaseAccessCode().getItem(getCellValue(i,0).toString()).getUnitPrice_Box();
-            int orderBoxQty=Integer.parseInt(getCellValue(i,1).toString());
-            int orderItemQty=Integer.parseInt(getCellValue(i,2).toString());
-            int freeBoxCount = 0;
-            int freeItemCount = 0;
+            for (int i = 0; i < addOrderTbl.getItems().size(); i++) {
+                String itemCode = getCellValue(i,0).toString();
+                double unitPrice_Box = new DataBaseAccessCode().getItem(getCellValue(i,0).toString()).getUnitPrice_Box();
+                int orderBoxQty=Integer.parseInt(getCellValue(i,1).toString());
+                int orderItemQty=Integer.parseInt(getCellValue(i,2).toString());
+                int freeBoxCount = 0;
+                int freeItemCount = 0;
 
-            int indexFreeBox = isAlreadyExistsInFreeItems(itemCode);
+                int indexFreeBox = isAlreadyExistsInFreeItems(itemCode);
 
-            if(indexFreeBox!=-1){
-                for (int k=0; k<addFreeTbl.getItems().size(); k++){
-                    FreeItemsTM rowDisData = addFreeTbl.getItems().get(k);
-                    freeBoxCount = rowDisData.getFreeBoxQty();
-                    freeItemCount = rowDisData.getFreeItemQty();
-                }
-            }
-            OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), itemCode, unitPrice_Box, orderBoxQty, orderItemQty, freeBoxCount, freeItemCount);
-            orderDetailList.add(orderDetail);
-        }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()),cmbShopId.getValue().toString());
-        boolean isAdded = new DataBaseAccessCode().saveOrder(orderDTO);
-
-        if (isAdded) {
-            int k = 0;
-            for (OrderDetail orderDetail:orderDetailList) {
-                k++;
-                OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(
-                        lblOrderId.getText(),
-                        orderDetail.getItemCode(),
-                        orderDetail.getUnitPrice_Box(),
-                        orderDetail.getBoxQty(),
-                        orderDetail.getItemQty(),
-                        orderDetail.getBoxQtyFree(),
-                        orderDetail.getItemQtyFree()
-                );
-                if(new DataBaseAccessCode().saveOrderDetails(orderDetailsDTO)){
-                    if(k==(orderDetailList.size())){
-                        lblOrderId.setText(new DataBaseAccessCode().getLastOrderId());
-                        new Alert(Alert.AlertType.CONFIRMATION,"Order was Added", ButtonType.OK).show();
+                if(indexFreeBox!=-1){
+                    for (int k=0; k<addFreeTbl.getItems().size(); k++){
+                        FreeItemsTM rowDisData = addFreeTbl.getItems().get(k);
+                        freeBoxCount = rowDisData.getFreeBoxQty();
+                        freeItemCount = rowDisData.getFreeItemQty();
                     }
-                }else {
-                    new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                 }
+                OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), itemCode, unitPrice_Box, orderBoxQty, orderItemQty, freeBoxCount, freeItemCount);
+                orderDetailList.add(orderDetail);
             }
-            discountGeneratedId=1;
-            System.out.println("----------------------------------------------------------");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()),shopId);
+            boolean isAdded = new DataBaseAccessCode().saveOrder(orderDTO);
+
+            if (isAdded) {
+                int k = 0;
+                for (OrderDetail orderDetail:orderDetailList) {
+                    k++;
+                    OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(
+                            lblOrderId.getText(),
+                            orderDetail.getItemCode(),
+                            orderDetail.getUnitPrice_Box(),
+                            orderDetail.getBoxQty(),
+                            orderDetail.getItemQty(),
+                            orderDetail.getBoxQtyFree(),
+                            orderDetail.getItemQtyFree()
+                    );
+                    if(new DataBaseAccessCode().saveOrderDetails(orderDetailsDTO)){
+                        if(k==(orderDetailList.size())){
+                            if(savePayment()){
+                                if(new DataBaseAccessCode().updateShopCredit(shopId,Double.parseDouble(shopCreditUptoNowlbl.getText()))){
+                                    new Alert(Alert.AlertType.CONFIRMATION,"Order was Added", ButtonType.OK).show();
+                                }else {
+                                    new Alert(Alert.AlertType.WARNING,"Something went wrong about Credit! Please try again.",ButtonType.CANCEL).show();
+                                }
+                            }else {
+                                new Alert(Alert.AlertType.WARNING,"Something went wrong about Payment! Please try again.",ButtonType.CANCEL).show();
+                            }
+                        }
+                    }else {
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
+                }
+                discountGeneratedId=1;
+            }
+        }else {
+            new Alert(Alert.AlertType.WARNING,"Please Add Sufficient Payment to Proceed...",ButtonType.OK).show();
         }
+    }
+
+    private boolean savePayment() throws SQLException, ClassNotFoundException {
+        boolean rst = true;
+        if(chequecbx.isSelected()){
+            String paymentDetailsCheque = "Bank : " + banktxt.getText() + '\'' + "Cheque Num" + chequeNumtxt.getText();
+            PaymentDTO paymentDTO = new PaymentDTO(lblOrderId.getText(),paymentDetailsCheque,"Cheque",Double.parseDouble(chequeAmounttxt.getText()));
+            rst = new DataBaseAccessCode().savePayment(paymentDTO);
+            if(rst==false) return false;
+        }
+
+        if(cashcbx.isSelected()){
+            String paymentDetailsCash = "";
+            PaymentDTO paymentDTO = new PaymentDTO(lblOrderId.getText(),paymentDetailsCash,"Cash",Double.parseDouble(cashAmounttxt.getText()));
+            rst = new DataBaseAccessCode().savePayment(paymentDTO);
+            if(rst==false) return false;
+        }
+
+        if(creditcbx.isSelected()){
+            String paymentDetailsCash = "";
+            PaymentDTO paymentDTO = new PaymentDTO(lblOrderId.getText(),paymentDetailsCash,"Credit",Double.parseDouble(lblCredit.getText()));
+            rst = new DataBaseAccessCode().savePayment(paymentDTO);
+            if(rst==false) return false;
+        }
+        return true;
     }
 
     public void removeOnAction(ActionEvent actionEvent) {
@@ -258,16 +343,6 @@ public class AddOrderFormController {
         return simpleDateFormat.format(date);
     }
 
-    private ObservableList<String> loadAllShopIds() throws SQLException, ClassNotFoundException {
-        ObservableList<String> shopIdsObList = FXCollections.observableArrayList();;
-        ArrayList<ShopDTO> shopDTOArrayList = new DataBaseAccessCode().getAllShops("%"+""+"%");
-
-        for (ShopDTO shopDTO:shopDTOArrayList) {
-            shopIdsObList.add(shopDTO.getId());
-        }
-
-        return shopIdsObList;
-    }
     private ObservableList<String> loadAllItemCodes() throws SQLException, ClassNotFoundException {
         ObservableList<String> itemCodesObList = FXCollections.observableArrayList();;
         ArrayList<ItemDTO> itemDTOArrayList = new DataBaseAccessCode().getAllItems("%"+""+"%");
@@ -282,7 +357,7 @@ public class AddOrderFormController {
     private int isAlreadyExists(String itemCode){
         for(int i = 0; i<addOrderTbl.getItems().size(); i++){
             if(getCellValue(i,0).toString().equals(itemCode)){
-                    return i;
+                return i;
             }
         }
         return -1;
@@ -291,7 +366,7 @@ public class AddOrderFormController {
     private int isAlreadyExistsInFreeItems(String itemCode){
         for(int i = 0; i<addFreeTbl.getItems().size(); i++){
             if(getCellValue(i,0).toString().equals(itemCode)){
-                    return i;
+                return i;
             }
         }
         return -1;
@@ -441,7 +516,7 @@ public class AddOrderFormController {
                     new Alert(Alert.AlertType.WARNING,"Total will Minus",ButtonType.CANCEL).show();
                 }else{
                     if((existingDiscountItem.getFreeBoxQty()+freeboxCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),1).toString())
-                       || (existingDiscountItem.getFreeItemQty()+freeitemCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),2).toString())){
+                            || (existingDiscountItem.getFreeItemQty()+freeitemCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),2).toString())){
                         new Alert(Alert.AlertType.WARNING,"Cart Count Minumum",ButtonType.CANCEL).show();
                     }else{
                         // Force the table to refresh by setting the item to itself
@@ -469,7 +544,8 @@ public class AddOrderFormController {
                             Optional<ButtonType> confirmState = confirmation.showAndWait();
                             if(confirmState.get().equals(ButtonType.YES)){
                                 if(removeItemByCodeFree(freeItemsTM.getFreeItemCode())) {
-                                    new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
+                                    lblTotal.setText(String.valueOf(calculateTotalValue()));
+                                    new Alert(Alert.AlertType.CONFIRMATION,"Free Item was Deleted", ButtonType.OK).show();
 
                                 }else{
                                     new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
@@ -552,7 +628,6 @@ public class AddOrderFormController {
     }
 
     public void addDiscountOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        System.out.println("addDiscountOnAction  addDiscountOnAction");
         for(int i=0; i<tblDiscount.getItems().size(); i++){
             System.out.println(tblDiscount.getItems().size());
             String itemCode = getCellValueDiscount(i,0).toString();
@@ -560,8 +635,6 @@ public class AddOrderFormController {
             DiscountDTO discountDTO = new DiscountDTO(discountGeneratedId,lblOrderId.getText(),itemDTO.getCode(),Double.parseDouble(txtDiscount.getText()));
             if(new DataBaseAccessCode().saveDiscount(discountDTO)){
                 if(i==(tblDiscount.getItems().size()-1)){
-                    System.out.println("--------------------------------********");
-                    System.out.println("tblDiscount.getItems().size()    " + tblDiscount.getItems().size());
                     discountGeneratedId++;
                     obDisList.clear();
                     new Alert(Alert.AlertType.CONFIRMATION,"Discount was Added", ButtonType.OK).show();
@@ -574,5 +647,36 @@ public class AddOrderFormController {
     }
 
 
+    public void chequeAmountMouse(MouseEvent mouseEvent) {
+        if(chequeAmounttxt.getText().isEmpty()){
+            chequecbx.fire();
+        }
+    }
 
+    public void cashAmountMouse(MouseEvent mouseEvent) {
+        if(cashAmounttxt.getText().isEmpty()){
+            cashcbx.fire();
+        }
+    }
+
+    public void chequeOnAction(ActionEvent actionEvent) {
+        if(!chequecbx.isSelected()){
+            chequeAmounttxt.clear();
+        }
+    }
+
+    public void cashOnAction(ActionEvent actionEvent) {
+        if(!cashcbx.isSelected()){
+            cashAmounttxt.clear();
+        }
+    }
+
+    public void creditOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        double uptoNowCredit = new DataBaseAccessCode().getShop(shopId).getCredit_uptoNow();;
+        if(creditcbx.isSelected()){
+            shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit + Double.parseDouble(lblCredit.getText())));
+        }else {
+            shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit));
+        }
+    }
 }

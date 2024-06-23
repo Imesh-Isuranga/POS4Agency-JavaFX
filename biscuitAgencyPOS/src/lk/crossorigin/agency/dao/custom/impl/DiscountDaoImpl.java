@@ -3,7 +3,6 @@ package lk.crossorigin.agency.dao.custom.impl;
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.dao.custom.DiscountDAO;
 import lk.crossorigin.agency.entity.Discount;
-import lk.crossorigin.agency.entity.Item;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

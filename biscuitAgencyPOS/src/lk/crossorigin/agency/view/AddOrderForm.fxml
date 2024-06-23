@@ -2,13 +2,12 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -25,7 +24,6 @@
          </font>
       </Label>
       <Separator layoutX="19.0" layoutY="90.0" prefHeight="0.0" prefWidth="922.0" />
-      <JFXComboBox fx:id="cmbShopId" layoutX="19.0" layoutY="107.0" prefHeight="26.0" prefWidth="258.0" promptText="Shop Code" />
       <TableView fx:id="addOrderTbl" layoutX="19.0" layoutY="150.0" prefHeight="183.0" prefWidth="912.0">
         <columns>
           <TableColumn fx:id="colItemCode" prefWidth="245.60000610351562" text="Item Code" />
@@ -43,7 +41,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrderId" layoutX="308.0" layoutY="35.0" text="D - 0001">
+      <Label fx:id="lblOrderBookId" alignment="CENTER_RIGHT" layoutX="308.0" layoutY="35.0" prefHeight="26.0" prefWidth="57.0" text="2" textAlignment="RIGHT">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -89,44 +87,21 @@
             <TableColumn fx:id="colRemoveDis" prefWidth="92.0" text="Remove" />
         </columns>
       </TableView>
-      <JFXButton fx:id="btnAddDiscountToTable" buttonType="RAISED" layoutX="112.0" layoutY="485.0" onAction="#addDiscountToTableOnAction" prefHeight="18.0" prefWidth="32.0" style="-fx-background-color: #1679AB;" text="+" textFill="WHITE">
+      <JFXButton fx:id="btnAddDiscountToTable" buttonType="RAISED" layoutX="144.0" layoutY="485.0" onAction="#addDiscountToTableOnAction" prefHeight="18.0" prefWidth="32.0" style="-fx-background-color: #1679AB;" text="+" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <JFXComboBox fx:id="cmbDiscount" layoutX="25.0" layoutY="486.0" prefHeight="26.0" prefWidth="64.0" promptText="Item Code" />
+      <JFXComboBox fx:id="cmbDiscount" layoutX="25.0" layoutY="486.0" prefHeight="26.0" prefWidth="109.0" promptText="Item Code" />
       <TextField fx:id="txtDiscount" layoutX="25.0" layoutY="634.0" prefHeight="30.0" prefWidth="39.0" promptText="Discount" />
       <JFXButton fx:id="btnAddDiscount" buttonType="RAISED" layoutX="80.0" layoutY="632.0" onAction="#addDiscountOnAction" prefHeight="30.0" prefWidth="88.0" style="-fx-background-color: #1679AB;" text="Add Discount" textFill="WHITE" />
       <AnchorPane layoutX="415.0" layoutY="425.0" prefHeight="238.0" prefWidth="376.0">
          <children>
-            <JFXRadioButton layoutX="25.0" layoutY="13.0" selected="true" text="Check">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="payment" />
-               </toggleGroup>
-            </JFXRadioButton>
-            <JFXRadioButton fx:id="rbtnCash" layoutX="25.0" layoutY="88.0" text="Cash" toggleGroup="$payment">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </JFXRadioButton>
-            <JFXRadioButton fx:id="rbtnCredit" layoutX="25.0" layoutY="168.0" text="Credit" toggleGroup="$payment">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </JFXRadioButton>
             <TextField fx:id="banktxt" layoutX="17.0" layoutY="42.0" prefHeight="26.0" prefWidth="110.0" promptText="Bank" />
-            <TextField fx:id="checkNumtxt" layoutX="142.0" layoutY="42.0" prefHeight="26.0" prefWidth="88.0" promptText="Check Num" />
-            <TextField fx:id="checkAmounttxt" layoutX="255.0" layoutY="42.0" prefHeight="26.0" prefWidth="94.0" promptText="Amount" />
-            <TextField fx:id="cashAmounttxt" layoutX="17.0" layoutY="118.0" prefHeight="26.0" prefWidth="124.0" promptText="Cash" />
-            <Label fx:id="lblCredit" layoutX="164.0" layoutY="195.0" prefHeight="30.0" prefWidth="88.0" text="0.00">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblSaveCash" layoutX="162.0" layoutY="116.0" prefHeight="30.0" prefWidth="124.0" text="0.00">
+            <TextField fx:id="chequeNumtxt" layoutX="142.0" layoutY="42.0" prefHeight="26.0" prefWidth="88.0" promptText="Check Num" />
+            <TextField fx:id="chequeAmounttxt" layoutX="255.0" layoutY="42.0" onMouseClicked="#chequeAmountMouse" prefHeight="26.0" prefWidth="94.0" promptText="Amount" />
+            <TextField fx:id="cashAmounttxt" layoutX="17.0" layoutY="118.0" onMouseClicked="#cashAmountMouse" prefHeight="26.0" prefWidth="124.0" promptText="Cash" />
+            <Label fx:id="lblCredit" layoutX="44.0" layoutY="195.0" prefHeight="30.0" prefWidth="158.0" text="0.00">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -134,7 +109,21 @@
             <Separator layoutX="112.0" layoutY="23.0" prefHeight="3.0" prefWidth="231.0" />
             <Separator layoutX="112.0" layoutY="97.0" prefHeight="3.0" prefWidth="231.0" />
             <Separator layoutX="108.0" layoutY="177.0" prefHeight="3.0" prefWidth="231.0" />
-            <TextField fx:id="creditAmounttxt" layoutX="20.0" layoutY="197.0" prefHeight="26.0" prefWidth="124.0" promptText="Cash" />
+            <CheckBox fx:id="chequecbx" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onAction="#chequeOnAction" text="Cheque">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="cashcbx" layoutX="20.0" layoutY="87.0" mnemonicParsing="false" onAction="#cashOnAction" text="Cash">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="creditcbx" layoutX="20.0" layoutY="167.0" mnemonicParsing="false" onAction="#creditOnAction" text="Credit">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </CheckBox>
          </children>
       </AnchorPane>
       <Label fx:id="paidAmountlbl" layoutX="751.0" layoutY="369.0" prefHeight="26.0" prefWidth="157.0" text="0.00">
@@ -157,5 +146,36 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <Label layoutX="437.0" layoutY="368.0" text="Credit Upto Now : ">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="shopCreditUptoNowlbl" layoutX="566.0" layoutY="370.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="250.0" layoutY="59.0" text="Shop Id : ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="shopIdlbl" layoutX="343.0" layoutY="59.0" text="Shop ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderInvId" layoutX="397.0" layoutY="35.0" prefHeight="26.0" prefWidth="76.0" text="3">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="380.0" layoutY="30.0" prefHeight="31.0" prefWidth="10.0" text=":">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderId" layoutX="445.0" layoutY="63.0" text="D001" />
    </children>
 </AnchorPane>

@@ -67,7 +67,8 @@ public class AddShopFormController {
                 ShopDTO dto = new ShopDTO(
                         shopIdTxt.getText(),
                         shopNameTxt.getText(),
-                        shopAddressTxt.getText()
+                        shopAddressTxt.getText(),
+                        0.00
                 );
                 if(new DataBaseAccessCode().saveShop(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
@@ -85,7 +86,7 @@ public class AddShopFormController {
                         shopNameTxt.getText(),
                         shopAddressTxt.getText()
                 );
-                if(new DataBaseAccessCode().updateShop(dto)) {
+                if(new DataBaseAccessCode().updateShopWithoutCredit(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Updated", ButtonType.OK).show();
                     loadAllShops("");
                 }else{

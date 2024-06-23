@@ -21,7 +21,7 @@ public class DashBoardFormController {
     }
 
     public void loadAddOrderForm(MouseEvent mouseEvent) throws IOException {
-        setUi("AddOrderForm");
+        setUi("SelectShopToOrder");
     }
 
     public void loadAddShopForm(MouseEvent mouseEvent) throws IOException {

@@ -16,12 +16,24 @@ public class ShopDaoImpl implements ShopDAO {
     //Shop Management
     @Override
     public boolean saveShop(Shop s) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO Shop VALUES(?,?,?)";
-        return CrudUtil.executeUpdate(sql,s.getId(),s.getName(),s.getAddress());
+        String sql = "INSERT INTO Shop VALUES(?,?,?,?)";
+        return CrudUtil.executeUpdate(sql,s.getId(),s.getName(),s.getAddress(),s.getCredit_uptoNow());
     }
 
     @Override
     public boolean updateShop(Shop s) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE Shop SET name=?,address=?,credit_uptoNow=? WHERE id=?";
+        return CrudUtil.executeUpdate(sql,s.getName(),s.getAddress(),s.getCredit_uptoNow(),s.getId());
+    }
+    @Override
+    public boolean updateShopCredit(String id,double creditAmount) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE Shop SET credit_uptoNow=? WHERE id=?";
+        return CrudUtil.executeUpdate(sql,creditAmount,id);
+    }
+
+
+    @Override
+    public boolean updateShopWithoutCredit(Shop s) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Shop SET name=?,address=? WHERE id=?";
         return CrudUtil.executeUpdate(sql,s.getName(),s.getAddress(),s.getId());
     }
@@ -36,22 +48,23 @@ public class ShopDaoImpl implements ShopDAO {
         String sql = "SELECT * FROM Shop WHERE id=?";
         ResultSet rst = CrudUtil.executeQuery(sql,id);
         if(rst.next()){
-            return new Shop(rst.getString(1),rst.getString(2),rst.getString(3));
+            return new Shop(rst.getString(1),rst.getString(2),rst.getString(3),rst.getDouble(4));
         }
         return null;
     }
 
     @Override
     public ArrayList<Shop> getAllShops(String text) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM Shop WHERE id LIKE ? OR name LIKE ? OR address LIKE ?";
+        String sql = "SELECT * FROM Shop WHERE id LIKE ? OR name LIKE ? OR address LIKE ? OR credit_uptoNow LIKE ?";
 
-        ResultSet rst = CrudUtil.executeQuery(sql,text,text,text);
+        ResultSet rst = CrudUtil.executeQuery(sql,text,text,text,text);
         ArrayList<Shop> entityList = new ArrayList<>();
         while (rst.next()) {
             Shop shop = new Shop(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getString(3)
+                    rst.getString(3),
+                    rst.getDouble(4)
             );
             entityList.add(shop);
         }

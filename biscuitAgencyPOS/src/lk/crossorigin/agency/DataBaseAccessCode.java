@@ -1,7 +1,6 @@
 package lk.crossorigin.agency;
 
 import lk.crossorigin.agency.dao.custom.impl.*;
-import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.*;
 import lk.crossorigin.agency.entity.*;
 
@@ -13,11 +12,17 @@ public class DataBaseAccessCode {
 
     //Shop Management----------------
     public boolean saveShop(ShopDTO dto) throws ClassNotFoundException, SQLException {
-        return new ShopDaoImpl().saveShop(new Shop(dto.getId(),dto.getName(),dto.getAddress()));
+        return new ShopDaoImpl().saveShop(new Shop(dto.getId(),dto.getName(),dto.getAddress(),dto.getCredit_uptoNow()));
     }
 
     public boolean updateShop(ShopDTO dto) throws ClassNotFoundException, SQLException {
-        return new ShopDaoImpl().updateShop(new Shop(dto.getId(),dto.getName(),dto.getAddress()));
+        return new ShopDaoImpl().updateShop(new Shop(dto.getId(),dto.getName(),dto.getAddress(),dto.getCredit_uptoNow()));
+    }
+    public boolean updateShopCredit(String id,double creditAmount) throws ClassNotFoundException, SQLException {
+        return new ShopDaoImpl().updateShopCredit(id,creditAmount);
+    }
+    public boolean updateShopWithoutCredit(ShopDTO dto) throws ClassNotFoundException, SQLException {
+        return new ShopDaoImpl().updateShopWithoutCredit(new Shop(dto.getId(),dto.getName(),dto.getAddress()));
     }
 
     public boolean deleteShop(String id) throws ClassNotFoundException, SQLException {
@@ -27,7 +32,7 @@ public class DataBaseAccessCode {
     public ShopDTO getShop(String id) throws SQLException, ClassNotFoundException {
         Shop shop = new ShopDaoImpl().getShop(id);
         if(shop != null){
-            return new ShopDTO(shop.getId(),shop.getName(),shop.getAddress());
+            return new ShopDTO(shop.getId(),shop.getName(),shop.getAddress(),shop.getCredit_uptoNow());
         }
         return null;
     }
@@ -39,7 +44,8 @@ public class DataBaseAccessCode {
             ShopDTO shopDTO = new ShopDTO(
                     s.getId(),
                     s.getName(),
-                    s.getAddress()
+                    s.getAddress(),
+                    s.getCredit_uptoNow()
             );
             dtoList.add(shopDTO);
         }
@@ -116,7 +122,6 @@ public class DataBaseAccessCode {
     }
 
 
-
     //Order Management----------------
     public boolean saveOrder(OrderDTO dto) throws ClassNotFoundException, SQLException {
         return new OrderDaoImpl().saveOrder(new Order(dto.getId(),dto.getDate(),dto.getShopId()));
@@ -172,6 +177,7 @@ public class DataBaseAccessCode {
     }
 
 
+
     //Discount Management----------------
     public boolean saveDiscount(DiscountDTO d) throws SQLException, ClassNotFoundException {
         return new DiscountDaoImpl().saveDiscount(new Discount(d.getIdDup(),d.getOrderId(),d.getItemCode(),d.getDiscountValue()));
@@ -223,5 +229,49 @@ public class DataBaseAccessCode {
         return dtoList;
     }
 
+
+
+    //Payment Management----------------
+    public boolean savePayment(PaymentDTO p) throws SQLException, ClassNotFoundException{
+        return new PaymentDaoImpl().savePayment(new Payment(p.getId(),p.getOrderId(),p.getPayment_Details(),p.getPayment_Way(),p.getAmount()));
+    }
+    public PaymentDTO getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException{
+        Payment payment = new PaymentDaoImpl().getPaymentByOrderId(orderId);
+        if(payment != null){
+            return new PaymentDTO(payment.getId(),payment.getOrderId(), payment.getPayment_Details(),payment.getPayment_Way(),payment.getAmount());
+        }
+        return null;
+    }
+    public ArrayList<PaymentDTO> getAllPayments(String text) throws SQLException, ClassNotFoundException{
+        ArrayList<PaymentDTO> dtoList = new ArrayList<>();
+        ArrayList<Payment> entityList= new PaymentDaoImpl().getAllPayments(text);
+        for (Payment p:entityList) {
+            PaymentDTO paymentDTO = new PaymentDTO(
+                    p.getId(),
+                    p.getOrderId(),
+                    p.getPayment_Details(),
+                    p.getPayment_Way(),
+                    p.getAmount()
+            );
+            dtoList.add(paymentDTO);
+        }
+        return dtoList;
+    }
+
+
+    //OrderBook Management----------------
+    public boolean saveOrderBook(OrderBookDTO s) throws SQLException, ClassNotFoundException{
+        return new OrderBookDaoimpl().saveOrderBook(new OrderBook(s.getId(),s.getBookId(),s.getInvId(),s.getOrderId(),s.getShopId()));
+    }
+    public boolean deleteOrderBook(String id) throws SQLException, ClassNotFoundException{
+        return new OrderBookDaoimpl().deleteOrderBook(id);
+    }
+    public OrderBookDTO getOrderBook(String orderId) throws SQLException, ClassNotFoundException{
+        OrderBook orderBook = new OrderBookDaoimpl().getOrderBook(orderId);
+        if(orderBook != null){
+            return new OrderBookDTO(orderBook.getId(),orderBook.getBookId(),orderBook.getInvId(),orderBook.getOrderId(),orderBook.getShopId());
+        }
+        return null;
+    }
 
 }
