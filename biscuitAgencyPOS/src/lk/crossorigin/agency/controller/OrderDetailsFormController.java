@@ -13,9 +13,7 @@ import javafx.stage.Stage;
 import lk.crossorigin.agency.DataBaseAccessCode;
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.db.DBConnection;
-import lk.crossorigin.agency.dto.ItemDTO;
-import lk.crossorigin.agency.dto.OrderBookDTO;
-import lk.crossorigin.agency.dto.OrderDetailsDTO;
+import lk.crossorigin.agency.dto.*;
 import lk.crossorigin.agency.view.tm.OrderDetailsTM;
 import lk.crossorigin.agency.view.tm.ShopTM;
 
@@ -62,15 +60,94 @@ public class OrderDetailsFormController {
     private void loadAllDetails(String searchText){
         ObservableList<OrderDetailsTM> obList = FXCollections.observableArrayList();
         try {
+            System.out.println("111111111111111");
+            double total = 0.00;
             ArrayList<OrderBookDTO> dtoList = new DataBaseAccessCode().getAllOrderBooks("%" + searchText + "%");
             for (OrderBookDTO dto:dtoList) {
-                /*OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
+                System.out.println("qqqqqqqqqq");
+                ArrayList<OrderDetailsDTO> OrderDetailsDTO = new DataBaseAccessCode().getAllOrderDetailsByOrderId(dto.getId());
+                for (OrderDetailsDTO o:OrderDetailsDTO) {
+                    System.out.println(o);
+                    double unit_boxPrice = o.getUnitPrice_Box();
+                    System.out.println(new DataBaseAccessCode().getItem(o.getItemCode()).getItemCountInBox());
+                    int itemsCount_in_box = new DataBaseAccessCode().getItem(o.getItemCode()).getItemCountInBox();
+                    double per_item_Price = o.getUnitPrice_Box()/itemsCount_in_box;
+                    total+=(unit_boxPrice*o.getBoxQty() + per_item_Price*o.getItemQty());
+                }
+
+                ArrayList<PaymentDTO> paymentDTOS = new DataBaseAccessCode().getPaymentByOrderId(dto.getId());
+                double cashAmount = 0.00;
+                double chequeAmount = 0.00;
+                double creditAmount = 0.00;
+                String chequeNum = "";
+
+                for (PaymentDTO p:paymentDTOS) {
+                    if(p.getPayment_Way().equals("Cheque")){
+                        chequeAmount = p.getAmount();
+                        chequeNum = p.getPayment_Details();
+                    }else if(p.getPayment_Way().equals("Cash")){
+                        cashAmount = p.getAmount();
+                    }else{
+                        creditAmount = p.getAmount();
+                    }
+                }
+
+                ArrayList<ReturnStockDTO> returnByOrderId = new DataBaseAccessCode().getReturnByOrderId(dto.getId());
+                double returnAmount = 0.00;
+                for (ReturnStockDTO r:returnByOrderId) {
+                    ItemDTO itemDTO = new DataBaseAccessCode().getItem(r.getItemCode());
+                    double unit_boxPrice = itemDTO.getUnitPrice_Box();
+                    int itemsCount_in_box = itemDTO.getItemCountInBox();
+                    double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
+                    returnAmount+=(unit_boxPrice*r.getBoxQty() + per_item_Price*r.getItemQty());
+                }
+
+
+                ArrayList<DiscountDTO> allDiscountByOrderId = new DataBaseAccessCode().getAllDiscountByOrderId(dto.getId());
+                int dupCount = 1;
+                for (DiscountDTO d:allDiscountByOrderId) {
+                    if(dupCount!=d.getIdDup()){
+                        dupCount++;
+                    }
+                }
+                System.out.println("99999999999999999999");
+                System.out.println(dupCount);
+                System.out.println(allDiscountByOrderId);
+                double finalDisValue = 0.00;
+                for(int i=0; i<dupCount && allDiscountByOrderId.size()>0; i++){
+                    ArrayList<DiscountDTO> allDiscountByIdDup = new DataBaseAccessCode().getAllDiscountByIdDup(dto.getId(), String.valueOf(i + 1));
+                    System.out.println("11111111111111111111111111");
+                    System.out.println(allDiscountByIdDup);
+                    double totalDis = 0.00;
+                    for (DiscountDTO d:allDiscountByIdDup) {
+                        ItemDTO itemDTO = new DataBaseAccessCode().getItem(d.getItemCode());
+                        double unit_boxPrice = itemDTO.getUnitPrice_Box();
+                        int itemsCount_in_box = itemDTO.getItemCountInBox();
+                        double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
+
+                        OrderDetailsDTO orderDetail = new DataBaseAccessCode().getOrderDetail(dto.getId(), d.getItemCode());
+
+                        totalDis+=(unit_boxPrice*orderDetail.getBoxQty() + per_item_Price*orderDetail.getItemQty());
+                    }
+                    System.out.println(allDiscountByIdDup.get(0));
+                    finalDisValue+=totalDis*(allDiscountByIdDup.get(0).getDiscountValue())/100;
+                }
+
+
+
+                OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
                         dto.getOb_id(),
                         dto.getInvId(),
                         dto.getShopId(),
-                        dto.
-                );*/
-                //obList.add(orderDetailsTM);
+                        total,
+                        cashAmount,
+                        creditAmount,
+                        chequeAmount,
+                        chequeNum,
+                        returnAmount,
+                        finalDisValue
+                );
+                obList.add(orderDetailsTM);
             }
             orderHistoryTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {

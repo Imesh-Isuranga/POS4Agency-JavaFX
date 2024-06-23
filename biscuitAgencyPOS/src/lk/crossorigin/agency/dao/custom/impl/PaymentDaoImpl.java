@@ -16,19 +16,21 @@ public class PaymentDaoImpl implements PaymentDAO {
     }
 
     @Override
-    public Payment getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException {
+    public ArrayList<Payment> getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Payment WHERE orderId=?";
         ResultSet rst = CrudUtil.executeQuery(sql,orderId);
-        if(rst.next()){
-            return new Payment(
+        ArrayList<Payment> entityList = new ArrayList<>();
+        while (rst.next()) {
+            Payment payment = new Payment(
                     rst.getInt(1),
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
                     rst.getDouble(5)
             );
+            entityList.add(payment);
         }
-        return null;
+        return entityList;
     }
 
     @Override

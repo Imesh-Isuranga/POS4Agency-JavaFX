@@ -27,7 +27,6 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO {
     @Override
     public OrderDetail getOrderDetail(String orderId,String itemCode) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Orderdetail WHERE orderId = ? && itemCode = ?";
-        System.out.println("====================================");
         ResultSet rst = CrudUtil.executeQuery(sql,orderId,itemCode);
         System.out.println(rst);
         if(rst.next()){
@@ -42,6 +41,27 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO {
             );
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<OrderDetail> getAllOrderDetailsByOrderId(String orderId) throws SQLException, ClassNotFoundException {
+        String sql =  "SELECT * FROM Orderdetail WHERE orderId = ?";
+
+        ResultSet rst = CrudUtil.executeQuery(sql,orderId);
+        ArrayList<OrderDetail> entityList = new ArrayList<>();
+        while (rst.next()) {
+            OrderDetail orderDetail = new OrderDetail(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getDouble(3),
+                    rst.getInt(4),
+                    rst.getInt(5),
+                    rst.getInt(6),
+                    rst.getInt(7)
+            );
+            entityList.add(orderDetail);
+        }
+        return entityList;
     }
 
     @Override

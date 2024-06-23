@@ -10,7 +10,7 @@ public class OrderDetailsTM {
     private double total;
     private double cash;
     private double credit;
-    private String cheque;
+    private double cheque;
     private String chequeNum;
     private double MR;
     private double discount;
@@ -18,7 +18,7 @@ public class OrderDetailsTM {
     public OrderDetailsTM() {
     }
 
-    public OrderDetailsTM(int no, String invNo, String nameofDealer, double total, double cash, double credit, String cheque, String chequeNum, double MR, double discount) {
+    public OrderDetailsTM(int no, String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, double discount) {
         this.no = no;
         this.invNo = invNo;
         NameofDealer = nameofDealer;
@@ -79,11 +79,11 @@ public class OrderDetailsTM {
         this.credit = credit;
     }
 
-    public String getCheque() {
+    public double getCheque() {
         return cheque;
     }
 
-    public void setCheque(String cheque) {
+    public void setCheque(double cheque) {
         this.cheque = cheque;
     }
 

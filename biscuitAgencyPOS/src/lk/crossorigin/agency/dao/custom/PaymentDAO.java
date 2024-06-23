@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public interface PaymentDAO {
     public boolean savePayment(Payment p) throws SQLException, ClassNotFoundException;
-    public Payment getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException;
+    public ArrayList<Payment> getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException;
     public ArrayList<Payment> getAllPayments(String text) throws SQLException, ClassNotFoundException;
 }

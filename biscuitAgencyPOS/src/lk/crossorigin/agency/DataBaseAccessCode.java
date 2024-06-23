@@ -163,6 +163,24 @@ public class DataBaseAccessCode {
         return null;
     }
 
+    public ArrayList<OrderDetailsDTO> getAllOrderDetailsByOrderId(String orderId) throws SQLException, ClassNotFoundException {
+        ArrayList<OrderDetailsDTO> dtoList = new ArrayList<>();
+        ArrayList<OrderDetail> entityList= new OrderDetailsDaoImpl().getAllOrderDetailsByOrderId(orderId);
+        for (OrderDetail s:entityList) {
+            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(
+                    s.getOrderId(),
+                    s.getItemCode(),
+                    s.getUnitPrice_Box(),
+                    s.getBoxQty(),
+                    s.getItemQty(),
+                    s.getBoxQtyFree(),
+                    s.getItemQtyFree()
+            );
+            dtoList.add(orderDetailsDTO);
+        }
+        return dtoList;
+    }
+
     public ArrayList<OrderDetailsDTO> getAllOrderDetails(String text) throws ClassNotFoundException, SQLException {
         ArrayList<OrderDetailsDTO> dtoList = new ArrayList<>();
         ArrayList<OrderDetail> entityList= new OrderDetailsDaoImpl().getAllOrderDetails(text);
@@ -219,6 +237,21 @@ public class DataBaseAccessCode {
         return dtoList;
     }
 
+    public ArrayList<DiscountDTO> getAllDiscountByOrderId(String orderId) throws SQLException, ClassNotFoundException{
+        ArrayList<DiscountDTO> dtoList = new ArrayList<>();
+        ArrayList<Discount> entityList= new DiscountDaoImpl().getAllDiscountByOrderId(orderId);
+        for (Discount d:entityList) {
+            DiscountDTO discountDTO = new DiscountDTO(
+                    d.getIdDup(),
+                    d.getOrderId(),
+                    d.getItemCode(),
+                    d.getDiscountValue()
+            );
+            dtoList.add(discountDTO);
+        }
+        return dtoList;
+    }
+
     public ArrayList<DiscountDTO> getAllDiscount(String text) throws SQLException, ClassNotFoundException {
         ArrayList<DiscountDTO> dtoList = new ArrayList<>();
         ArrayList<Discount> entityList= new DiscountDaoImpl().getAllDiscount(text);
@@ -244,12 +277,20 @@ public class DataBaseAccessCode {
     public boolean savePayment(PaymentDTO p) throws SQLException, ClassNotFoundException{
         return new PaymentDaoImpl().savePayment(new Payment(p.getId(),p.getOrderId(),p.getPayment_Details(),p.getPayment_Way(),p.getAmount()));
     }
-    public PaymentDTO getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException{
-        Payment payment = new PaymentDaoImpl().getPaymentByOrderId(orderId);
-        if(payment != null){
-            return new PaymentDTO(payment.getId(),payment.getOrderId(), payment.getPayment_Details(),payment.getPayment_Way(),payment.getAmount());
+    public ArrayList<PaymentDTO> getPaymentByOrderId(String orderId) throws SQLException, ClassNotFoundException{
+        ArrayList<PaymentDTO> dtoList = new ArrayList<>();
+        ArrayList<Payment> entityList= new PaymentDaoImpl().getPaymentByOrderId(orderId);
+        for (Payment p:entityList) {
+            PaymentDTO paymentDTO = new PaymentDTO(
+                    p.getId(),
+                    p.getOrderId(),
+                    p.getPayment_Details(),
+                    p.getPayment_Way(),
+                    p.getAmount()
+            );
+            dtoList.add(paymentDTO);
         }
-        return null;
+        return dtoList;
     }
     public ArrayList<PaymentDTO> getAllPayments(String text) throws SQLException, ClassNotFoundException{
         ArrayList<PaymentDTO> dtoList = new ArrayList<>();

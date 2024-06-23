@@ -24,7 +24,7 @@ public class ReturnDapImpl implements ReturnStockDAO {
 
     @Override
     public boolean deleteReturn(String orderId) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM ReturnStock WHERE id=?";
+        String sql = "DELETE FROM ReturnStock WHERE orderId=?";
         return CrudUtil.executeUpdate(sql,orderId);
     }
 

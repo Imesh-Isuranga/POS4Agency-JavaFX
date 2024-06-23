@@ -27,7 +27,7 @@ public class ShopDaoImpl implements ShopDAO {
     }
     @Override
     public boolean updateShopCredit(String id,double creditAmount) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE Shop SET credit_uptoNow=? WHERE sh_id=?";
+        String sql = "UPDATE Shop SET credit_uptoNow=? WHERE id=?";
         return CrudUtil.executeUpdate(sql,creditAmount,id);
     }
 

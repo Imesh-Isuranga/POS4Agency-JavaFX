@@ -13,6 +13,7 @@ public interface DiscountDAO {
     public boolean deleteDiscount(String orderId) throws SQLException, ClassNotFoundException;
     public Discount getItemByOrderId(String orderId) throws SQLException, ClassNotFoundException;
     public ArrayList<Discount> getAllDiscountByIdDup(String orderId,String orderIdDup) throws SQLException, ClassNotFoundException;
+    public ArrayList<Discount> getAllDiscountByOrderId(String orderId) throws SQLException, ClassNotFoundException ;
     public ArrayList<Discount> getAllDiscount(String text) throws SQLException, ClassNotFoundException;
     public String getLastDiscountId() throws SQLException, ClassNotFoundException;
 }

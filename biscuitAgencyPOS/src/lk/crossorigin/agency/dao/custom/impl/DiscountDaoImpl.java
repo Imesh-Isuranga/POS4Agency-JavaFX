@@ -63,6 +63,25 @@ public class DiscountDaoImpl implements DiscountDAO {
     }
 
     @Override
+    public ArrayList<Discount> getAllDiscountByOrderId(String orderId) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM Discount WHERE orderId=?";
+
+        ResultSet rst = CrudUtil.executeQuery(sql,orderId);
+        ArrayList<Discount> entityList = new ArrayList<>();
+        while (rst.next()) {
+            Discount discount = new Discount(
+                    rst.getInt(1),
+                    rst.getInt(2),
+                    rst.getString(3),
+                    rst.getString(4),
+                    rst.getDouble(5)
+            );
+            entityList.add(discount);
+        }
+        return entityList;
+    }
+
+    @Override
     public ArrayList<Discount> getAllDiscount(String text) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Discount WHERE id LIKE ? OR idDup LIKE ? OR orderId LIKE ? OR itemCode LIKE ? OR discount_percent LIKE ?";
 
