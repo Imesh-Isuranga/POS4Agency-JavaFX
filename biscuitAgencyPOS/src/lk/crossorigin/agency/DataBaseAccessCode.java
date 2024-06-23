@@ -289,11 +289,93 @@ public class DataBaseAccessCode {
         return null;
     }
 
+    public ArrayList<OrderBookDTO> getAllOrderBooks(String text) throws SQLException, ClassNotFoundException {
+        ArrayList<OrderBookDTO> dtoList = new ArrayList<>();
+        ArrayList<OrderBook> entityList= new OrderBookDaoimpl().getAllOrderBooks(text);
+        for (OrderBook orderBook:entityList) {
+            OrderBookDTO OrderBookDTO = new OrderBookDTO(
+                    orderBook.getOb_id(),
+                    orderBook.getId(),
+                    orderBook.getBookId(),
+                    orderBook.getInvId(),
+                    orderBook.getShopId()
+            );
+            dtoList.add(OrderBookDTO);
+        }
+        return dtoList;
+    }
+
     public String generateOrderId(String bookName,String invNum) throws SQLException, ClassNotFoundException {
         return new OrderBookDaoimpl().generateOrderId(bookName,invNum);
     }
     public String getLastOrderId() throws SQLException, ClassNotFoundException {
         return new OrderBookDaoimpl().getLastOrderId();
+    }
+
+
+
+    //ReturnStock Management----------------
+
+
+    public boolean saveReturn(ReturnStockDTO dto) throws SQLException, ClassNotFoundException{
+        return new ReturnDapImpl().saveReturn(
+                new ReturnStock(
+                        dto.getId(),
+                        dto.getOrderId(),
+                        dto.getItemCode(),
+                        dto.getBoxQty()
+                        ,dto.getItemQty()
+                )
+        );
+
+    }
+    public boolean updateReturn(ReturnStockDTO dto) throws SQLException, ClassNotFoundException{
+        return new ReturnDapImpl().updateReturn(
+                new ReturnStock(
+                        dto.getId(),
+                        dto.getOrderId(),
+                        dto.getItemCode(),
+                        dto.getBoxQty(),
+                        dto.getItemQty()
+                )
+        );
+
+    }
+    public boolean deleteReturn(String orderId) throws SQLException, ClassNotFoundException{
+        return new ReturnDapImpl().deleteReturn(orderId);
+
+    }
+    public ReturnStockDTO getReturn(String orderId,String itemCode) throws SQLException, ClassNotFoundException{
+        ReturnStock returnStock = new ReturnDapImpl().getReturn(orderId,itemCode);
+        if(returnStock != null){
+            return new ReturnStockDTO(
+                    returnStock.getId(),
+                    returnStock.getOrderId(),
+                    returnStock.getItemCode(),
+                    returnStock.getBoxQty(),
+                    returnStock.getItemQty()
+            );
+        }
+        return null;
+    }
+    public ArrayList<ReturnStockDTO> getReturnByOrderId(String text) throws SQLException, ClassNotFoundException{
+        ArrayList<ReturnStockDTO> dtoList = new ArrayList<>();
+        ArrayList<ReturnStock> entityList= new ReturnDapImpl().getReturnByOrderId(text);
+        for (ReturnStock returnStock:entityList) {
+            ReturnStockDTO returnStockDTO = new ReturnStockDTO(
+                    returnStock.getId(),
+                    returnStock.getOrderId(),
+                    returnStock.getItemCode(),
+                    returnStock.getBoxQty(),
+                    returnStock.getItemQty()
+            );
+            dtoList.add(returnStockDTO);
+        }
+        return dtoList;
+    }
+
+    public String getLastOrderIdReturn() throws SQLException, ClassNotFoundException {
+        return new ReturnDapImpl().getLastOrderIdReturn();
     }
 
 

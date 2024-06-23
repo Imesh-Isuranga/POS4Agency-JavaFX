@@ -2,10 +2,12 @@ package lk.crossorigin.agency.dao.custom.impl;
 
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.dao.custom.OrderBookDAO;
+import lk.crossorigin.agency.entity.Item;
 import lk.crossorigin.agency.entity.OrderBook;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class OrderBookDaoimpl implements OrderBookDAO {
     @Override
@@ -34,6 +36,25 @@ public class OrderBookDaoimpl implements OrderBookDAO {
             );
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<OrderBook> getAllOrderBooks(String text) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM Orderbook WHERE ob_id LIKE ? OR id LIKE ? OR booknum LIKE ? OR invnum LIKE ? OR shopId LIKE ?";
+
+        ResultSet rst = CrudUtil.executeQuery(sql,text,text,text,text,text);
+        ArrayList<OrderBook> entityList = new ArrayList<>();
+        while (rst.next()) {
+            OrderBook orderBook = new OrderBook(
+                    rst.getInt(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4),
+                    rst.getString(5)
+            );
+            entityList.add(orderBook);
+        }
+        return entityList;
     }
 
     @Override

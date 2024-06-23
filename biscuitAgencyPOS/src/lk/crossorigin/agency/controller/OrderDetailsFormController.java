@@ -14,6 +14,7 @@ import lk.crossorigin.agency.DataBaseAccessCode;
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ItemDTO;
+import lk.crossorigin.agency.dto.OrderBookDTO;
 import lk.crossorigin.agency.dto.OrderDetailsDTO;
 import lk.crossorigin.agency.view.tm.OrderDetailsTM;
 import lk.crossorigin.agency.view.tm.ShopTM;
@@ -61,12 +62,15 @@ public class OrderDetailsFormController {
     private void loadAllDetails(String searchText){
         ObservableList<OrderDetailsTM> obList = FXCollections.observableArrayList();
         try {
-            ArrayList<OrderDetailsDTO> dtoList = new DataBaseAccessCode().getAllOrderDetails("%" + searchText + "%");
-            for (OrderDetailsDTO dto:dtoList) {
-                OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
-
-                );
-                obList.add(orderDetailsTM);
+            ArrayList<OrderBookDTO> dtoList = new DataBaseAccessCode().getAllOrderBooks("%" + searchText + "%");
+            for (OrderBookDTO dto:dtoList) {
+                /*OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
+                        dto.getOb_id(),
+                        dto.getInvId(),
+                        dto.getShopId(),
+                        dto.
+                );*/
+                //obList.add(orderDetailsTM);
             }
             orderHistoryTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {

@@ -20,6 +20,7 @@ import lk.crossorigin.agency.entity.OrderDetail;
 import lk.crossorigin.agency.view.tm.DiscountItemsTM;
 import lk.crossorigin.agency.view.tm.FreeItemsTM;
 import lk.crossorigin.agency.view.tm.OrderTM;
+import lk.crossorigin.agency.view.tm.ReturnStockTM;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -75,14 +76,28 @@ public class AddOrderFormController {
     public TextField chequeNumtxt;
     public Label shopCreditUptoNowlbl;
     public Label shopIdlbl;
+    public TableView<ReturnStockTM> tblReturn;
+    public TableColumn colItemCodeReturn;
+    public TableColumn colReturnBoxQty;
+    public TableColumn colReturnItemQty;
+    public TableColumn colReturnRemove;
+    public JFXButton btnAddReturnToTable;
+    public JFXComboBox cmbReturnItem;
+    public JFXButton btnAddReurnStock;
+    public TextField txtBoxQtyReturn;
+    public TextField txtItemQtyReturn;
+    public Label returnTotallbl;
     private OrderTM orderTM;
     private FreeItemsTM freeItemsTM;
     private DiscountItemsTM discountItemsTM;
     private ObservableList<OrderTM> obList = FXCollections.observableArrayList();
+    private ObservableList<ReturnStockTM> obListReturn = FXCollections.observableArrayList();
     private ObservableList<FreeItemsTM> obFreeList = FXCollections.observableArrayList();
     private ObservableList<DiscountItemsTM> obDisList = FXCollections.observableArrayList();
     ObservableList<String> itemDisCodesObList = FXCollections.observableArrayList();;
     int discountGeneratedId = 1;
+
+    private double returnTotal = 0.00;
 
 
 
@@ -99,6 +114,8 @@ public class AddOrderFormController {
         cmbFreeItemCode.setItems(itemDisCodesObList);
         cmbDiscount.setItems(itemDisCodesObList);
 
+        cmbReturnItem.setItems(loadAllItemCodes());
+
 
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colBoxQty.setCellValueFactory(new PropertyValueFactory<>("boxQty"));
@@ -113,6 +130,12 @@ public class AddOrderFormController {
 
         colDiscountItemCode.setCellValueFactory(new PropertyValueFactory<>("discountItemCode"));
         colRemoveDis.setCellValueFactory(new PropertyValueFactory<>("removeBtn"));
+
+
+        colItemCodeReturn.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colReturnBoxQty.setCellValueFactory(new PropertyValueFactory<>("boxQty"));
+        colReturnItemQty.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
+        colReturnRemove.setCellValueFactory(new PropertyValueFactory<>("btn"));
 
         addOrderTbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null){
@@ -354,6 +377,15 @@ public class AddOrderFormController {
         return -1;
     }
 
+    private int isAlreadyExistsInReturnTbl(String itemCode){
+        for(int i = 0; i<tblReturn.getItems().size(); i++){
+            if(getCellValueReturn(i,0).toString().equals(itemCode)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private int isAlreadyExistsInFreeItems(String itemCode){
         for(int i = 0; i<addFreeTbl.getItems().size(); i++){
             if(getCellValue(i,0).toString().equals(itemCode)){
@@ -378,6 +410,21 @@ public class AddOrderFormController {
 
         // Step 2: Retrieve the TableColumn for the given column index
         TableColumn<OrderTM, ?> column = addOrderTbl.getColumns().get(columnIndex);
+
+        // Step 3: Get the value from the cell using the column's CellDataFeatures
+        ObservableValue<?> cellValue = column.getCellObservableValue(rowData);
+
+        // Step 4: Return the cell value
+        return cellValue.getValue();
+    }
+
+
+    public Object getCellValueReturn(int rowIndex, int columnIndex) {
+        // Step 1: Retrieve the row's data (item) from the TableView's items
+        ReturnStockTM rowData = tblReturn.getItems().get(rowIndex);
+
+        // Step 2: Retrieve the TableColumn for the given column index
+        TableColumn<ReturnStockTM, ?> column = tblReturn.getColumns().get(columnIndex);
 
         // Step 3: Get the value from the cell using the column's CellDataFeatures
         ObservableValue<?> cellValue = column.getCellObservableValue(rowData);
@@ -584,6 +631,22 @@ public class AddOrderFormController {
         return false;
     }
 
+    public boolean removeItemByCodeReturnStock(String itemCode) {
+        ReturnStockTM itemToRemove = null;
+        for (ReturnStockTM item : obListReturn) {
+            if (item.getItemCode().equals(itemCode)) {
+                itemToRemove = item;
+                break;
+            }
+        }
+        if (itemToRemove != null) {
+            obListReturn.remove(itemToRemove);
+            return true;
+        }
+        return false;
+    }
+
+
 
     public void addDiscountToTableOnAction(ActionEvent actionEvent) {
         int rowIndex = isAlreadyExistsInFreeDiscount(cmbDiscount.getValue().toString());
@@ -696,6 +759,93 @@ public class AddOrderFormController {
         }else {
             lblCredit.setText("0.00");
             shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit));
+        }
+    }
+
+    public void addReturnToTableOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+
+        int boxCount;
+        int itemCount;
+
+        if(txtBoxQtyReturn.getText().isEmpty()){
+            boxCount=0;
+        }else{
+            boxCount = Integer.parseInt(txtBoxQtyReturn.getText());
+        }
+
+        if(txtItemQtyReturn.getText().isEmpty()){
+            itemCount=0;
+        }else {
+            itemCount = Integer.parseInt(txtItemQtyReturn.getText());
+        }
+
+        if(boxCount==0 && itemCount==0){
+            new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
+        }else {
+            double unitPrice_Box = new DataBaseAccessCode().getItemByName(cmbReturnItem.getValue().toString()).getUnitPrice_Box();
+            int itemCountInBox = new DataBaseAccessCode().getItemByName(cmbReturnItem.getValue().toString()).getItemCountInBox();
+            returnTotal += (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
+
+            int rowIndex = isAlreadyExistsInReturnTbl(cmbReturnItem.getValue().toString());
+
+            if(rowIndex!=-1) {
+                // Update the quantity and total of the existing item
+                ReturnStockTM existingItem = obListReturn.get(rowIndex);
+                existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
+                existingItem.setItemQty(existingItem.getItemQty() + itemCount);
+
+                // Force the table to refresh by setting the item to itself
+                obListReturn.set(rowIndex, existingItem);
+            }else{
+                Button btn = new Button("Remove");
+                ReturnStockTM returnStockTM = new ReturnStockTM(cmbReturnItem.getValue().toString(),boxCount,itemCount,btn);
+
+                //Delete------------------------
+                btn.setOnAction(e->{
+                    Alert confirmation = new Alert(
+                            Alert.AlertType.CONFIRMATION,
+                            "ARE YOU SURE ?",
+                            ButtonType.YES,ButtonType.CANCEL
+                    );
+                    Optional<ButtonType> confirmState = confirmation.showAndWait();
+                    if(confirmState.get().equals(ButtonType.YES)){
+                        if(removeItemByCodeReturnStock(returnStockTM.getItemCode())) {
+                            returnTotal-=((unitPrice_Box * returnStockTM.getBoxQty()) + (unitPrice_Box/itemCountInBox)*returnStockTM.getItemQty());
+                            returnTotallbl.setText(String.valueOf(returnTotal));
+                            new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Deleted", ButtonType.OK).show();
+                        }else{
+                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        }
+
+                    }
+                });
+                //Delete------------------------
+
+                obListReturn.add(returnStockTM);
+                tblReturn.setItems(obListReturn);
+
+            }
+            returnTotallbl.setText(String.valueOf(returnTotal));
+        }
+    }
+
+    public void addReurnStockOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        for (int i=0; i<tblReturn.getItems().size(); i++){
+            ReturnStockDTO returnStockDTO = new ReturnStockDTO(
+                    lblOrderId.getText(),
+                    getCellValueReturn(i,0).toString(),
+                    Integer.parseInt(getCellValueReturn(i,1).toString()),
+                    Integer.parseInt(getCellValueReturn(i,2).toString())
+            );
+            if(new DataBaseAccessCode().saveReturn(returnStockDTO)){
+                if(i==tblReturn.getItems().size()-1){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Added...", ButtonType.OK).show();
+                    obListReturn.clear();
+                }
+            }else {
+                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                break;
+            }
         }
     }
 }
