@@ -46,7 +46,7 @@ public class SelectShopToOrderController {
     }
 
     public void nextOnAction(ActionEvent actionEvent) throws IOException, SQLException, ClassNotFoundException {
-        OrderBookDTO orderBookDTO = new OrderBookDTO(bookNumtxt.getText(),invoiceNumtxt.getText(),new DataBaseAccessCode().getLastOrderId(),shopIdcmb.getValue().toString());
+        OrderBookDTO orderBookDTO = new OrderBookDTO(new DataBaseAccessCode().generateOrderId(bookNumtxt.getText(),invoiceNumtxt.getText()), bookNumtxt.getText(),invoiceNumtxt.getText(),shopIdcmb.getValue().toString());
         if(new DataBaseAccessCode().saveOrderBook(orderBookDTO)){
             Stage stage = (Stage) selectShopToOrderContext.getScene().getWindow();
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));

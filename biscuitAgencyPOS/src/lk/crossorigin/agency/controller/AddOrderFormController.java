@@ -74,6 +74,7 @@ public class AddOrderFormController {
     public TextField chequeAmounttxt;
     public TextField chequeNumtxt;
     public Label shopCreditUptoNowlbl;
+    public Label shopIdlbl;
     private OrderTM orderTM;
     private FreeItemsTM freeItemsTM;
     private DiscountItemsTM discountItemsTM;
@@ -84,11 +85,10 @@ public class AddOrderFormController {
     int discountGeneratedId = 1;
 
 
-    String shopId = "1";
-
 
 
     public void initialize() throws SQLException, ClassNotFoundException {
+        shopIdlbl.setText(new DataBaseAccessCode().getOrderBook(new DataBaseAccessCode().getLastOrderId()).getShopId());
         String formatDate = formatDate(new Date());
         lblDate.setText(formatDate);
 
@@ -133,65 +133,56 @@ public class AddOrderFormController {
         });
 
         chequeAmounttxt.textProperty().addListener((observable, oldValue, newValue) -> {
-            double cashAmount ;
-            if(cashAmounttxt.getText().isEmpty()){
-                cashAmount = 0;
-            }else {
-                cashAmount = Double.parseDouble(cashAmounttxt.getText());
+            if(chequecbx.isSelected()){
+                double cashAmount ;
+                if(cashAmounttxt.getText().isEmpty()){
+                    cashAmount = 0;
+                }else {
+                    cashAmount = Double.parseDouble(cashAmounttxt.getText());
+                }
+
+                if(newValue.isEmpty()){
+                    newValue = 0.00+"";
+                }
+
+                paidAmountlbl.setText(String.valueOf(cashAmount + Double.parseDouble(newValue)));
+
+                double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+                balanceAmountlbl.setText(String.valueOf(balanceAmount));
+                editCreditBalance();
             }
-
-            if(newValue.isEmpty()){
-                newValue = 0.00+"";
-            }
-
-            paidAmountlbl.setText(String.valueOf(cashAmount + Double.parseDouble(newValue)));
-
-            double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
-            balanceAmountlbl.setText(String.valueOf(balanceAmount));
-            editCreditBalance();
         });
 
         cashAmounttxt.textProperty().addListener((observable, oldValue, newValue) -> {
-            double chequeAmount ;
-            double cashAmount ;
-            if(chequeAmounttxt.getText().isEmpty()){
-                chequeAmount = 0;
-            }else {
-                chequeAmount = Double.parseDouble(chequeAmounttxt.getText());
+            if(cashcbx.isSelected()){
+                double chequeAmount ;
+                double cashAmount ;
+                if(chequeAmounttxt.getText().isEmpty()){
+                    chequeAmount = 0;
+                }else {
+                    chequeAmount = Double.parseDouble(chequeAmounttxt.getText());
+                }
+                if(newValue.isEmpty()){
+                    newValue = 0.00+"";
+                }
+                paidAmountlbl.setText(String.valueOf(chequeAmount + Double.parseDouble(newValue)));
+                double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+                balanceAmountlbl.setText(String.valueOf(balanceAmount));
+                editCreditBalance();
             }
-            if(newValue.isEmpty()){
-                newValue = 0.00+"";
-            }
-            paidAmountlbl.setText(String.valueOf(chequeAmount + Double.parseDouble(newValue)));
-            double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
-            balanceAmountlbl.setText(String.valueOf(balanceAmount));
-            editCreditBalance();
         });
 
-        shopCreditUptoNowlbl.setText(String.valueOf(new DataBaseAccessCode().getShop(shopId).getCredit_uptoNow()));
+        shopCreditUptoNowlbl.setText(String.valueOf(new DataBaseAccessCode().getShop(shopIdlbl.getText()).getCredit_uptoNow()));
 
-        checkTableData();
-        System.out.println("sssssssss");
+
     }
 
-    public void setData(String Id,String bNum,String iNum){
-        System.out.println("22222222222");
-    }
 
     private void editCreditBalance(){
         lblCredit.setText(String.valueOf(Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText())));
     }
 
-    private void checkTableData(){
-        try {
-            new DataBaseAccessCode().deleteDiscount(lblOrderId.getText());
-            new DataBaseAccessCode().deleteOrderDetails(lblOrderId.getText());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
     public void backbtnOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addOrderContext.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
@@ -269,7 +260,7 @@ public class AddOrderFormController {
                 orderDetailList.add(orderDetail);
             }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()),shopId);
+            OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()),shopIdlbl.getText());
             boolean isAdded = new DataBaseAccessCode().saveOrder(orderDTO);
 
             if (isAdded) {
@@ -288,7 +279,7 @@ public class AddOrderFormController {
                     if(new DataBaseAccessCode().saveOrderDetails(orderDetailsDTO)){
                         if(k==(orderDetailList.size())){
                             if(savePayment()){
-                                if(new DataBaseAccessCode().updateShopCredit(shopId,Double.parseDouble(shopCreditUptoNowlbl.getText()))){
+                                if(new DataBaseAccessCode().updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){
                                     new Alert(Alert.AlertType.CONFIRMATION,"Order was Added", ButtonType.OK).show();
                                 }else {
                                     new Alert(Alert.AlertType.WARNING,"Something went wrong about Credit! Please try again.",ButtonType.CANCEL).show();
@@ -648,34 +639,62 @@ public class AddOrderFormController {
 
 
     public void chequeAmountMouse(MouseEvent mouseEvent) {
-        if(chequeAmounttxt.getText().isEmpty()){
-            chequecbx.fire();
-        }
     }
 
     public void cashAmountMouse(MouseEvent mouseEvent) {
-        if(cashAmounttxt.getText().isEmpty()){
-            cashcbx.fire();
-        }
     }
 
     public void chequeOnAction(ActionEvent actionEvent) {
-        if(!chequecbx.isSelected()){
-            chequeAmounttxt.clear();
+        if(!chequeAmounttxt.getText().isEmpty()){
+            if(!chequecbx.isSelected()){
+                paidAmountlbl.setText(String.valueOf(Double.parseDouble(paidAmountlbl.getText()) - Double.parseDouble(chequeAmounttxt.getText())));
+                double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+                balanceAmountlbl.setText(String.valueOf(balanceAmount));
+                editCreditBalance();
+
+                chequeAmounttxt.clear();
+            }else {
+                double temp = 0.0;
+                if(cashcbx.isSelected()){
+                    temp = Double.parseDouble(cashAmounttxt.getText());
+                }
+                paidAmountlbl.setText(String.valueOf(Double.parseDouble(chequeAmounttxt.getText()) + temp));
+                double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+                balanceAmountlbl.setText(String.valueOf(balanceAmount));
+                editCreditBalance();
+                }
         }
     }
 
     public void cashOnAction(ActionEvent actionEvent) {
-        if(!cashcbx.isSelected()){
-            cashAmounttxt.clear();
+        if(!cashAmounttxt.getText().isEmpty()){
+            if(!cashcbx.isSelected()){
+                paidAmountlbl.setText(String.valueOf(Double.parseDouble(paidAmountlbl.getText()) - Double.parseDouble(cashAmounttxt.getText())));
+                double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+                balanceAmountlbl.setText(String.valueOf(balanceAmount));
+                editCreditBalance();
+
+                cashAmounttxt.clear();
+            }else{
+                double temp = 0.0;
+                if(chequecbx.isSelected()){
+                    temp = Double.parseDouble(chequeAmounttxt.getText());
+                }
+                paidAmountlbl.setText(String.valueOf(Double.parseDouble(cashAmounttxt.getText()) + temp));
+                double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+                balanceAmountlbl.setText(String.valueOf(balanceAmount));
+                editCreditBalance();
+                }
         }
     }
 
     public void creditOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        double uptoNowCredit = new DataBaseAccessCode().getShop(shopId).getCredit_uptoNow();;
+        double uptoNowCredit = new DataBaseAccessCode().getShop(shopIdlbl.getText()).getCredit_uptoNow();;
         if(creditcbx.isSelected()){
+            lblCredit.setText(String.valueOf(Double.parseDouble(lblTotal.getText()) - Double.parseDouble(paidAmountlbl.getText())));
             shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit + Double.parseDouble(lblCredit.getText())));
         }else {
+            lblCredit.setText("0.00");
             shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit));
         }
     }

@@ -98,6 +98,10 @@ public class AddShopFormController {
         }
     }
 
+    private String idGenerate(){
+        
+    }
+
     private void loadAllShops(String searchText){
         ObservableList<ShopTM> obList = FXCollections.observableArrayList();
         try {

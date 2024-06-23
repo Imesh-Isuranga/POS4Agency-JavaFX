@@ -80,4 +80,16 @@ public class DiscountDaoImpl implements DiscountDAO {
         }
         return entityList;
     }
+
+    @Override
+    public String getLastDiscountId() throws SQLException, ClassNotFoundException {
+        String sql = "SELECT orderId FROM Discount ORDER BY id DESC LIMIT 1";
+        ResultSet rst = CrudUtil.executeQuery(sql);
+
+        if (rst.next()) {
+            return rst.getString(1);
+        } else {
+            return "1-1-1";
+        }
+    }
 }

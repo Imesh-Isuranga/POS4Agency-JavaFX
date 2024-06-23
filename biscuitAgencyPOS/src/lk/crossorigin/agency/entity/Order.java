@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Order {
     private int auto_id;
-    private String id;
+    private String orderId;
     private Date date;
     private String shopId;
     private ArrayList<OrderDetail> orderDetails;
@@ -14,7 +14,7 @@ public class Order {
     }
 
     public Order(String id, Date date, String shopId) {
-        this.id = id;
+        this.orderId = id;
         this.date = date;
         this.shopId = shopId;
     }
@@ -27,12 +27,12 @@ public class Order {
         this.auto_id = auto_id;
     }
 
-    public String getId() {
-        return id;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public Date getDate() {
@@ -62,7 +62,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id='" + id + '\'' +
+                "id='" + orderId + '\'' +
                 ", date=" + date +
                 ", shopId='" + shopId + '\'' +
                 ", orderDetails=" + orderDetails +

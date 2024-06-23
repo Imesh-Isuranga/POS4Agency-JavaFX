@@ -8,7 +8,8 @@ import java.util.Date;
 
 public interface OrderBookDAO {
     public boolean saveOrderBook(OrderBook s) throws SQLException, ClassNotFoundException;
-    public boolean deleteOrderBook(String id) throws SQLException, ClassNotFoundException;
+    public boolean deleteOrderBook(String orderId) throws SQLException, ClassNotFoundException;
     public OrderBook getOrderBook(String orderId) throws SQLException, ClassNotFoundException;
-
+    public String generateOrderId(String bookName,String invNum) throws SQLException, ClassNotFoundException;
+    public String getLastOrderId() throws SQLException, ClassNotFoundException;
 }

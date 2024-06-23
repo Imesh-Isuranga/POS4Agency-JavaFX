@@ -124,7 +124,7 @@ public class DataBaseAccessCode {
 
     //Order Management----------------
     public boolean saveOrder(OrderDTO dto) throws ClassNotFoundException, SQLException {
-        return new OrderDaoImpl().saveOrder(new Order(dto.getId(),dto.getDate(),dto.getShopId()));
+        return new OrderDaoImpl().saveOrder(new Order(dto.getOrderId(),dto.getDate(),dto.getShopId()));
     }
 
     public boolean deleteOrder(String orderId) throws ClassNotFoundException, SQLException {
@@ -135,7 +135,7 @@ public class DataBaseAccessCode {
         return new OrderDaoImpl().getOrderDate(orderId);
     }
 
-    public String getLastOrderId() throws ClassNotFoundException, SQLException {
+   public String getLastOrderIdOrder() throws ClassNotFoundException, SQLException {
         return new OrderDaoImpl().getLastOrderId();
     }
 
@@ -229,6 +229,10 @@ public class DataBaseAccessCode {
         return dtoList;
     }
 
+    public String getLastDiscountId() throws SQLException, ClassNotFoundException {
+        return new DiscountDaoImpl().getLastDiscountId();
+    }
+
 
 
     //Payment Management----------------
@@ -261,7 +265,7 @@ public class DataBaseAccessCode {
 
     //OrderBook Management----------------
     public boolean saveOrderBook(OrderBookDTO s) throws SQLException, ClassNotFoundException{
-        return new OrderBookDaoimpl().saveOrderBook(new OrderBook(s.getId(),s.getBookId(),s.getInvId(),s.getOrderId(),s.getShopId()));
+        return new OrderBookDaoimpl().saveOrderBook(new OrderBook(s.getId(),s.getBookId(),s.getInvId(),s.getShopId()));
     }
     public boolean deleteOrderBook(String id) throws SQLException, ClassNotFoundException{
         return new OrderBookDaoimpl().deleteOrderBook(id);
@@ -269,9 +273,24 @@ public class DataBaseAccessCode {
     public OrderBookDTO getOrderBook(String orderId) throws SQLException, ClassNotFoundException{
         OrderBook orderBook = new OrderBookDaoimpl().getOrderBook(orderId);
         if(orderBook != null){
-            return new OrderBookDTO(orderBook.getId(),orderBook.getBookId(),orderBook.getInvId(),orderBook.getOrderId(),orderBook.getShopId());
+            return new OrderBookDTO(
+                    orderBook.getOb_id(),
+                    orderBook.getId(),
+                    orderBook.getBookId(),
+                    orderBook.getInvId(),
+                    orderBook.getShopId()
+            );
         }
         return null;
     }
+
+    public String generateOrderId(String bookName,String invNum) throws SQLException, ClassNotFoundException {
+        return new OrderBookDaoimpl().generateOrderId(bookName,invNum);
+    }
+    public String getLastOrderId() throws SQLException, ClassNotFoundException {
+        return new OrderBookDaoimpl().getLastOrderId();
+    }
+
+
 
 }

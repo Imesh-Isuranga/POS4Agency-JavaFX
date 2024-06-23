@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class OrderDTO {
     private int auto_id;
-    private String id;
+    private String orderId;
     private Date date;
     private String shopId;
     private ArrayList<OrderDetail> orderDetails;
@@ -16,7 +16,7 @@ public class OrderDTO {
     }
 
     public OrderDTO(String id, Date date, String shopId) {
-        this.id = id;
+        this.orderId = id;
         this.date = date;
         this.shopId = shopId;
     }
@@ -29,12 +29,12 @@ public class OrderDTO {
         this.auto_id = auto_id;
     }
 
-    public String getId() {
-        return id;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public Date getDate() {
@@ -65,7 +65,7 @@ public class OrderDTO {
     public String toString() {
         return "OrderDTO{" +
                 "auto_id=" + auto_id +
-                ", id='" + id + '\'' +
+                ", id='" + orderId + '\'' +
                 ", date=" + date +
                 ", shopId='" + shopId + '\'' +
                 ", orderDetails=" + orderDetails +

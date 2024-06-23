@@ -1,35 +1,43 @@
 package lk.crossorigin.agency.dto;
 
 public class OrderBookDTO {
-    private int id;
+    private int ob_id;
+    private String id;
     private String bookId;
     private String InvId;
-    private String orderId;
     private String shopId;
 
     public OrderBookDTO() {
     }
 
-    public OrderBookDTO(String bookId, String invId, String orderId, String shopId) {
-        this.bookId = bookId;
-        InvId = invId;
-        this.orderId = orderId;
-        this.shopId = shopId;
-    }
-
-    public OrderBookDTO(int id, String bookId, String invId, String orderId, String shopId) {
+    public OrderBookDTO(String id, String bookId, String invId, String shopId) {
         this.id = id;
         this.bookId = bookId;
         InvId = invId;
-        this.orderId = orderId;
         this.shopId = shopId;
     }
 
-    public int getId() {
+    public OrderBookDTO(int ob_id, String id, String bookId, String invId, String shopId) {
+        this.ob_id = ob_id;
+        this.id = id;
+        this.bookId = bookId;
+        InvId = invId;
+        this.shopId = shopId;
+    }
+
+    public int getOb_id() {
+        return ob_id;
+    }
+
+    public void setOb_id(int ob_id) {
+        this.ob_id = ob_id;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -49,14 +57,6 @@ public class OrderBookDTO {
         InvId = invId;
     }
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
     public String getShopId() {
         return shopId;
     }
@@ -68,10 +68,10 @@ public class OrderBookDTO {
     @Override
     public String toString() {
         return "OrderBookDTO{" +
-                "id=" + id +
+                "ob_id=" + ob_id +
+                ", id='" + id + '\'' +
                 ", bookId='" + bookId + '\'' +
                 ", InvId='" + InvId + '\'' +
-                ", orderId='" + orderId + '\'' +
                 ", shopId='" + shopId + '\'' +
                 '}';
     }
