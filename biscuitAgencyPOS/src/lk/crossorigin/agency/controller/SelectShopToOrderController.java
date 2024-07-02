@@ -6,15 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.bo.custom.OrderBookBO;
+import lk.crossorigin.agency.bo.custom.ShopBO;
+import lk.crossorigin.agency.bo.custom.impl.OrderBookBoImpl;
+import lk.crossorigin.agency.bo.custom.impl.ShopBoImpl;
 import lk.crossorigin.agency.dto.OrderBookDTO;
 import lk.crossorigin.agency.dto.ShopDTO;
 
@@ -30,13 +31,16 @@ public class SelectShopToOrderController {
     public TextField invoiceNumtxt;
     public JFXButton btnNext;
 
+    ShopBO shopBO = new ShopBoImpl();
+    OrderBookBO orderBookBO = new OrderBookBoImpl();
+
     public void initialize() throws SQLException, ClassNotFoundException {
         shopIdcmb.setItems(loadAllShopIds());
     }
 
     private ObservableList<String> loadAllShopIds() throws SQLException, ClassNotFoundException {
         ObservableList<String> shopIdsObList = FXCollections.observableArrayList();;
-        ArrayList<ShopDTO> shopDTOArrayList = new DataBaseAccessCode().getAllShops("%"+""+"%");
+        ArrayList<ShopDTO> shopDTOArrayList = shopBO.getAllShops("%"+""+"%");
 
         for (ShopDTO shopDTO:shopDTOArrayList) {
             shopIdsObList.add(shopDTO.getId());
@@ -46,8 +50,8 @@ public class SelectShopToOrderController {
     }
 
     public void nextOnAction(ActionEvent actionEvent) throws IOException, SQLException, ClassNotFoundException {
-        OrderBookDTO orderBookDTO = new OrderBookDTO(new DataBaseAccessCode().generateOrderId(bookNumtxt.getText(),invoiceNumtxt.getText()), bookNumtxt.getText(),invoiceNumtxt.getText(),shopIdcmb.getValue().toString());
-        if(new DataBaseAccessCode().saveOrderBook(orderBookDTO)){
+        OrderBookDTO orderBookDTO = new OrderBookDTO(orderBookBO.generateOrderId(bookNumtxt.getText(),invoiceNumtxt.getText()), bookNumtxt.getText(),invoiceNumtxt.getText(),shopIdcmb.getValue().toString());
+        if(orderBookBO.saveOrderBook(orderBookDTO)){
             Stage stage = (Stage) selectShopToOrderContext.getScene().getWindow();
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
         }else{

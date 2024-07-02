@@ -10,20 +10,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.crossorigin.agency.DataBaseAccessCode;
-import lk.crossorigin.agency.dao.CrudUtil;
-import lk.crossorigin.agency.db.DBConnection;
+import lk.crossorigin.agency.bo.custom.*;
+import lk.crossorigin.agency.bo.custom.impl.*;
 import lk.crossorigin.agency.dto.*;
 import lk.crossorigin.agency.view.tm.OrderDetailsTM;
-import lk.crossorigin.agency.view.tm.ShopTM;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class OrderDetailsFormController {
     public AnchorPane orderHistoryContext;
@@ -41,6 +35,13 @@ public class OrderDetailsFormController {
     public TableColumn colDiscount;
     public JFXButton btnSearch;
 
+
+    OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
+    OrderBookBO orderBookBO = new OrderBookBoImpl();
+    ItemBO itemBO = new ItemBoImpl();
+    PaymentBO paymentBO = new PaymentBoImpl();
+    ReturnStockBO returnStockBO = new ReturnStockBoImpl();
+    DiscountBO discountBO = new DiscountBoImpl();
 
     public void initialize(){
         colNum.setCellValueFactory(new PropertyValueFactory<>("no"));
@@ -60,22 +61,20 @@ public class OrderDetailsFormController {
     private void loadAllDetails(String searchText){
         ObservableList<OrderDetailsTM> obList = FXCollections.observableArrayList();
         try {
-            System.out.println("111111111111111");
             double total = 0.00;
-            ArrayList<OrderBookDTO> dtoList = new DataBaseAccessCode().getAllOrderBooks("%" + searchText + "%");
+            ArrayList<OrderBookDTO> dtoList = orderBookBO.getAllOrderBooks("%" + searchText + "%");
             for (OrderBookDTO dto:dtoList) {
-                System.out.println("qqqqqqqqqq");
-                ArrayList<OrderDetailsDTO> OrderDetailsDTO = new DataBaseAccessCode().getAllOrderDetailsByOrderId(dto.getId());
+                ArrayList<OrderDetailsDTO> OrderDetailsDTO = orderDetailBO.getAllOrderDetailsByOrderId(dto.getId());
                 for (OrderDetailsDTO o:OrderDetailsDTO) {
                     System.out.println(o);
                     double unit_boxPrice = o.getUnitPrice_Box();
-                    System.out.println(new DataBaseAccessCode().getItem(o.getItemCode()).getItemCountInBox());
-                    int itemsCount_in_box = new DataBaseAccessCode().getItem(o.getItemCode()).getItemCountInBox();
+                    System.out.println(itemBO.getItem(o.getItemCode()).getItemCountInBox());
+                    int itemsCount_in_box = itemBO.getItem(o.getItemCode()).getItemCountInBox();
                     double per_item_Price = o.getUnitPrice_Box()/itemsCount_in_box;
                     total+=(unit_boxPrice*o.getBoxQty() + per_item_Price*o.getItemQty());
                 }
 
-                ArrayList<PaymentDTO> paymentDTOS = new DataBaseAccessCode().getPaymentByOrderId(dto.getId());
+                ArrayList<PaymentDTO> paymentDTOS = paymentBO.getPaymentByOrderId(dto.getId());
                 double cashAmount = 0.00;
                 double chequeAmount = 0.00;
                 double creditAmount = 0.00;
@@ -92,10 +91,10 @@ public class OrderDetailsFormController {
                     }
                 }
 
-                ArrayList<ReturnStockDTO> returnByOrderId = new DataBaseAccessCode().getReturnByOrderId(dto.getId());
+                ArrayList<ReturnStockDTO> returnByOrderId = returnStockBO.getReturnByOrderId(dto.getId());
                 double returnAmount = 0.00;
                 for (ReturnStockDTO r:returnByOrderId) {
-                    ItemDTO itemDTO = new DataBaseAccessCode().getItem(r.getItemCode());
+                    ItemDTO itemDTO = itemBO.getItem(r.getItemCode());
                     double unit_boxPrice = itemDTO.getUnitPrice_Box();
                     int itemsCount_in_box = itemDTO.getItemCountInBox();
                     double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
@@ -103,29 +102,24 @@ public class OrderDetailsFormController {
                 }
 
 
-                ArrayList<DiscountDTO> allDiscountByOrderId = new DataBaseAccessCode().getAllDiscountByOrderId(dto.getId());
+                ArrayList<DiscountDTO> allDiscountByOrderId = discountBO.getAllDiscountByOrderId(dto.getId());
                 int dupCount = 1;
                 for (DiscountDTO d:allDiscountByOrderId) {
                     if(dupCount!=d.getIdDup()){
                         dupCount++;
                     }
                 }
-                System.out.println("99999999999999999999");
-                System.out.println(dupCount);
-                System.out.println(allDiscountByOrderId);
                 double finalDisValue = 0.00;
                 for(int i=0; i<dupCount && allDiscountByOrderId.size()>0; i++){
-                    ArrayList<DiscountDTO> allDiscountByIdDup = new DataBaseAccessCode().getAllDiscountByIdDup(dto.getId(), String.valueOf(i + 1));
-                    System.out.println("11111111111111111111111111");
-                    System.out.println(allDiscountByIdDup);
+                    ArrayList<DiscountDTO> allDiscountByIdDup = discountBO.getAllDiscountByIdDup(dto.getId(), String.valueOf(i + 1));
                     double totalDis = 0.00;
                     for (DiscountDTO d:allDiscountByIdDup) {
-                        ItemDTO itemDTO = new DataBaseAccessCode().getItem(d.getItemCode());
+                        ItemDTO itemDTO = itemBO.getItem(d.getItemCode());
                         double unit_boxPrice = itemDTO.getUnitPrice_Box();
                         int itemsCount_in_box = itemDTO.getItemCountInBox();
                         double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
 
-                        OrderDetailsDTO orderDetail = new DataBaseAccessCode().getOrderDetail(dto.getId(), d.getItemCode());
+                        OrderDetailsDTO orderDetail = orderDetailBO.getOrderDetail(dto.getId(), d.getItemCode());
 
                         totalDis+=(unit_boxPrice*orderDetail.getBoxQty() + per_item_Price*orderDetail.getItemQty());
                     }

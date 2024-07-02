@@ -11,40 +11,55 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginFormContext" prefHeight="550.0" prefWidth="950.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoginFormController">
+<AnchorPane fx:id="loginFormContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoginFormController">
    <children>
-      <ImageView fitHeight="550.0" fitWidth="455.0" layoutX="493.0" pickOnBounds="true">
+      <ImageView fitHeight="892.0" fitWidth="869.0" layoutX="819.0" pickOnBounds="true">
          <image>
             <Image url="@../assert/login_bg.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="53.0" layoutY="38.0" prefHeight="36.0" prefWidth="80.0" text="Login" textFill="#ff7f3e">
+      <Label layoutX="53.0" layoutY="38.0" prefHeight="46.0" prefWidth="127.0" text="Login" textFill="#ff7f3e">
          <font>
-            <Font name="System Bold" size="27.0" />
+            <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <TextField layoutX="52.0" layoutY="149.0" prefHeight="36.0" prefWidth="407.0" promptText="Email" style="-fx-background-color: #F3F7EC;" />
-      <PasswordField layoutX="52.0" layoutY="232.0" prefHeight="36.0" prefWidth="407.0" promptText="Password" style="-fx-background-color: #F3F7EC;" />
-      <JFXButton buttonType="RAISED" layoutX="53.0" layoutY="326.0" onAction="#loginOnAction" prefHeight="36.0" prefWidth="407.0" style="-fx-background-color: FF7F3E;" text="Let's Go">
+      <TextField layoutX="101.0" layoutY="236.0" prefHeight="36.0" prefWidth="587.0" promptText="Email" style="-fx-background-color: #F3F7EC;">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font size="20.0" />
+         </font></TextField>
+      <PasswordField layoutX="101.0" layoutY="326.0" prefHeight="36.0" prefWidth="587.0" promptText="Password" style="-fx-background-color: #F3F7EC;">
+         <font>
+            <Font size="20.0" />
+         </font></PasswordField>
+      <JFXButton buttonType="RAISED" layoutX="101.0" layoutY="412.0" onAction="#loginOnAction" prefHeight="36.0" prefWidth="587.0" style="-fx-background-color: FF7F3E;" text="Let's Go">
+         <font>
+            <Font name="System Bold" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="53.0" layoutY="407.0" prefHeight="36.0" prefWidth="407.0" style="-fx-background-color: E88D67;" text="Sign Up">
+      <JFXButton buttonType="RAISED" layoutX="101.0" layoutY="536.0" prefHeight="36.0" prefWidth="587.0" style="-fx-background-color: E88D67;" text="Sign Up">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="System Bold" size="20.0" />
          </font></JFXButton>
-      <Separator layoutX="144.0" layoutY="59.0" prefHeight="5.0" prefWidth="310.0" />
-      <Label layoutX="242.0" layoutY="377.0" text="OR" />
-      <Separator layoutX="282.0" layoutY="383.0" prefHeight="6.0" prefWidth="171.0" />
-      <Separator layoutX="60.0" layoutY="382.0" prefHeight="6.0" prefWidth="171.0" />
-      <Label layoutX="295.0" layoutY="510.0" prefHeight="18.0" prefWidth="171.0" text="From CrossOrigin PVT(LTD)" />
-      <Label layoutX="54.0" layoutY="510.0" text="Version 1.0.0" />
+      <Separator layoutX="193.0" layoutY="65.0" prefHeight="0.0" prefWidth="597.0" />
+      <Label layoutX="374.0" layoutY="483.0" text="OR">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Separator layoutX="417.0" layoutY="490.0" prefHeight="6.0" prefWidth="269.0" />
+      <Separator layoutX="108.0" layoutY="489.0" prefHeight="6.0" prefWidth="241.0" />
+      <Label layoutX="266.0" layoutY="865.0" prefHeight="22.0" prefWidth="370.0" text="From CrossOrigin PVT(LTD)">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label layoutX="25.0" layoutY="865.0" prefHeight="22.0" prefWidth="185.0" text="Version 1.0.0">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
    </children>
 </AnchorPane>

@@ -14,7 +14,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.bo.custom.*;
+import lk.crossorigin.agency.bo.custom.impl.*;
 import lk.crossorigin.agency.dto.*;
 import lk.crossorigin.agency.entity.OrderDetail;
 import lk.crossorigin.agency.view.tm.DiscountItemsTM;
@@ -100,14 +101,21 @@ public class AddOrderFormController {
     private double returnTotal = 0.00;
 
 
-
+    DiscountBO discountBO = new DiscountBoImpl();
+    ItemBO itemBO = new ItemBoImpl();
+    OrderBO orderBO = new OrderBoImpl();
+    OrderBookBO orderBookBO = new OrderBookBoImpl();
+    OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
+    PaymentBO paymentBO = new PaymentBoImpl();
+    ReturnStockBO returnStockBO = new ReturnStockBoImpl();
+    ShopBO shopBO = new ShopBoImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
-        shopIdlbl.setText(new DataBaseAccessCode().getOrderBook(new DataBaseAccessCode().getLastOrderId()).getShopId());
+        shopIdlbl.setText(orderBookBO.getOrderBook(orderBookBO.getLastOrderId()).getShopId());
         String formatDate = formatDate(new Date());
         lblDate.setText(formatDate);
 
-        lblOrderId.setText(new DataBaseAccessCode().getLastOrderId());
+        lblOrderId.setText(orderBookBO.getLastOrderId());
 
 
         cmbItemCode.setItems(loadAllItemCodes());
@@ -195,7 +203,7 @@ public class AddOrderFormController {
             }
         });
 
-        shopCreditUptoNowlbl.setText(String.valueOf(new DataBaseAccessCode().getShop(shopIdlbl.getText()).getCredit_uptoNow()));
+        shopCreditUptoNowlbl.setText(String.valueOf(shopBO.getShop(shopIdlbl.getText()).getCredit_uptoNow()));
 
 
     }
@@ -231,8 +239,8 @@ public class AddOrderFormController {
         if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
         }else {
-            double unitPrice_Box = new DataBaseAccessCode().getItemByName(cmbItemCode.getValue().toString()).getUnitPrice_Box();
-            int itemCountInBox = new DataBaseAccessCode().getItemByName(cmbItemCode.getValue().toString()).getItemCountInBox();
+            double unitPrice_Box = itemBO.getItemByName(cmbItemCode.getValue().toString()).getUnitPrice_Box();
+            int itemCountInBox = itemBO.getItemByName(cmbItemCode.getValue().toString()).getItemCountInBox();
             double total = (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
 
             int rowIndex = isAlreadyExists(cmbItemCode.getValue().toString());
@@ -264,7 +272,7 @@ public class AddOrderFormController {
 
             for (int i = 0; i < addOrderTbl.getItems().size(); i++) {
                 String itemCode = getCellValue(i,0).toString();
-                double unitPrice_Box = new DataBaseAccessCode().getItem(getCellValue(i,0).toString()).getUnitPrice_Box();
+                double unitPrice_Box = itemBO.getItem(getCellValue(i,0).toString()).getUnitPrice_Box();
                 int orderBoxQty=Integer.parseInt(getCellValue(i,1).toString());
                 int orderItemQty=Integer.parseInt(getCellValue(i,2).toString());
                 int freeBoxCount = 0;
@@ -284,7 +292,7 @@ public class AddOrderFormController {
             }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()),shopIdlbl.getText());
-            boolean isAdded = new DataBaseAccessCode().saveOrder(orderDTO);
+            boolean isAdded = orderBO.saveOrder(orderDTO);
 
             if (isAdded) {
                 int k = 0;
@@ -299,10 +307,10 @@ public class AddOrderFormController {
                             orderDetail.getBoxQtyFree(),
                             orderDetail.getItemQtyFree()
                     );
-                    if(new DataBaseAccessCode().saveOrderDetails(orderDetailsDTO)){
+                    if(orderDetailBO.saveOrderDetails(orderDetailsDTO)){
                         if(k==(orderDetailList.size())){
                             if(savePayment()){
-                                if(new DataBaseAccessCode().updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){
+                                if(shopBO.updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){
                                     new Alert(Alert.AlertType.CONFIRMATION,"Order was Added", ButtonType.OK).show();
                                 }else {
                                     new Alert(Alert.AlertType.WARNING,"Something went wrong about Credit! Please try again.",ButtonType.CANCEL).show();
@@ -327,21 +335,21 @@ public class AddOrderFormController {
         if(chequecbx.isSelected()){
             String paymentDetailsCheque = "Bank : " + banktxt.getText() + '\'' + "Cheque Num" + chequeNumtxt.getText();
             PaymentDTO paymentDTO = new PaymentDTO(lblOrderId.getText(),paymentDetailsCheque,"Cheque",Double.parseDouble(chequeAmounttxt.getText()));
-            rst = new DataBaseAccessCode().savePayment(paymentDTO);
+            rst = paymentBO.savePayment(paymentDTO);
             if(rst==false) return false;
         }
 
         if(cashcbx.isSelected()){
             String paymentDetailsCash = "";
             PaymentDTO paymentDTO = new PaymentDTO(lblOrderId.getText(),paymentDetailsCash,"Cash",Double.parseDouble(cashAmounttxt.getText()));
-            rst = new DataBaseAccessCode().savePayment(paymentDTO);
+            rst = paymentBO.savePayment(paymentDTO);
             if(rst==false) return false;
         }
 
         if(creditcbx.isSelected()){
             String paymentDetailsCash = "";
             PaymentDTO paymentDTO = new PaymentDTO(lblOrderId.getText(),paymentDetailsCash,"Credit",Double.parseDouble(lblCredit.getText()));
-            rst = new DataBaseAccessCode().savePayment(paymentDTO);
+            rst = paymentBO.savePayment(paymentDTO);
             if(rst==false) return false;
         }
         return true;
@@ -359,7 +367,7 @@ public class AddOrderFormController {
 
     private ObservableList<String> loadAllItemCodes() throws SQLException, ClassNotFoundException {
         ObservableList<String> itemCodesObList = FXCollections.observableArrayList();;
-        ArrayList<ItemDTO> itemDTOArrayList = new DataBaseAccessCode().getAllItems("%"+""+"%");
+        ArrayList<ItemDTO> itemDTOArrayList = itemBO.getAllItems("%"+""+"%");
 
         for (ItemDTO itemDTO:itemDTOArrayList) {
             itemCodesObList.add(itemDTO.getCode());
@@ -472,7 +480,7 @@ public class AddOrderFormController {
             System.out.println("iiii    "   + i);
             try {
                 ArrayList<DiscountDTO> discountDTOArrayList = new ArrayList<>();
-                discountDTOArrayList = new DataBaseAccessCode().getAllDiscountByIdDup(lblOrderId.getText().toString(),String.valueOf(i));
+                discountDTOArrayList = discountBO.getAllDiscountByIdDup(lblOrderId.getText().toString(),String.valueOf(i));
                 double disPercent = discountDTOArrayList.get(0).getDiscountValue();
                 for (DiscountDTO discountDTO:discountDTOArrayList) {
                     System.out.println("discountDTO        " + discountDTO);
@@ -482,12 +490,12 @@ public class AddOrderFormController {
                     System.out.println("boxCountInTable   "  +boxCountInTable);
                     int itemsCountInTable = Integer.parseInt(getCellValue(isAlreadyExists(discountDTO.getItemCode()),2).toString());
                     System.out.println("itemsCountInTable   " + itemsCountInTable);
-                    ItemDTO itemDTO = new DataBaseAccessCode().getItem(getCellValue(isAlreadyExists(discountDTO.getItemCode()),0).toString());
+                    ItemDTO itemDTO = itemBO.getItem(getCellValue(isAlreadyExists(discountDTO.getItemCode()),0).toString());
                     int items_per_Box = itemDTO.getItemCountInBox();
                     System.out.println("items_per_Box  " + items_per_Box);
                     double per_box_price = itemDTO.getUnitPrice_Box();
                     System.out.println("per_box_price   " +per_box_price);
-                    OrderDetailsDTO orderDetailsDTO = new DataBaseAccessCode().getOrderDetail(lblOrderId.getText(),itemDTO.getCode());
+                    OrderDetailsDTO orderDetailsDTO = orderDetailBO.getOrderDetail(lblOrderId.getText(),itemDTO.getCode());
                     int freeBoxcount = 0;
                     int freeItemcount = 0;
                     if(orderDetailsDTO != null){
@@ -532,8 +540,8 @@ public class AddOrderFormController {
             freeitemCount = Integer.parseInt(txtItemQtyFree.getText());
         }
 
-        double unitPrice_Box = new DataBaseAccessCode().getItemByName(cmbFreeItemCode.getValue().toString()).getUnitPrice_Box();
-        int itemCountInBox = new DataBaseAccessCode().getItemByName(cmbFreeItemCode.getValue().toString()).getItemCountInBox();
+        double unitPrice_Box = itemBO.getItemByName(cmbFreeItemCode.getValue().toString()).getUnitPrice_Box();
+        int itemCountInBox = itemBO.getItemByName(cmbFreeItemCode.getValue().toString()).getItemCountInBox();
         double total = (unitPrice_Box * freeboxCount) + (unitPrice_Box/itemCountInBox)*freeitemCount;
 
         if(freeboxCount==0 && freeitemCount==0){
@@ -685,9 +693,9 @@ public class AddOrderFormController {
         for(int i=0; i<tblDiscount.getItems().size(); i++){
             System.out.println(tblDiscount.getItems().size());
             String itemCode = getCellValueDiscount(i,0).toString();
-            ItemDTO itemDTO = new DataBaseAccessCode().getItem(itemCode);
+            ItemDTO itemDTO = itemBO.getItem(itemCode);
             DiscountDTO discountDTO = new DiscountDTO(discountGeneratedId,lblOrderId.getText(),itemDTO.getCode(),Double.parseDouble(txtDiscount.getText()));
-            if(new DataBaseAccessCode().saveDiscount(discountDTO)){
+            if(discountBO.saveDiscount(discountDTO)){
                 if(i==(tblDiscount.getItems().size()-1)){
                     discountGeneratedId++;
                     obDisList.clear();
@@ -752,7 +760,7 @@ public class AddOrderFormController {
     }
 
     public void creditOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        double uptoNowCredit = new DataBaseAccessCode().getShop(shopIdlbl.getText()).getCredit_uptoNow();;
+        double uptoNowCredit = shopBO.getShop(shopIdlbl.getText()).getCredit_uptoNow();;
         if(creditcbx.isSelected()){
             lblCredit.setText(String.valueOf(Double.parseDouble(lblTotal.getText()) - Double.parseDouble(paidAmountlbl.getText())));
             shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit + Double.parseDouble(lblCredit.getText())));
@@ -782,8 +790,8 @@ public class AddOrderFormController {
         if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
         }else {
-            double unitPrice_Box = new DataBaseAccessCode().getItemByName(cmbReturnItem.getValue().toString()).getUnitPrice_Box();
-            int itemCountInBox = new DataBaseAccessCode().getItemByName(cmbReturnItem.getValue().toString()).getItemCountInBox();
+            double unitPrice_Box = itemBO.getItemByName(cmbReturnItem.getValue().toString()).getUnitPrice_Box();
+            int itemCountInBox = itemBO.getItemByName(cmbReturnItem.getValue().toString()).getItemCountInBox();
             returnTotal += (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
 
             int rowIndex = isAlreadyExistsInReturnTbl(cmbReturnItem.getValue().toString());
@@ -837,7 +845,7 @@ public class AddOrderFormController {
                     Integer.parseInt(getCellValueReturn(i,1).toString()),
                     Integer.parseInt(getCellValueReturn(i,2).toString())
             );
-            if(new DataBaseAccessCode().saveReturn(returnStockDTO)){
+            if(returnStockBO.saveReturn(returnStockDTO)){
                 if(i==tblReturn.getItems().size()-1){
                     new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Added...", ButtonType.OK).show();
                     obListReturn.clear();

@@ -24,6 +24,7 @@ public class ItemDaoImpl implements ItemDAO {
         String sql = "UPDATE Item SET name=?, unitPrice_Box_Agency=?,unitPrice_Box=?, itemCountInBox=?, boxQty=?, itemQty=? WHERE code=?";
         return CrudUtil.executeUpdate(sql,i.getName(),i.getUnitPrice_Box_Agency(),i.getUnitPrice_Box(),i.getItemCountInBox(),i.getBoxQty(),i.getItemQty(),i.getCode());
     }
+    @Override
     public boolean updateItemQtys(Item i) throws SQLException, ClassNotFoundException {
         if(i.getBoxQty() == -1){
             String sql = "UPDATE Item SET itemQty=?  WHERE code=?";

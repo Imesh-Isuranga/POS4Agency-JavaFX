@@ -5,13 +5,19 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.bo.custom.*;
+import lk.crossorigin.agency.bo.custom.impl.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class DashBoardFormController {
+
+
+    OrderBO orderBO = new OrderBoImpl();
+    OrderBookBO orderBookBO = new OrderBookBoImpl();
+    ReturnStockBO returnStockBO = new ReturnStockBoImpl();
+    DiscountBO discountBO = new DiscountBoImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
         checkTableData();
@@ -19,20 +25,20 @@ public class DashBoardFormController {
 
     private void checkTableData(){
         try {
-            String last_order_orderId = new DataBaseAccessCode().getLastOrderIdOrder();
-            String last_discount_orderId = new DataBaseAccessCode().getLastDiscountId();
+            String last_order_orderId = orderBO.getLastOrderIdOrder();
+            String last_discount_orderId = discountBO.getLastDiscountId();
             if(!(last_order_orderId.equals(last_discount_orderId))){
-                new DataBaseAccessCode().deleteDiscount(last_discount_orderId);
+                discountBO.deleteDiscount(last_discount_orderId);
             }
 
-            String last_orderBook_orderId = new DataBaseAccessCode().getLastOrderId();
+            String last_orderBook_orderId = orderBookBO.getLastOrderId();
             if(!(last_order_orderId.equals(last_orderBook_orderId))){
-                new DataBaseAccessCode().deleteOrderBook(last_orderBook_orderId);
+                orderBookBO.deleteOrderBook(last_orderBook_orderId);
             }
 
-            String last_return_orderId = new DataBaseAccessCode().getLastOrderIdReturn();
+            String last_return_orderId = returnStockBO.getLastOrderIdReturn();
             if(!(last_order_orderId.equals(last_return_orderId))){
-                new DataBaseAccessCode().deleteReturn(last_return_orderId);
+                returnStockBO.deleteReturn(last_return_orderId);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -10,13 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.bo.custom.ItemBO;
+import lk.crossorigin.agency.bo.custom.impl.ItemBoImpl;
 import lk.crossorigin.agency.dto.ItemDTO;
-import lk.crossorigin.agency.entity.Item;
-import lk.crossorigin.agency.view.tm.ItemTM;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,6 +38,8 @@ public class UpdateItemsController {
     public TextField unitBoxPriceAgencytxt;
 
 
+    ItemBO itemBO = new ItemBoImpl();
+
     public void initialize(){
         cmbItems.setItems(loadComboBox(""));
 
@@ -47,7 +47,7 @@ public class UpdateItemsController {
             try {
                 btnUpdate.setText("Update");
                 selectedCode = (String) newValue;
-                if(new DataBaseAccessCode().getItem(selectedCode) != null){
+                if(itemBO.getItem(selectedCode) != null){
                     loadTxtFields(selectedCode);
                 }
             } catch (SQLException e) {
@@ -59,7 +59,7 @@ public class UpdateItemsController {
     }
 
     private void loadTxtFields(String code) throws SQLException, ClassNotFoundException {
-        ItemDTO itemDTO = new DataBaseAccessCode().getItem(code);
+        ItemDTO itemDTO = itemBO.getItem(code);
         codetxt.setText(itemDTO.getCode());
         nametxt.setText(itemDTO.getName());
         unitBoxPricetxt.setText(String.valueOf(itemDTO.getUnitPrice_Box()));
@@ -70,7 +70,7 @@ public class UpdateItemsController {
     private ObservableList<String> loadComboBox(String searchText){
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            ArrayList<ItemDTO> dtoList = new DataBaseAccessCode().getAllItems("%" + searchText + "%");
+            ArrayList<ItemDTO> dtoList = itemBO.getAllItems("%" + searchText + "%");
             for (ItemDTO dto: dtoList) {
                 obList.add(dto.getCode());
             }
@@ -89,14 +89,14 @@ public class UpdateItemsController {
     public void updateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         ItemDTO itemDTO = new ItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
         if(btnUpdate.getText().equalsIgnoreCase("Update")){
-            if(new DataBaseAccessCode().updateItem(itemDTO)) {
+            if(itemBO.updateItem(itemDTO)) {
                 clearAll();
                 new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
             }else{
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
             }
         }else{
-            if(new DataBaseAccessCode().saveItem(itemDTO)) {
+            if(itemBO.saveItem(itemDTO)) {
                 clearAll();
                 new Alert(Alert.AlertType.CONFIRMATION,"Item was Added", ButtonType.OK).show();
             }else{
@@ -114,7 +114,7 @@ public class UpdateItemsController {
         Optional<ButtonType> confirmState = confirmation.showAndWait();
         if(confirmState.get().equals(ButtonType.YES)){
             try {
-                if(new DataBaseAccessCode().deleteItem(selectedCode)) {
+                if(itemBO.deleteItem(selectedCode)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                     clearAll();
                     cmbItems.setItems(loadComboBox(""));

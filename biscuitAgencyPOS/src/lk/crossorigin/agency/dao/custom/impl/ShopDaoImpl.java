@@ -77,7 +77,6 @@ public class ShopDaoImpl implements ShopDAO {
         String sql = "SELECT sh_id FROM Shop ORDER BY sh_id DESC LIMIT 1";
         ResultSet rst = CrudUtil.executeQuery(sql);
         String firstThreeOfA = address.substring(0, 3);
-        System.out.println("7777777777777777777777777777777");
         if (rst.next()) {
             System.out.println(rst.getInt(1));
             int autoId = rst.getInt(1);

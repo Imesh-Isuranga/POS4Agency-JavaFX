@@ -10,7 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.bo.custom.*;
+import lk.crossorigin.agency.bo.custom.impl.*;
 import lk.crossorigin.agency.dto.ShopDTO;
 import lk.crossorigin.agency.view.tm.ShopTM;
 
@@ -35,6 +36,8 @@ public class AddShopFormController {
     public JFXButton btnNewShop;
 
     private ShopTM shopTM;
+
+    ShopBO shopBO = new ShopBoImpl();
 
 
     public void initialize(){
@@ -66,7 +69,7 @@ public class AddShopFormController {
         if(btnSaveShop.getText().equalsIgnoreCase("Save Shop")){
             try {
                 System.out.println("`````````````````````````");
-                String id = new DataBaseAccessCode().generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
+                String id = shopBO.generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
 
                 ShopDTO dto = new ShopDTO(
                         Integer.parseInt(id.substring(0,1)),
@@ -75,7 +78,7 @@ public class AddShopFormController {
                         shopAddressTxt.getText(),
                         0.00
                 );
-                if(new DataBaseAccessCode().saveShop(dto)) {
+                if(shopBO.saveShop(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Saved", ButtonType.OK).show();
                     shopNameTxt.clear();
                     shopAddressTxt.clear();
@@ -88,14 +91,14 @@ public class AddShopFormController {
             }
         }else{
             try {
-                String id = new DataBaseAccessCode().generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
+                String id = shopBO.generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
                 ShopDTO dto = new ShopDTO(
                         Integer.parseInt(shopTM.getId().substring(0,1)),
                         shopTM.getId().substring(0,1) + " "+shopNameTxt.getText().substring(0,3) +"-" +shopAddressTxt.getText(),
                         shopNameTxt.getText(),
                         shopAddressTxt.getText()
                 );
-                if(new DataBaseAccessCode().updateShopWithoutCredit(dto)) {
+                if(shopBO.updateShopWithoutCredit(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Updated", ButtonType.OK).show();
                     loadAllShops("");
                 }else{
@@ -111,7 +114,7 @@ public class AddShopFormController {
     private void loadAllShops(String searchText){
         ObservableList<ShopTM> obList = FXCollections.observableArrayList();
         try {
-            ArrayList<ShopDTO> dtoList = new DataBaseAccessCode().getAllShops("%" + searchText + "%");
+            ArrayList<ShopDTO> dtoList = shopBO.getAllShops("%" + searchText + "%");
             for (ShopDTO dto:dtoList) {
                 ShopTM shopTM = new ShopTM(
                         dto.getId(),
@@ -147,7 +150,7 @@ public class AddShopFormController {
         if(confirmState.get().equals(ButtonType.YES)){
             try {
                 String id = String.valueOf(shopTM.getId().charAt(0));
-                if(new DataBaseAccessCode().deleteShop(id)) {
+                if(shopBO.deleteShop(id)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                     loadAllShops("");
                 }else{

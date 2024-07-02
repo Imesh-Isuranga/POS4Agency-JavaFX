@@ -11,10 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.crossorigin.agency.DataBaseAccessCode;
+import lk.crossorigin.agency.bo.custom.ItemBO;
+import lk.crossorigin.agency.bo.custom.impl.ItemBoImpl;
 import lk.crossorigin.agency.dto.ItemDTO;
 import lk.crossorigin.agency.view.tm.ItemTM;
-import lk.crossorigin.agency.view.tm.ShopTM;
 
 import java.io.IOException;
 import java.sql.*;
@@ -39,6 +39,8 @@ public class LoadStockFormController {
     public TextField boxQtyTxt;
     public TextField itemQtyTxt;
     public TableColumn colUnitPrice_Box_Agency;
+
+    ItemBO itemBO = new ItemBoImpl();
 
 
     public void initialize(){
@@ -69,7 +71,7 @@ public class LoadStockFormController {
     private ObservableList<String> loadComboBox(String searchText){
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            ArrayList<ItemDTO> dtoList = new DataBaseAccessCode().getAllItems("%" + searchText + "%");
+            ArrayList<ItemDTO> dtoList = itemBO.getAllItems("%" + searchText + "%");
             for (ItemDTO dto: dtoList) {
                 obList.add(dto.getCode());
             }
@@ -83,7 +85,7 @@ public class LoadStockFormController {
     private void loadAllItems(String searchText){
         ObservableList<ItemTM> obList = FXCollections.observableArrayList();
         try {
-            ArrayList<ItemDTO> dtoList = new DataBaseAccessCode().getAllItems("%" + searchText + "%");
+            ArrayList<ItemDTO> dtoList = itemBO.getAllItems("%" + searchText + "%");
 
             for (ItemDTO dto: dtoList) {
                 double total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
@@ -131,7 +133,7 @@ public class LoadStockFormController {
             ItemDTO dto = new ItemDTO(selectedCode,boxCount,itemCount);
             if(boxCount == -1 && itemCount == -1){
                 new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
-            }else if(new DataBaseAccessCode().updateItemQtys(dto)) {
+            }else if(itemBO.updateItemQtys(dto)) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Item was Saved", ButtonType.OK).show();
                 loadAllItems("");
             }else{
