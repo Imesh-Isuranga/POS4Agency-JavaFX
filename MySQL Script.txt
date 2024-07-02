@@ -1,0 +1,118 @@
+-- Drop the database if it exists to ensure no leftover data
+DROP DATABASE IF EXISTS BiscuitAgency;
+
+-- Create the database
+CREATE DATABASE BiscuitAgency;
+USE BiscuitAgency;
+
+-- Create the Shop table
+CREATE TABLE Shop(
+ sh_id INT AUTO_INCREMENT,
+ id VARCHAR(100) NOT NULL,
+ name VARCHAR(30),
+ address VARCHAR(30),
+ credit_uptoNow DECIMAL(8,2),
+ UNIQUE (id),
+ CONSTRAINT PRIMARY KEY (sh_id)
+);
+
+-- Reset the AUTO_INCREMENT value
+ALTER TABLE Shop AUTO_INCREMENT = 1;
+
+-- Create the other tables
+CREATE TABLE OrderBook (
+    ob_id INT AUTO_INCREMENT PRIMARY KEY,
+    id VARCHAR(100) NOT NULL,
+    booknum VARCHAR(6) NOT NULL,
+    invnum VARCHAR(6) NOT NULL,
+    shopId VARCHAR(100) NOT NULL,
+    UNIQUE (id),
+    CONSTRAINT FOREIGN KEY (shopId) REFERENCES Shop(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Orders (
+    auto_id INT AUTO_INCREMENT PRIMARY KEY,
+    orderId VARCHAR(100) NOT NULL,
+    date DATE,
+    shopId VARCHAR(100) NOT NULL,
+    CONSTRAINT FOREIGN KEY (shopId) REFERENCES Shop(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (orderId) REFERENCES OrderBook(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Payment (
+    id INT NOT NULL AUTO_INCREMENT,
+    orderId VARCHAR(100) NOT NULL,
+    paymentDetails VARCHAR(50) DEFAULT '',
+    paymentWay VARCHAR(10),
+    amount DECIMAL(8,2),
+    CONSTRAINT PRIMARY KEY (id),
+    CONSTRAINT FOREIGN KEY (orderId) REFERENCES OrderBook(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Item(
+    code VARCHAR(6) NOT NULL,
+    name VARCHAR(50),
+    unitPrice_Box_Agency DECIMAL(8,2),
+    unitPrice_Box DECIMAL(8,2),
+    itemCountInBox INT(5) NOT NULL,
+    boxQty INT(5) DEFAULT '0',
+    itemQty INT(5) DEFAULT '0',
+    CONSTRAINT PRIMARY KEY (code)
+);
+
+CREATE TABLE Discount (
+    id INT NOT NULL AUTO_INCREMENT,
+    idDup INT(5) NOT NULL,
+    orderId VARCHAR(100) NOT NULL,
+    itemCode VARCHAR(6) NOT NULL,
+    discount_percent DECIMAL(8,2),
+    PRIMARY KEY (id),
+    CONSTRAINT FOREIGN KEY (itemCode) REFERENCES Item(code) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE ReturnStock (
+    id INT NOT NULL AUTO_INCREMENT,
+    orderId VARCHAR(100) NOT NULL,
+    itemCode VARCHAR(6) NOT NULL,
+    boxQty INT(5) DEFAULT '0',
+    itemQty INT(5) DEFAULT '0',
+    PRIMARY KEY (id),
+    CONSTRAINT FOREIGN KEY (itemCode) REFERENCES Item(code) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (orderId) REFERENCES OrderBook(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE OrderDetail(
+    orderId VARCHAR(100) NOT NULL,
+    itemCode VARCHAR(6) NOT NULL,
+    unitPrice_Box DECIMAL(8,2),
+    boxQty INT(5) DEFAULT '0',
+    itemQty INT(5) DEFAULT '0',
+    boxQtyFree INT(5) DEFAULT '0',
+    itemQtyFree INT(5) DEFAULT '0',
+    CONSTRAINT PRIMARY KEY (orderId, itemCode),
+    CONSTRAINT FOREIGN KEY (orderId) REFERENCES OrderBook(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (itemCode) REFERENCES Item(code) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Insert data into the Item table
+INSERT INTO Item VALUES('P001', 'Keerisamba Retail', 105.00, 105.00, 5, 45, 0);
+INSERT INTO Item VALUES('P002', 'Keerisamba 5Kg ', 105.00, 1045.00, 5, 25, 0);
+INSERT INTO Item VALUES('P003', 'Keerisamba 10Kg', 105.00, 5.00, 5, 0, 5);
+INSERT INTO Item VALUES('P004', 'Keerisamba 50Kg', 105.00, 5.00, 5, 0, 5);
+INSERT INTO Item VALUES('P005', 'Red Raw Rice', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P006', 'Red Raw Rice 10Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO Item VALUES('P007', 'Red Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO Item VALUES('P008', 'White Raw Rice 5Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO Item VALUES('P009', 'White Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO Item VALUES('P010', 'Wattana Dhal 500g', 105.00, 5.00, 5, 45, 5);
+INSERT INTO Item VALUES('P011', 'Wattana Dhal 1Kg', 105.00, 5.00, 5, 45, 5);
+INSERT INTO Item VALUES('P012', 'Mysoor Dhal 500g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P013', 'Mysoor Dhal 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P014', 'Orient Green Gram 500g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P015', 'Orient Green Gram 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P016', 'Anchor F/C Milk powder 450g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P017', 'Anchor F/C Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P018', 'Anchor N/F Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P019', 'Milo Packet 400g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO Item VALUES('P020', 'Lipton Ceylon Tea 100g', 105.00, 5.00, 5, 45, 5);
