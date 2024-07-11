@@ -2,11 +2,7 @@ package lk.crossorigin.agency.dao.custom.impl;
 
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.dao.custom.DiscountDAO;
-import lk.crossorigin.agency.db.HibernateUtil;
 import lk.crossorigin.agency.entity.Discount;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

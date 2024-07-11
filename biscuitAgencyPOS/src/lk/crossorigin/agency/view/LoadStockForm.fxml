@@ -51,5 +51,10 @@
          <font>
             <Font size="20.0" />
          </font></TextField>
+      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1439.0" layoutY="847.0" onAction="#printOnAction" prefHeight="38.0" prefWidth="246.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

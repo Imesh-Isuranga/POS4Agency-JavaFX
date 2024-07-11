@@ -13,12 +13,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.crossorigin.agency.bo.custom.ItemBO;
 import lk.crossorigin.agency.bo.custom.impl.ItemBoImpl;
+import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ItemDTO;
 import lk.crossorigin.agency.view.tm.ItemTM;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class LoadStockFormController {
@@ -39,6 +47,7 @@ public class LoadStockFormController {
     public TextField boxQtyTxt;
     public TextField itemQtyTxt;
     public TableColumn colUnitPrice_Box_Agency;
+    public JFXButton btnPrint;
 
     ItemBO itemBO = new ItemBoImpl();
 
@@ -148,4 +157,26 @@ public class LoadStockFormController {
         Stage stage = (Stage) loadStockContext.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/UpdateItems.fxml"))));
     }
+
+    public void printOnAction(ActionEvent actionEvent) {
+        try {
+            JasperDesign design = JRXmlLoader.load("src/lk/crossorigin/agency/reports/items.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(design);
+            Connection conn = DBConnection.getInstance().getConnection();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), conn);
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "JRException: " + e.getMessage(), ButtonType.OK).show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQLException: " + e.getMessage(), ButtonType.OK).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "ClassNotFoundException: " + e.getMessage(), ButtonType.OK).show();
+        }
+    }
+
+
+
 }

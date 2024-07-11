@@ -20,6 +20,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jfoenix-1.11.1" level="project" />
     <orderEntry type="library" name="mysql-connector-j-8.4.0" level="project" />
-    <orderEntry type="library" name="antlr-2.7.7" level="application" />
+    <orderEntry type="library" name="intellij-jasper-report-support-1.0.2" level="application" />
+    <orderEntry type="library" name="net.sf.jasperreports" level="application" />
   </component>
 </module>
