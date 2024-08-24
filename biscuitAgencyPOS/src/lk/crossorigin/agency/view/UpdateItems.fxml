@@ -23,7 +23,7 @@
       <Separator layoutX="29.0" layoutY="113.0" prefHeight="0.0" prefWidth="1661.0" />
       <JFXComboBox fx:id="cmbItems" layoutX="190.0" layoutY="203.0" prefHeight="38.0" prefWidth="428.0" promptText="Items" />
       <TextField fx:id="nametxt" layoutX="189.0" layoutY="357.0" prefHeight="38.0" prefWidth="444.0" promptText="Name" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="unitBoxPricetxt" layoutX="1090.0" layoutY="357.0" prefHeight="38.0" prefWidth="386.0" promptText="Unit Box Agency Price" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="unitBoxPricetxt" layoutX="1090.0" layoutY="357.0" prefHeight="38.0" prefWidth="386.0" promptText="Unit Box Price" style="-fx-background-color: #F3F7EC;" />
       <TextField fx:id="itemCounttxt" layoutX="189.0" layoutY="442.0" prefHeight="38.0" prefWidth="173.0" promptText="Item Count " style="-fx-background-color: #F3F7EC;" />
       <TextField fx:id="itemQtytxt" layoutX="690.0" layoutY="441.0" prefHeight="38.0" prefWidth="275.0" promptText="Item QTY" style="-fx-background-color: #F3F7EC;" />
       <TextField fx:id="boxQtytxt" layoutX="393.0" layoutY="441.0" prefHeight="38.0" prefWidth="275.0" promptText="Box QTY" style="-fx-background-color: #F3F7EC;" />
@@ -43,6 +43,6 @@
          </font>
       </JFXButton>
       <TextField fx:id="codetxt" layoutX="190.0" layoutY="275.0" prefHeight="38.0" prefWidth="310.0" promptText="Code" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="unitBoxPriceAgencytxt" layoutX="648.0" layoutY="357.0" prefHeight="38.0" prefWidth="428.0" promptText="Unit Box Price" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="unitBoxPriceAgencytxt" layoutX="648.0" layoutY="357.0" prefHeight="38.0" prefWidth="428.0" promptText="Unit Box Agency Price" style="-fx-background-color: #F3F7EC;" />
    </children>
 </AnchorPane>

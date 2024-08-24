@@ -27,11 +27,11 @@
         <columns>
           <TableColumn fx:id="colItemCode" prefWidth="163.2000093460083" text="Item Code" />
           <TableColumn fx:id="colItemName" prefWidth="313.6000213623047" text="Item Name" />
-            <TableColumn fx:id="colUnitPrice_Box" prefWidth="198.39996337890625" text="Unit Price(Box)" />
+            <TableColumn fx:id="colUnitPrice_Box" prefWidth="198.39996337890625" text="Outlet/Trade" />
             <TableColumn fx:id="colBoxQty" prefWidth="200.79998779296875" text="Box QTY" />
             <TableColumn fx:id="colItemQty" prefWidth="200.0" text="Item QTY" />
             <TableColumn fx:id="colTotal" prefWidth="267.20001220703125" text="Total" />
-            <TableColumn fx:id="colUnitPrice_Box_Agency" minWidth="0.0" prefWidth="330.4000244140625" text="Unit Price(Box)-Agency" />
+            <TableColumn fx:id="colUnitPrice_Box_Agency" minWidth="0.0" prefWidth="330.4000244140625" text="Distributor" />
         </columns>
       </TableView>
       <TextField fx:id="boxQtyTxt" layoutX="283.0" layoutY="135.0" prefHeight="46.0" prefWidth="158.0" promptText="Box QTY " style="-fx-background-color: #F3F7EC;">

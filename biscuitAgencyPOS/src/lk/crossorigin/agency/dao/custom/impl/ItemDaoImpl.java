@@ -26,15 +26,20 @@ public class ItemDaoImpl implements ItemDAO {
     }
     @Override
     public boolean updateItemQtys(Item i) throws SQLException, ClassNotFoundException {
+        Item item = getItem(i.getCode());
         if(i.getBoxQty() == -1){
+            int ItemQTY = item.getItemQty() + i.getItemQty();
             String sql = "UPDATE Item SET itemQty=?  WHERE code=?";
-            return CrudUtil.executeUpdate(sql,i.getItemQty(),i.getCode());
+            return CrudUtil.executeUpdate(sql,ItemQTY,i.getCode());
         } else if (i.getItemQty() == -1) {
+            int BoxQTY = item.getBoxQty() + i.getBoxQty();
             String sql = "UPDATE Item SET boxQty=?  WHERE code=?";
-            return CrudUtil.executeUpdate(sql,i.getBoxQty(),i.getCode());
+            return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
         }else{
+            int ItemQTY = item.getItemQty() + i.getItemQty();
+            int BoxQTY = item.getBoxQty() + i.getBoxQty();
             String sql = "UPDATE Item SET boxQty=?, itemQty=?  WHERE code=?";
-            return CrudUtil.executeUpdate(sql,i.getBoxQty(),i.getItemQty(),i.getCode());
+            return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
         }
     }
 

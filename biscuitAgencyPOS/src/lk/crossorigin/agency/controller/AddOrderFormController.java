@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 public class AddOrderFormController {
     public AnchorPane addOrderContext;
@@ -88,6 +86,11 @@ public class AddOrderFormController {
     public TextField txtBoxQtyReturn;
     public TextField txtItemQtyReturn;
     public Label returnTotallbl;
+    public TextField txtPerQtyReturn;
+    public Label lblFreeDis;
+    public Label lblTotalwithoutAny;
+    public Label lblFree;
+    public Label lbldis;
     private OrderTM orderTM;
     private FreeItemsTM freeItemsTM;
     private DiscountItemsTM discountItemsTM;
@@ -236,32 +239,48 @@ public class AddOrderFormController {
             itemCount = Integer.parseInt(txtItemQty.getText());
         }
 
+
         if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
         }else {
-            double unitPrice_Box = itemBO.getItemByName(cmbItemCode.getValue().toString()).getUnitPrice_Box();
-            int itemCountInBox = itemBO.getItemByName(cmbItemCode.getValue().toString()).getItemCountInBox();
-            double total = (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
+            double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbItemCode.getValue().toString())).getUnitPrice_Box();
+            int itemCountInBox = itemBO.getItemByName(itemMap.get(cmbItemCode.getValue().toString())).getItemCountInBox();
 
-            int rowIndex = isAlreadyExists(cmbItemCode.getValue().toString());
-
-            if(rowIndex!=-1) {
-                // Update the quantity and total of the existing item
-                OrderTM existingItem = obList.get(rowIndex);
-                existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
-                existingItem.setItemQty(existingItem.getItemQty() + itemCount);
-                existingItem.setTotal(existingItem.getTotal() + total);
-
-                // Force the table to refresh by setting the item to itself
-                obList.set(rowIndex, existingItem);
+            if(itemCountInBox==0 && Integer.parseInt(txtBoxQty.getText())!=0){
+                new Alert(Alert.AlertType.CONFIRMATION,"Please Set Box QTY as 0", ButtonType.OK).show();
             }else{
-                OrderTM orderTM = new OrderTM(cmbItemCode.getValue().toString(),boxCount,itemCount,total);
-                obList.add(orderTM);
-                addOrderTbl.setItems(obList);
+                double total = 0.0;
+                if(itemCountInBox==0){
+                    total = unitPrice_Box*itemCount;
+                }else{
+                    total = (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
+                }
 
-                itemDisCodesObList.add(cmbItemCode.getValue().toString());
+                double temp_totat_without_any = Double.parseDouble(lblTotalwithoutAny.getText());
+                temp_totat_without_any += total;
+                lblTotalwithoutAny.setText(String.valueOf(temp_totat_without_any));
+
+                int rowIndex = isAlreadyExists(cmbItemCode.getValue().toString());
+
+                if(rowIndex!=-1) {
+                    // Update the quantity and total of the existing item
+                    OrderTM existingItem = obList.get(rowIndex);
+                    existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
+                    existingItem.setItemQty(existingItem.getItemQty() + itemCount);
+                    existingItem.setTotal(existingItem.getTotal() + total);
+
+                    // Force the table to refresh by setting the item to itself
+                    obList.set(rowIndex, existingItem);
+                }else{
+                    OrderTM orderTM = new OrderTM(cmbItemCode.getValue().toString(),boxCount,itemCount,total);
+                    obList.add(orderTM);
+                    addOrderTbl.setItems(obList);
+
+                    itemDisCodesObList.add(cmbItemCode.getValue().toString());
+                }
+                lblTotal.setText(String.valueOf(calculateTotalValue()));
             }
-            lblTotal.setText(String.valueOf(calculateTotalValue()));
+
         }
     }
 
@@ -271,8 +290,8 @@ public class AddOrderFormController {
 
 
             for (int i = 0; i < addOrderTbl.getItems().size(); i++) {
-                String itemCode = getCellValue(i,0).toString();
-                double unitPrice_Box = itemBO.getItem(getCellValue(i,0).toString()).getUnitPrice_Box();
+                String itemCode = itemMap.get(getCellValue(i,0).toString());
+                double unitPrice_Box = itemBO.getItem(itemMap.get(getCellValue(i,0).toString())).getUnitPrice_Box();
                 int orderBoxQty=Integer.parseInt(getCellValue(i,1).toString());
                 int orderItemQty=Integer.parseInt(getCellValue(i,2).toString());
                 int freeBoxCount = 0;
@@ -365,12 +384,19 @@ public class AddOrderFormController {
         return simpleDateFormat.format(date);
     }
 
+    private Map<String, String> itemMap = new HashMap<>();  // Map to store item name and code
+
     private ObservableList<String> loadAllItemCodes() throws SQLException, ClassNotFoundException {
         ObservableList<String> itemCodesObList = FXCollections.observableArrayList();;
         ArrayList<ItemDTO> itemDTOArrayList = itemBO.getAllItems("%"+""+"%");
 
         for (ItemDTO itemDTO:itemDTOArrayList) {
-            itemCodesObList.add(itemDTO.getCode());
+            String itemName = itemDTO.getName();  // Assuming ItemDTO has a getName() method
+            String itemCode = itemDTO.getCode();
+
+            itemCodesObList.add(itemName);
+            itemMap.put(itemName, itemCode);  // Store the item name and code in the map
+            //itemCodesObList.add(itemDTO.getCode());
         }
 
         return itemCodesObList;
@@ -396,7 +422,7 @@ public class AddOrderFormController {
 
     private int isAlreadyExistsInFreeItems(String itemCode){
         for(int i = 0; i<addFreeTbl.getItems().size(); i++){
-            if(getCellValue(i,0).toString().equals(itemCode)){
+            if(getCellValueFree(i,0).toString().equals(itemCode)){
                 return i;
             }
         }
@@ -405,7 +431,7 @@ public class AddOrderFormController {
 
     private int isAlreadyExistsInFreeDiscount(String itemCode){
         for(int i = 0; i<tblDiscount.getItems().size(); i++){
-            if(getCellValue(i,0).toString().equals(itemCode)){
+            if(getCellValueDiscount(i,0).toString().equals(itemCode)){
                 return i;
             }
         }
@@ -455,12 +481,26 @@ public class AddOrderFormController {
         return cellValue.getValue();
     }
 
+    public Object getCellValueFree(int rowIndex, int columnIndex) {
+        // Step 1: Retrieve the row's data (item) from the TableView's items
+        FreeItemsTM rowData = addFreeTbl.getItems().get(rowIndex);
+
+        // Step 2: Retrieve the TableColumn for the given column index
+        TableColumn<FreeItemsTM, ?> column = addFreeTbl.getColumns().get(columnIndex);
+
+        // Step 3: Get the value from the cell using the column's CellDataFeatures
+        ObservableValue<?> cellValue = column.getCellObservableValue(rowData);
+
+        // Step 4: Return the cell value
+        return cellValue.getValue();
+    }
+
     public double calculateTotalValue(){
         double total = 0.00;
         for(int i = 0; i<addOrderTbl.getItems().size(); i++){
             total += Double.parseDouble(getCellValue(i,3).toString());
         }
-        total -= calculateTotalValueFree();
+        //total -= calculateTotalValueFree();
         total -= calculateTotalDiscount();
         return total;
     }
@@ -468,7 +508,7 @@ public class AddOrderFormController {
     public double calculateTotalValueFree(){
         double total = 0.00;
         for(int i = 0; i<addFreeTbl.getItems().size(); i++){
-            total += Double.parseDouble(getCellValue(i,3).toString());
+            total += Double.parseDouble(getCellValueFree(i,3).toString());
         }
         return total;
     }
@@ -477,7 +517,6 @@ public class AddOrderFormController {
         double total = 0.00;
         System.out.println("discountGeneratedId   " +discountGeneratedId);
         for(int i=1; i<discountGeneratedId; i++){
-            System.out.println("iiii    "   + i);
             try {
                 ArrayList<DiscountDTO> discountDTOArrayList = new ArrayList<>();
                 discountDTOArrayList = discountBO.getAllDiscountByIdDup(lblOrderId.getText().toString(),String.valueOf(i));
@@ -486,11 +525,13 @@ public class AddOrderFormController {
                     System.out.println("discountDTO        " + discountDTO);
                     System.out.println("isAlreadyExists(discountDTO.getItemCode())        " + isAlreadyExists(discountDTO.getItemCode()));
                     System.out.println("isAlreadyExists(discountDTO.getItemCode())        " + discountDTO.getItemCode());
-                    int boxCountInTable = Integer.parseInt(getCellValue(isAlreadyExists(discountDTO.getItemCode()),1).toString());
+                    int boxCountInTable = Integer.parseInt(getCellValue(isAlreadyExists(itemBO.getItem(discountDTO.getItemCode()).getName()),1).toString());
                     System.out.println("boxCountInTable   "  +boxCountInTable);
-                    int itemsCountInTable = Integer.parseInt(getCellValue(isAlreadyExists(discountDTO.getItemCode()),2).toString());
+                    int itemsCountInTable = Integer.parseInt(getCellValue(isAlreadyExists(itemBO.getItem(discountDTO.getItemCode()).getName()),2).toString());
                     System.out.println("itemsCountInTable   " + itemsCountInTable);
-                    ItemDTO itemDTO = itemBO.getItem(getCellValue(isAlreadyExists(discountDTO.getItemCode()),0).toString());
+                    System.out.println(isAlreadyExists(itemBO.getItem(discountDTO.getItemCode()).getName()));
+                    System.out.println(getCellValue(isAlreadyExists(itemBO.getItem(discountDTO.getItemCode()).getName()),0).toString());
+                    ItemDTO itemDTO = itemBO.getItem(discountDTO.getItemCode());
                     int items_per_Box = itemDTO.getItemCountInBox();
                     System.out.println("items_per_Box  " + items_per_Box);
                     double per_box_price = itemDTO.getUnitPrice_Box();
@@ -521,7 +562,16 @@ public class AddOrderFormController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(total + "     111111111111");
+        System.out.println("777777777777777777777777777777777777777777777777777777777777----------------");
+        double tempFree_DisTotal = Double.parseDouble(lblFreeDis.getText());
+        System.out.println(tempFree_DisTotal);
+        tempFree_DisTotal += total;
+        lblFreeDis.setText(String.valueOf(tempFree_DisTotal));
+
+        double tempDisTotal = Double.parseDouble(lbldis.getText());
+        System.out.println(tempDisTotal);
+        tempDisTotal += total;
+        lbldis.setText(String.valueOf(tempDisTotal));
         return total;
     }
     public void addFreeOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -540,45 +590,80 @@ public class AddOrderFormController {
             freeitemCount = Integer.parseInt(txtItemQtyFree.getText());
         }
 
-        double unitPrice_Box = itemBO.getItemByName(cmbFreeItemCode.getValue().toString()).getUnitPrice_Box();
-        int itemCountInBox = itemBO.getItemByName(cmbFreeItemCode.getValue().toString()).getItemCountInBox();
-        double total = (unitPrice_Box * freeboxCount) + (unitPrice_Box/itemCountInBox)*freeitemCount;
+        double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getUnitPrice_Box();
+        int itemCountInBox = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getItemCountInBox();
+        double total ;
+
+        if(itemCountInBox==0){
+            total = unitPrice_Box*freeitemCount;
+        }else{
+            total = (unitPrice_Box * freeboxCount) + (unitPrice_Box/itemCountInBox)*freeitemCount;
+        }
+
+        double tempFree_DisTotal = Double.parseDouble(lblFreeDis.getText());
+        tempFree_DisTotal += total;
+        lblFreeDis.setText(String.valueOf(tempFree_DisTotal));
+
+        double tempFreeTotal = Double.parseDouble(lblFree.getText());
+        tempFreeTotal += total;
+        lblFree.setText(String.valueOf(tempFreeTotal));
 
         if(freeboxCount==0 && freeitemCount==0){
             new Alert(Alert.AlertType.WARNING,"Please Add Some Count",ButtonType.CANCEL).show();
-        }else {
+        } else if (itemCountInBox==0 && freeboxCount!=0) {
+            new Alert(Alert.AlertType.WARNING,"Please Add Box QTY as 0",ButtonType.CANCEL).show();
+        } else {
             int rowIndex = isAlreadyExistsInFreeItems(cmbFreeItemCode.getValue().toString());
+            System.out.println("999999999999999999999999999999999");
+            System.out.println(rowIndex);
             Button btn = new Button("Remove");
 
 
             if(rowIndex!=-1) {
+                System.out.println("1111111111111111111111111111111111111111111111111111111");
                 // Update the quantity and total of the existing item
-                FreeItemsTM existingDiscountItem = obFreeList.get(rowIndex);
-                existingDiscountItem.setFreeBoxQty(existingDiscountItem.getFreeBoxQty() + freeboxCount);
-                existingDiscountItem.setFreeItemQty(existingDiscountItem.getFreeItemQty() + freeitemCount);
-                existingDiscountItem.setDiscountItemTotal(existingDiscountItem.getDiscountItemTotal() + total);
+                FreeItemsTM existingFreeItem = obFreeList.get(rowIndex);
+                existingFreeItem.setFreeBoxQty(existingFreeItem.getFreeBoxQty() + freeboxCount);
+                existingFreeItem.setFreeItemQty(existingFreeItem.getFreeItemQty() + freeitemCount);
+                existingFreeItem.setDiscountItemTotal(existingFreeItem.getDiscountItemTotal() + total);
 
+                // Force the table to refresh by setting the item to itself
+                //obFreeList.set(rowIndex, existingFreeItem);
+                int BoxCountInCart = Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),1).toString());
+                int ItemsCountInCart = Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),2).toString());
+                int allItemsInCart = BoxCountInCart*itemCountInBox + ItemsCountInCart;
+
+                int expectBoxCountToFree = existingFreeItem.getFreeBoxQty()+freeboxCount;
+                int expectItemCountToFree = existingFreeItem.getFreeItemQty()+freeitemCount;
+                System.out.println("777777777777777777777777777777777777777777777777");
+                System.out.println(BoxCountInCart);
+                System.out.println(ItemsCountInCart);
+                System.out.println(allItemsInCart);
+                System.out.println(expectBoxCountToFree);
+                System.out.println(expectItemCountToFree);
                 if(calculateTotalValue() < total){
                     new Alert(Alert.AlertType.WARNING,"Total will Minus",ButtonType.CANCEL).show();
                 }else{
-                    if((existingDiscountItem.getFreeBoxQty()+freeboxCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),1).toString())
-                            || (existingDiscountItem.getFreeItemQty()+freeitemCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),2).toString())){
+                    if(expectBoxCountToFree > BoxCountInCart || ((expectItemCountToFree > allItemsInCart) && (expectBoxCountToFree==0))){
                         new Alert(Alert.AlertType.WARNING,"Cart Count Minumum",ButtonType.CANCEL).show();
                     }else{
                         // Force the table to refresh by setting the item to itself
-                        obFreeList.set(rowIndex, existingDiscountItem);
+                        obFreeList.set(rowIndex, existingFreeItem);
                     }
                 }
             }else{
-                FreeItemsTM discountTM = new FreeItemsTM(cmbFreeItemCode.getValue().toString(),freeboxCount,freeitemCount,total,btn);
+                FreeItemsTM freeItemTM = new FreeItemsTM(cmbFreeItemCode.getValue().toString(),freeboxCount,freeitemCount,total,btn);
                 if(calculateTotalValue() < total){
                     new Alert(Alert.AlertType.WARNING,"Total will Minus",ButtonType.CANCEL).show();
                 }else{
-                    if((freeboxCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),1).toString())
-                            || (freeitemCount)>Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),2).toString())){
+                    int BoxCountInCart = Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),1).toString());
+                    int ItemsCountInCart = Integer.parseInt(getCellValue(isAlreadyExists(cmbFreeItemCode.getValue().toString()),2).toString());
+                    int allItemsInCart = BoxCountInCart*itemCountInBox + ItemsCountInCart;
+
+                    if(freeboxCount > BoxCountInCart || ((freeitemCount > allItemsInCart) && (freeboxCount==0))){
                         new Alert(Alert.AlertType.WARNING,"Cart Count Minumum",ButtonType.CANCEL).show();
                     }else{
-                        obFreeList.add(discountTM);
+                        obFreeList.add(freeItemTM);
 
                         //Delete------------------------
                         btn.setOnAction(e->{
@@ -589,7 +674,7 @@ public class AddOrderFormController {
                             );
                             Optional<ButtonType> confirmState = confirmation.showAndWait();
                             if(confirmState.get().equals(ButtonType.YES)){
-                                if(removeItemByCodeFree(freeItemsTM.getFreeItemCode())) {
+                                if(removeItemByCodeFree(freeItemTM.getFreeItemCode())) {
                                     lblTotal.setText(String.valueOf(calculateTotalValue()));
                                     new Alert(Alert.AlertType.CONFIRMATION,"Free Item was Deleted", ButtonType.OK).show();
 
@@ -692,7 +777,7 @@ public class AddOrderFormController {
     public void addDiscountOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         for(int i=0; i<tblDiscount.getItems().size(); i++){
             System.out.println(tblDiscount.getItems().size());
-            String itemCode = getCellValueDiscount(i,0).toString();
+            String itemCode = itemMap.get(getCellValueDiscount(i,0).toString());
             ItemDTO itemDTO = itemBO.getItem(itemCode);
             DiscountDTO discountDTO = new DiscountDTO(discountGeneratedId,lblOrderId.getText(),itemDTO.getCode(),Double.parseDouble(txtDiscount.getText()));
             if(discountBO.saveDiscount(discountDTO)){
@@ -705,7 +790,9 @@ public class AddOrderFormController {
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
             }
         }
+        System.out.println("11111111111111111111111111----------------");
         lblTotal.setText(String.valueOf(calculateTotalValue()));
+        System.out.println("22222222222222222222222222222---------------");
     }
 
 
@@ -774,6 +861,7 @@ public class AddOrderFormController {
 
         int boxCount;
         int itemCount;
+        double perQTY;
 
         if(txtBoxQtyReturn.getText().isEmpty()){
             boxCount=0;
@@ -787,53 +875,69 @@ public class AddOrderFormController {
             itemCount = Integer.parseInt(txtItemQtyReturn.getText());
         }
 
+        if(txtPerQtyReturn.getText().isEmpty()){
+            perQTY=0.00;
+        }else {
+            perQTY = Double.parseDouble(txtPerQtyReturn.getText());
+        }
+
+
         if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
-        }else {
-            double unitPrice_Box = itemBO.getItemByName(cmbReturnItem.getValue().toString()).getUnitPrice_Box();
-            int itemCountInBox = itemBO.getItemByName(cmbReturnItem.getValue().toString()).getItemCountInBox();
-            returnTotal += (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
-
-            int rowIndex = isAlreadyExistsInReturnTbl(cmbReturnItem.getValue().toString());
-
-            if(rowIndex!=-1) {
-                // Update the quantity and total of the existing item
-                ReturnStockTM existingItem = obListReturn.get(rowIndex);
-                existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
-                existingItem.setItemQty(existingItem.getItemQty() + itemCount);
-
-                // Force the table to refresh by setting the item to itself
-                obListReturn.set(rowIndex, existingItem);
+        } else if (Integer.parseInt(txtPerQtyReturn.getText())==0) {
+            new Alert(Alert.AlertType.CONFIRMATION,"Please Add Per QTY", ButtonType.OK).show();
+        } else {
+            double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbReturnItem.getValue().toString())).getUnitPrice_Box();
+            int itemCountInBox = itemBO.getItemByName(itemMap.get(cmbReturnItem.getValue().toString())).getItemCountInBox();
+            if(itemCountInBox==0 && boxCount!=0){
+                new Alert(Alert.AlertType.CONFIRMATION,"Please Add 0 boxes", ButtonType.OK).show();
             }else{
-                Button btn = new Button("Remove");
-                ReturnStockTM returnStockTM = new ReturnStockTM(cmbReturnItem.getValue().toString(),boxCount,itemCount,btn);
+                if(itemCountInBox==0){
+                    returnTotal += perQTY*itemCount;
+                }else{
+                    returnTotal += (perQTY * boxCount) + (perQTY/itemCountInBox)*itemCount;
+                }
+                int rowIndex = isAlreadyExistsInReturnTbl(cmbReturnItem.getValue().toString());
 
-                //Delete------------------------
-                btn.setOnAction(e->{
-                    Alert confirmation = new Alert(
-                            Alert.AlertType.CONFIRMATION,
-                            "ARE YOU SURE ?",
-                            ButtonType.YES,ButtonType.CANCEL
-                    );
-                    Optional<ButtonType> confirmState = confirmation.showAndWait();
-                    if(confirmState.get().equals(ButtonType.YES)){
-                        if(removeItemByCodeReturnStock(returnStockTM.getItemCode())) {
-                            returnTotal-=((unitPrice_Box * returnStockTM.getBoxQty()) + (unitPrice_Box/itemCountInBox)*returnStockTM.getItemQty());
-                            returnTotallbl.setText(String.valueOf(returnTotal));
-                            new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Deleted", ButtonType.OK).show();
-                        }else{
-                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                if(rowIndex!=-1) {
+                    // Update the quantity and total of the existing item
+                    ReturnStockTM existingItem = obListReturn.get(rowIndex);
+                    existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
+                    existingItem.setItemQty(existingItem.getItemQty() + itemCount);
+
+                    // Force the table to refresh by setting the item to itself
+                    obListReturn.set(rowIndex, existingItem);
+                }else{
+                    Button btn = new Button("Remove");
+                    ReturnStockTM returnStockTM = new ReturnStockTM(cmbReturnItem.getValue().toString(),boxCount,itemCount,btn);
+
+                    //Delete------------------------
+                    btn.setOnAction(e->{
+                        Alert confirmation = new Alert(
+                                Alert.AlertType.CONFIRMATION,
+                                "ARE YOU SURE ?",
+                                ButtonType.YES,ButtonType.CANCEL
+                        );
+                        Optional<ButtonType> confirmState = confirmation.showAndWait();
+                        if(confirmState.get().equals(ButtonType.YES)){
+                            if(removeItemByCodeReturnStock(returnStockTM.getItemCode())) {
+                                returnTotal-=((perQTY * returnStockTM.getBoxQty()) + (perQTY/itemCountInBox)*returnStockTM.getItemQty());
+                                returnTotallbl.setText(String.valueOf(returnTotal));
+                                new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Deleted", ButtonType.OK).show();
+                            }else{
+                                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                            }
+
                         }
+                    });
+                    //Delete------------------------
 
-                    }
-                });
-                //Delete------------------------
+                    obListReturn.add(returnStockTM);
+                    tblReturn.setItems(obListReturn);
 
-                obListReturn.add(returnStockTM);
-                tblReturn.setItems(obListReturn);
-
+                }
+                returnTotallbl.setText(String.valueOf(returnTotal));
             }
-            returnTotallbl.setText(String.valueOf(returnTotal));
         }
     }
 

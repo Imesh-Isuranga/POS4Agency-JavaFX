@@ -97,7 +97,12 @@ public class LoadStockFormController {
             ArrayList<ItemDTO> dtoList = itemBO.getAllItems("%" + searchText + "%");
 
             for (ItemDTO dto: dtoList) {
-                double total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
+                double total = 0.0;
+                if(dto.getItemCountInBox()==0){
+                    total = dto.getUnitPrice_Box()*dto.getItemQty();
+                }else{
+                    total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
+                }
                 ItemTM itemTM = new ItemTM(
                         dto.getCode(),
                         dto.getName(),
