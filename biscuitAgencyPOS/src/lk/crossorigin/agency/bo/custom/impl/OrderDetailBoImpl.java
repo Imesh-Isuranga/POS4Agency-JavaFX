@@ -15,7 +15,7 @@ public class OrderDetailBoImpl implements OrderDetailBO {
     OrderDetailsDAO orderDetailsDAO = DAOFactory.getInstance().getDao(DAOFactory.DaoType.ORDERDETAILS);
 
     public boolean saveOrderDetails(OrderDetailsDTO dto) throws ClassNotFoundException, SQLException {
-        return orderDetailsDAO.saveOrderDetails(new OrderDetail(dto.getOrderId(),dto.getItemCode(),dto.getUnitPrice_Box(),dto.getBoxQty(),dto.getItemQty(),dto.getBoxQtyFree(),dto.getItemQtyFree()));
+        return orderDetailsDAO.saveOrderDetails(new OrderDetail(dto.getOrderId(),dto.getItemCode(),dto.getUnitPrice_Box(),dto.getTotal(),dto.getFree_total(),dto.getDis_tot(),dto.getReturn_tot(),dto.getBoxQty(),dto.getItemQty(),dto.getBoxQtyFree(),dto.getItemQtyFree()));
     }
     public boolean deleteOrderDetails(String orderId) throws ClassNotFoundException, SQLException {
         return orderDetailsDAO.deleteOrderDelete(orderId);
@@ -23,7 +23,7 @@ public class OrderDetailBoImpl implements OrderDetailBO {
     public OrderDetailsDTO getOrderDetail(String orderId,String itemCode) throws SQLException, ClassNotFoundException {
         OrderDetail orderDetail = orderDetailsDAO.getOrderDetail(orderId,itemCode);
         if(orderDetail != null){
-            return new OrderDetailsDTO(orderDetail.getOrderId(),orderDetail.getItemCode(),orderDetail.getUnitPrice_Box(),orderDetail.getBoxQty(),orderDetail.getItemQty(),orderDetail.getBoxQtyFree(),orderDetail.getItemQtyFree());
+            return new OrderDetailsDTO(orderDetail.getOrderId(),orderDetail.getItemCode(),orderDetail.getUnitPrice_Box(),orderDetail.getTotal(),orderDetail.getFree_total(),orderDetail.getDis_total(),orderDetail.getReturn_total(),orderDetail.getBoxQty(),orderDetail.getItemQty(),orderDetail.getBoxQtyFree(),orderDetail.getItemQtyFree());
         }
         return null;
     }
@@ -35,6 +35,10 @@ public class OrderDetailBoImpl implements OrderDetailBO {
                     s.getOrderId(),
                     s.getItemCode(),
                     s.getUnitPrice_Box(),
+                    s.getTotal(),
+                    s.getFree_total(),
+                    s.getDis_total(),
+                    s.getReturn_total(),
                     s.getBoxQty(),
                     s.getItemQty(),
                     s.getBoxQtyFree(),
@@ -52,6 +56,10 @@ public class OrderDetailBoImpl implements OrderDetailBO {
                     s.getOrderId(),
                     s.getItemCode(),
                     s.getUnitPrice_Box(),
+                    s.getTotal(),
+                    s.getDis_total(),
+                    s.getReturn_total(),
+                    s.getFree_total(),
                     s.getBoxQty(),
                     s.getItemQty(),
                     s.getBoxQtyFree(),

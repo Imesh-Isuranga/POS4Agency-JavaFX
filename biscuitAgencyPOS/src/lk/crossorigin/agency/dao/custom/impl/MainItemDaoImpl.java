@@ -2,62 +2,57 @@ package lk.crossorigin.agency.dao.custom.impl;
 
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.dao.custom.ItemDAO;
-import lk.crossorigin.agency.db.DBConnection;
-import lk.crossorigin.agency.dto.ItemDTO;
+import lk.crossorigin.agency.dao.custom.MainItemDAO;
 import lk.crossorigin.agency.entity.Item;
+import lk.crossorigin.agency.entity.MainItem;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ItemDaoImpl implements ItemDAO {
+public class MainItemDaoImpl implements MainItemDAO {
     @Override
-    public boolean saveItem(Item i) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO Item VALUES(?,?,?,?,?,?,?)";
+    public boolean saveItem(MainItem i) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO MainItem VALUES(?,?,?,?,?,?,?)";
         return CrudUtil.executeUpdate(sql,i.getCode(),i.getName(),i.getUnitPrice_Box_Agency(),i.getUnitPrice_Box(),i.getItemCountInBox(),i.getBoxQty(),i.getItemQty());
     }
 
     @Override
-    public boolean updateItem(Item i) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE Item SET name=?, unitPrice_Box_Agency=?,unitPrice_Box=?, itemCountInBox=?, boxQty=?, itemQty=? WHERE code=?";
+    public boolean updateItem(MainItem i) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE MainItem SET name=?, unitPrice_Box_Agency=?,unitPrice_Box=?, itemCountInBox=?, boxQty=?, itemQty=? WHERE code=?";
         return CrudUtil.executeUpdate(sql,i.getName(),i.getUnitPrice_Box_Agency(),i.getUnitPrice_Box(),i.getItemCountInBox(),i.getBoxQty(),i.getItemQty(),i.getCode());
     }
     @Override
-    public boolean updateItemQtys(Item i) throws SQLException, ClassNotFoundException {
-        Item item = getItem(i.getCode());
+    public boolean updateItemQtys(MainItem i) throws SQLException, ClassNotFoundException {
+        MainItem mainItem = getItem(i.getCode());
         if(i.getBoxQty() == -1){
-            int ItemQTY = item.getItemQty() + i.getItemQty();
-            String sql = "UPDATE Item SET itemQty=?  WHERE code=?";
+            int ItemQTY = mainItem.getItemQty() + i.getItemQty();
+            String sql = "UPDATE MainItem SET itemQty=?  WHERE code=?";
             return CrudUtil.executeUpdate(sql,ItemQTY,i.getCode());
         } else if (i.getItemQty() == -1) {
-            int BoxQTY = item.getBoxQty() + i.getBoxQty();
-            String sql = "UPDATE Item SET boxQty=?  WHERE code=?";
+            int BoxQTY = mainItem.getBoxQty() + i.getBoxQty();
+            String sql = "UPDATE MainItem SET boxQty=?  WHERE code=?";
             return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
         }else{
-            System.out.println("//////////////");
-            System.out.println(item.getBoxQty());
-            System.out.println(item.getItemQty());
-            int ItemQTY = item.getItemQty() + i.getItemQty();
-            int BoxQTY = item.getBoxQty() + i.getBoxQty();
-            String sql = "UPDATE Item SET boxQty=?, itemQty=?  WHERE code=?";
+            int ItemQTY = mainItem.getItemQty() + i.getItemQty();
+            int BoxQTY = mainItem.getBoxQty() + i.getBoxQty();
+            String sql = "UPDATE MainItem SET boxQty=?, itemQty=?  WHERE code=?";
             return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
         }
     }
 
     @Override
     public boolean deleteItem(String code) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM Item WHERE code=?";
+        String sql = "DELETE FROM MainItem WHERE code=?";
         return CrudUtil.executeUpdate(sql,code);
     }
 
     @Override
-    public Item getItem(String code) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM Item WHERE code=?";
+    public MainItem getItem(String code) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM MainItem WHERE code=?";
         ResultSet rst = CrudUtil.executeQuery(sql,code);
         if(rst.next()){
-            return new Item(
+            return new MainItem(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),
@@ -71,11 +66,11 @@ public class ItemDaoImpl implements ItemDAO {
     }
 
     @Override
-    public Item getItemByName(String name) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM Item WHERE name = ?";
+    public MainItem getItemByName(String name) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM MainItem WHERE name = ?";
         ResultSet rst = CrudUtil.executeQuery(sql,name);
         if(rst.next()){
-            return new Item(
+            return new MainItem(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),
@@ -89,13 +84,13 @@ public class ItemDaoImpl implements ItemDAO {
     }
 
     @Override
-    public ArrayList<Item> getAllItems(String text) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM Item WHERE code LIKE ? OR name LIKE ? OR unitPrice_Box_Agency LIKE ? OR unitPrice_Box LIKE ? OR itemCountInBox LIKE ? OR boxQty LIKE ? OR itemQty LIKE ?";
+    public ArrayList<MainItem> getAllItems(String text) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM MainItem WHERE code LIKE ? OR name LIKE ? OR unitPrice_Box_Agency LIKE ? OR unitPrice_Box LIKE ? OR itemCountInBox LIKE ? OR boxQty LIKE ? OR itemQty LIKE ?";
 
         ResultSet rst = CrudUtil.executeQuery(sql,text,text,text,text,text,text,text);
-        ArrayList<Item> entityList = new ArrayList<>();
+        ArrayList<MainItem> entityList = new ArrayList<>();
         while (rst.next()) {
-            Item item = new Item(
+            MainItem mainItem = new MainItem(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),
@@ -104,7 +99,7 @@ public class ItemDaoImpl implements ItemDAO {
                     rst.getInt(6),
                     rst.getInt(7)
             );
-            entityList.add(item);
+            entityList.add(mainItem);
         }
         return entityList;
     }

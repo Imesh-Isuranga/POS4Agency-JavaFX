@@ -1,5 +1,7 @@
 package lk.crossorigin.agency.controller;
 
+import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +16,8 @@ import java.sql.SQLException;
 public class DashBoardFormController {
 
 
+    public JFXButton btnMonthlyReport;
+    public JFXButton btnReturnStock;
     OrderBO orderBO = new OrderBoImpl();
     OrderBookBO orderBookBO = new OrderBookBoImpl();
     ReturnStockBO returnStockBO = new ReturnStockBoImpl();
@@ -64,8 +68,16 @@ public class DashBoardFormController {
         setUi("AddShopForm");
     }
 
+    public void monthlyReportOnAction(ActionEvent actionEvent) throws IOException {
+        setUi("MonthlyReportForm");
+    }
+
     private void setUi(String location) throws IOException {
         Stage stage = (Stage) dashboardContext.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/" + location + ".fxml"))));
+    }
+
+    public void returnStockOnAction(ActionEvent actionEvent) throws IOException {
+        setUi("Returnitems");
     }
 }

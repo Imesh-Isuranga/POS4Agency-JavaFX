@@ -19,24 +19,23 @@ import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ItemDTO;
 import lk.crossorigin.agency.dto.MainItemDTO;
 import lk.crossorigin.agency.view.tm.ItemTM;
+import lk.crossorigin.agency.view.tm.MainItemTM;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-public class LoadStockFormController {
+public class MainStockFormController {
     public AnchorPane loadStockContext;
     public JFXButton btnBack;
-    public TableView<ItemTM> itemsTbl;
+    public TableView<MainItemTM> itemsTbl;
     public TableColumn colItemCode;
     public TableColumn colItemName;
     public TableColumn colUnitPrice_Box;
@@ -47,14 +46,12 @@ public class LoadStockFormController {
     public JFXButton btnUpdateStock;
     public String selectedCode;
     public JFXButton btnUpdateItem;
-    public ItemTM itemTMSelected;
+    public MainItemTM itemTMSelected;
     public TextField boxQtyTxt;
     public TextField itemQtyTxt;
     public TableColumn colUnitPrice_Box_Agency;
     public JFXButton btnPrint;
-    public JFXButton btnMainStock;
 
-    ItemBO itemBO = new ItemBoImpl();
     MainItemBO mainItemBO = new MainItemBoImpl();
 
 
@@ -103,18 +100,19 @@ public class LoadStockFormController {
     }
 
     private void loadAllItems(String searchText){
-        ObservableList<ItemTM> obList = FXCollections.observableArrayList();
+        ObservableList<MainItemTM> obList = FXCollections.observableArrayList();
         try {
-            ArrayList<ItemDTO> dtoList = itemBO.getAllItems("%" + searchText + "%");
-
-            for (ItemDTO dto: dtoList) {
+            ArrayList<MainItemDTO> dtoList = mainItemBO.getAllItems("%" + searchText + "%");
+            System.out.println("11111111111111111111111111111111111111111111111111111111111111111");
+            System.out.println(dtoList);
+            for (MainItemDTO dto: dtoList) {
                 double total = 0.0;
                 if(dto.getItemCountInBox()==0){
                     total = dto.getUnitPrice_Box()*dto.getItemQty();
                 }else{
                     total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
                 }
-                ItemTM itemTM = new ItemTM(
+                MainItemTM mainItemTM = new MainItemTM(
                         dto.getCode(),
                         dto.getName(),
                         dto.getUnitPrice_Box_Agency(),
@@ -123,7 +121,7 @@ public class LoadStockFormController {
                         dto.getItemQty(),
                         total
                         );
-                obList.add(itemTM);
+                obList.add(mainItemTM);
             }
             itemsTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {
@@ -133,7 +131,7 @@ public class LoadStockFormController {
 
     public void backbtnOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) loadStockContext.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/LoadStockForm.fxml"))));
     }
 
     public void UpdateStockOnAction(ActionEvent actionEvent) {
@@ -155,26 +153,12 @@ public class LoadStockFormController {
             boxQtyTxt.clear();
             itemQtyTxt.clear();
 
-            MainItemDTO mainItemDTO = mainItemBO.getItem(itemMap.get(selectedCode));
-            ItemDTO dto = new ItemDTO(itemMap.get(selectedCode),selectedCode,mainItemDTO.getUnitPrice_Box_Agency(), mainItemDTO.getUnitPrice_Box(),mainItemDTO.getItemCountInBox(), boxCount,itemCount);
+            MainItemDTO dto = new MainItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
             if(boxCount == -1 && itemCount == -1){
                 new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
-            }else if(itemBO.saveItem(dto)) {
-                System.out.println(mainItemDTO.getBoxQty());
-                System.out.println(mainItemDTO.getItemQty());
-                System.out.println(boxCount);
-                System.out.println(itemCount);
-                int boxQTY = boxCount*-1;
-                int itemQTY = itemCount*-1;
-                System.out.println(boxQTY);
-                System.out.println(itemQTY);
-                MainItemDTO maindto = new MainItemDTO(itemMap.get(selectedCode),boxQTY,itemQTY);
-                if(mainItemBO.updateItemQtys(maindto)){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Item was Added", ButtonType.OK).show();
-                    loadAllItems("");
-                }else{
-                    new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
-                }
+            }else if(mainItemBO.updateItemQtys(dto)) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Item was Saved", ButtonType.OK).show();
+                loadAllItems("");
             }else{
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
             }
@@ -185,7 +169,7 @@ public class LoadStockFormController {
 
     public void updateItemOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) loadStockContext.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/UpdateItems.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/MainUpdateItems.fxml"))));
     }
 
     public void printOnAction(ActionEvent actionEvent) {
@@ -208,8 +192,5 @@ public class LoadStockFormController {
     }
 
 
-    public void MainStockOnAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) loadStockContext.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/MainStockForm.fxml"))));
-    }
+
 }

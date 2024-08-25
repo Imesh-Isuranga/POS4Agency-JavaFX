@@ -91,6 +91,7 @@ public class AddOrderFormController {
     public Label lblTotalwithoutAny;
     public Label lblFree;
     public Label lbldis;
+    public TableColumn colPer_Qty;
     private OrderTM orderTM;
     private FreeItemsTM freeItemsTM;
     private DiscountItemsTM discountItemsTM;
@@ -146,6 +147,7 @@ public class AddOrderFormController {
         colItemCodeReturn.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colReturnBoxQty.setCellValueFactory(new PropertyValueFactory<>("boxQty"));
         colReturnItemQty.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
+        colPer_Qty.setCellValueFactory(new PropertyValueFactory<>("perQty"));
         colReturnRemove.setCellValueFactory(new PropertyValueFactory<>("btn"));
 
         addOrderTbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -285,7 +287,7 @@ public class AddOrderFormController {
     }
 
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException {
-        if((Double.parseDouble(lblTotal.getText()) <= Double.parseDouble(paidAmountlbl.getText())) || ((Double.parseDouble(lblTotal.getText()) > Double.parseDouble(paidAmountlbl.getText())) && creditcbx.isSelected()) && Double.parseDouble(lblTotal.getText())!=0.00){
+        if((Double.parseDouble(lblTotal.getText()) <= Double.parseDouble(paidAmountlbl.getText())) || ((Double.parseDouble(lblTotal.getText()) > Double.parseDouble(paidAmountlbl.getText())) && creditcbx.isSelected()) && Double.parseDouble(lblTotal.getText())!=0.00 ){
             ArrayList <OrderDetail>orderDetailList=new ArrayList<>();
 
 
@@ -297,16 +299,20 @@ public class AddOrderFormController {
                 int freeBoxCount = 0;
                 int freeItemCount = 0;
 
-                int indexFreeBox = isAlreadyExistsInFreeItems(itemCode);
+                int indexFreeBox = isAlreadyExistsInFreeItems(getCellValue(i,0).toString());
 
                 if(indexFreeBox!=-1){
                     for (int k=0; k<addFreeTbl.getItems().size(); k++){
                         FreeItemsTM rowDisData = addFreeTbl.getItems().get(k);
+                        System.out.println("/////////////////////////");
+                        System.out.println(rowDisData);
                         freeBoxCount = rowDisData.getFreeBoxQty();
                         freeItemCount = rowDisData.getFreeItemQty();
+                        System.out.println(freeBoxCount);
+                        System.out.println(freeItemCount);
                     }
                 }
-                OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), itemCode, unitPrice_Box, orderBoxQty, orderItemQty, freeBoxCount, freeItemCount);
+                OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), itemCode, unitPrice_Box,Double.parseDouble(lblTotal.getText()),Double.parseDouble(lblFree.getText()),Double.parseDouble(lbldis.getText()),Double.parseDouble(returnTotallbl.getText()), orderBoxQty, orderItemQty, freeBoxCount, freeItemCount);
                 orderDetailList.add(orderDetail);
             }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -321,12 +327,20 @@ public class AddOrderFormController {
                             lblOrderId.getText(),
                             orderDetail.getItemCode(),
                             orderDetail.getUnitPrice_Box(),
+                            Double.parseDouble(lblTotal.getText()),
+                            Double.parseDouble(lblFree.getText()),
+                            Double.parseDouble(lbldis.getText()),
+                            Double.parseDouble(returnTotallbl.getText()),
                             orderDetail.getBoxQty(),
                             orderDetail.getItemQty(),
                             orderDetail.getBoxQtyFree(),
                             orderDetail.getItemQtyFree()
                     );
-                    if(orderDetailBO.saveOrderDetails(orderDetailsDTO)){
+                    int boxQTY = (orderDetail.getBoxQty() + orderDetail.getBoxQtyFree())*-1;
+                    int itemQTY = (orderDetail.getItemQty() + orderDetail.getItemQtyFree())*-1;
+
+                    ItemDTO itemDTO = new ItemDTO(orderDetail.getItemCode(),boxQTY,itemQTY);
+                    if(orderDetailBO.saveOrderDetails(orderDetailsDTO) && itemBO.updateItemQtys(itemDTO)){
                         if(k==(orderDetailList.size())){
                             if(savePayment()){
                                 if(shopBO.updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){
@@ -834,11 +848,12 @@ public class AddOrderFormController {
 
                 cashAmounttxt.clear();
             }else{
-                double temp = 0.0;
+                double temp_cheque = 0.0;
                 if(chequecbx.isSelected()){
-                    temp = Double.parseDouble(chequeAmounttxt.getText());
+                    temp_cheque = Double.parseDouble(chequeAmounttxt.getText());
                 }
-                paidAmountlbl.setText(String.valueOf(Double.parseDouble(cashAmounttxt.getText()) + temp));
+
+                paidAmountlbl.setText(String.valueOf(Double.parseDouble(cashAmounttxt.getText()) + temp_cheque));
                 double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
                 balanceAmountlbl.setText(String.valueOf(balanceAmount));
                 editCreditBalance();
@@ -851,9 +866,23 @@ public class AddOrderFormController {
         if(creditcbx.isSelected()){
             lblCredit.setText(String.valueOf(Double.parseDouble(lblTotal.getText()) - Double.parseDouble(paidAmountlbl.getText())));
             shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit + Double.parseDouble(lblCredit.getText())));
+            paidAmountlbl.setText(String.valueOf((Double.parseDouble(lblTotal.getText()))-Double.parseDouble(paidAmountlbl.getText())+Double.parseDouble(paidAmountlbl.getText())));
+            double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+            balanceAmountlbl.setText(String.valueOf(balanceAmount));
         }else {
+            double temp_cheque = 0.0;
+            double temp_cash = 0.0;
+            if(chequecbx.isSelected()){
+                temp_cheque = Double.parseDouble(chequeAmounttxt.getText());
+            }
+            if(cashcbx.isSelected()){
+                temp_cash = Double.parseDouble(cashAmounttxt.getText());
+            }
+            paidAmountlbl.setText(String.valueOf(Double.parseDouble(paidAmountlbl.getText())-Double.parseDouble(lblCredit.getText())));
             lblCredit.setText("0.00");
             shopCreditUptoNowlbl.setText(String.valueOf(uptoNowCredit));
+            double balanceAmount = Double.parseDouble(lblTotal.getText())-Double.parseDouble(paidAmountlbl.getText());
+            balanceAmountlbl.setText(String.valueOf(balanceAmount));
         }
     }
 
@@ -889,55 +918,49 @@ public class AddOrderFormController {
         } else {
             double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbReturnItem.getValue().toString())).getUnitPrice_Box();
             int itemCountInBox = itemBO.getItemByName(itemMap.get(cmbReturnItem.getValue().toString())).getItemCountInBox();
-            if(itemCountInBox==0 && boxCount!=0){
-                new Alert(Alert.AlertType.CONFIRMATION,"Please Add 0 boxes", ButtonType.OK).show();
+
+            returnTotal += (perQTY * itemCountInBox * boxCount) + perQTY*itemCount;
+            int rowIndex = isAlreadyExistsInReturnTbl(cmbReturnItem.getValue().toString());
+
+            if(rowIndex!=-1) {
+                // Update the quantity and total of the existing item
+                ReturnStockTM existingItem = obListReturn.get(rowIndex);
+                existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
+                existingItem.setItemQty(existingItem.getItemQty() + itemCount);
+                existingItem.setPerQty(existingItem.getPerQty() + perQTY);
+
+                // Force the table to refresh by setting the item to itself
+                obListReturn.set(rowIndex, existingItem);
             }else{
-                if(itemCountInBox==0){
-                    returnTotal += perQTY*itemCount;
-                }else{
-                    returnTotal += (perQTY * boxCount) + (perQTY/itemCountInBox)*itemCount;
-                }
-                int rowIndex = isAlreadyExistsInReturnTbl(cmbReturnItem.getValue().toString());
+                Button btn = new Button("Remove");
+                ReturnStockTM returnStockTM = new ReturnStockTM(cmbReturnItem.getValue().toString(),boxCount,itemCount,perQTY,btn);
 
-                if(rowIndex!=-1) {
-                    // Update the quantity and total of the existing item
-                    ReturnStockTM existingItem = obListReturn.get(rowIndex);
-                    existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
-                    existingItem.setItemQty(existingItem.getItemQty() + itemCount);
-
-                    // Force the table to refresh by setting the item to itself
-                    obListReturn.set(rowIndex, existingItem);
-                }else{
-                    Button btn = new Button("Remove");
-                    ReturnStockTM returnStockTM = new ReturnStockTM(cmbReturnItem.getValue().toString(),boxCount,itemCount,btn);
-
-                    //Delete------------------------
-                    btn.setOnAction(e->{
-                        Alert confirmation = new Alert(
-                                Alert.AlertType.CONFIRMATION,
-                                "ARE YOU SURE ?",
-                                ButtonType.YES,ButtonType.CANCEL
-                        );
-                        Optional<ButtonType> confirmState = confirmation.showAndWait();
-                        if(confirmState.get().equals(ButtonType.YES)){
-                            if(removeItemByCodeReturnStock(returnStockTM.getItemCode())) {
-                                returnTotal-=((perQTY * returnStockTM.getBoxQty()) + (perQTY/itemCountInBox)*returnStockTM.getItemQty());
-                                returnTotallbl.setText(String.valueOf(returnTotal));
-                                new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Deleted", ButtonType.OK).show();
-                            }else{
-                                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
-                            }
-
+                //Delete------------------------
+                btn.setOnAction(e->{
+                    Alert confirmation = new Alert(
+                            Alert.AlertType.CONFIRMATION,
+                            "ARE YOU SURE ?",
+                            ButtonType.YES,ButtonType.CANCEL
+                    );
+                    Optional<ButtonType> confirmState = confirmation.showAndWait();
+                    if(confirmState.get().equals(ButtonType.YES)){
+                        if(removeItemByCodeReturnStock(returnStockTM.getItemCode())) {
+                            returnTotal-=((perQTY *itemCountInBox* returnStockTM.getBoxQty()) + perQTY*returnStockTM.getItemQty());
+                            returnTotallbl.setText(String.valueOf(returnTotal));
+                            new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Deleted", ButtonType.OK).show();
+                        }else{
+                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                         }
-                    });
-                    //Delete------------------------
 
-                    obListReturn.add(returnStockTM);
-                    tblReturn.setItems(obListReturn);
+                    }
+                });
+                //Delete------------------------
 
-                }
-                returnTotallbl.setText(String.valueOf(returnTotal));
+                obListReturn.add(returnStockTM);
+                tblReturn.setItems(obListReturn);
+
             }
+            returnTotallbl.setText(String.valueOf(returnTotal));
         }
     }
 
@@ -945,9 +968,10 @@ public class AddOrderFormController {
         for (int i=0; i<tblReturn.getItems().size(); i++){
             ReturnStockDTO returnStockDTO = new ReturnStockDTO(
                     lblOrderId.getText(),
-                    getCellValueReturn(i,0).toString(),
+                    itemMap.get(getCellValueReturn(i,0).toString()),
                     Integer.parseInt(getCellValueReturn(i,1).toString()),
-                    Integer.parseInt(getCellValueReturn(i,2).toString())
+                    Integer.parseInt(getCellValueReturn(i,2).toString()),
+                    Double.parseDouble(getCellValueReturn(i,3).toString())
             );
             if(returnStockBO.saveReturn(returnStockDTO)){
                 if(i==tblReturn.getItems().size()-1){

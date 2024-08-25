@@ -14,8 +14,21 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO {
 
     @Override
     public boolean saveOrderDetails(OrderDetail s) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO OrderDetail VALUES(?,?,?,?,?,?,?)";
-        return CrudUtil.executeUpdate(sql,s.getOrderId(),s.getItemCode(),s.getUnitPrice_Box(),s.getBoxQty(),s.getItemQty(),s.getBoxQtyFree(),s.getItemQtyFree());
+        String sql = "INSERT INTO OrderDetail VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        return CrudUtil.executeUpdate(
+                sql,
+                s.getOrderId(),
+                s.getItemCode(),
+                s.getUnitPrice_Box(),
+                s.getTotal(),
+                s.getFree_total(),
+                s.getDis_total(),
+                s.getReturn_total(),
+                s.getBoxQty(),
+                s.getItemQty(),
+                s.getBoxQtyFree(),
+                s.getItemQtyFree()
+        );
     }
 
     @Override
@@ -34,10 +47,14 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),
-                    rst.getInt(4),
-                    rst.getInt(5),
-                    rst.getInt(6),
-                    rst.getInt(7)
+                    rst.getDouble(4),
+                    rst.getDouble(5),
+                    rst.getDouble(6),
+                    rst.getDouble(7),
+                    rst.getInt(8),
+                    rst.getInt(9),
+                    rst.getInt(10),
+                    rst.getInt(11)
             );
         }
         return null;
@@ -54,10 +71,14 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),
-                    rst.getInt(4),
-                    rst.getInt(5),
-                    rst.getInt(6),
-                    rst.getInt(7)
+                    rst.getDouble(4),
+                    rst.getDouble(5),
+                    rst.getDouble(6),
+                    rst.getDouble(7),
+                    rst.getInt(8),
+                    rst.getInt(9),
+                    rst.getInt(10),
+                    rst.getInt(11)
             );
             entityList.add(orderDetail);
         }
@@ -75,10 +96,14 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),
-                    rst.getInt(4),
-                    rst.getInt(5),
-                    rst.getInt(6),
-                    rst.getInt(7)
+                    rst.getDouble(4),
+                    rst.getDouble(5),
+                    rst.getDouble(6),
+                    rst.getDouble(7),
+                    rst.getInt(8),
+                    rst.getInt(9),
+                    rst.getInt(10),
+                    rst.getInt(11)
             );
             entityList.add(orderDetail);
         }

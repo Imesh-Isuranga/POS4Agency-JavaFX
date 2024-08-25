@@ -1,5 +1,6 @@
 package lk.crossorigin.agency.dao.custom;
 
+import lk.crossorigin.agency.dto.OrderDTO;
 import lk.crossorigin.agency.entity.Order;
 
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ public interface OrderDAO {
     public boolean saveOrder(Order s) throws SQLException, ClassNotFoundException;
     public boolean deleteOrder(String id) throws SQLException, ClassNotFoundException;
     public Date getOrderDate(String orderId) throws SQLException, ClassNotFoundException;
-
     public String getLastOrderId() throws SQLException, ClassNotFoundException ;
+    public Order getOrderByOrderId(String orderId) throws SQLException, ClassNotFoundException;
+    public ArrayList<Order> getAllOrders(String text) throws SQLException, ClassNotFoundException ;
 }

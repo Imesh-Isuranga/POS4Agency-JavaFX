@@ -7,15 +7,17 @@ public class ReturnStockTM {
     private String itemCode;
     private int boxQty;
     private int itemQty;
+    private double perQty;
     private Button btn;
 
     public ReturnStockTM() {
     }
 
-    public ReturnStockTM(String itemCode, int boxQty, int itemQty, Button btn) {
+    public ReturnStockTM(String itemCode, int boxQty, int itemQty, double perQty, Button btn) {
         this.itemCode = itemCode;
         this.boxQty = boxQty;
         this.itemQty = itemQty;
+        this.perQty = perQty;
         this.btn = btn;
     }
 
@@ -43,6 +45,14 @@ public class ReturnStockTM {
         this.itemQty = itemQty;
     }
 
+    public double getPerQty() {
+        return perQty;
+    }
+
+    public void setPerQty(double perQty) {
+        this.perQty = perQty;
+    }
+
     public Button getBtn() {
         return btn;
     }
@@ -57,6 +67,7 @@ public class ReturnStockTM {
                 "itemCode='" + itemCode + '\'' +
                 ", boxQty=" + boxQty +
                 ", itemQty=" + itemQty +
+                ", perQty=" + perQty +
                 ", btn=" + btn +
                 '}';
     }

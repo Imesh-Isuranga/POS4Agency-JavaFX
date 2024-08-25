@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -28,7 +29,7 @@
             <Font name="System Bold" size="43.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="793.0" layoutY="119.0" prefHeight="62.0" prefWidth="894.0" style="-fx-background-color: #003285;" text="Order Details" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="793.0" layoutY="107.0" prefHeight="64.0" prefWidth="894.0" style="-fx-background-color: #003285;" text="Order Details" textFill="WHITE">
          <font>
             <Font name="System Bold" size="42.0" />
          </font>
@@ -48,14 +49,20 @@
             <Font name="System Bold" size="43.0" />
          </font>
       </Label>
-      <ImageView fitHeight="95.0" fitWidth="144.0" layoutX="515.0" layoutY="224.0" pickOnBounds="true">
-         <image>
-            <Image url="@../assert/face.jpeg" />
-         </image></ImageView>
       <Label layoutX="240.0" layoutY="14.0" text="Mahawaththa Agency" textFill="WHITE">
          <font>
             <Font name="System Bold" size="44.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnMonthlyReport" buttonType="RAISED" layoutX="479.0" layoutY="105.0" onAction="#monthlyReportOnAction" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: #26355D;" text="Monthly Report" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnReturnStock" buttonType="RAISED" layoutX="476.0" layoutY="300.0" onAction="#returnStockOnAction" prefHeight="174.0" prefWidth="306.0" style="-fx-background-color: #26355D;" text="Return Stock" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

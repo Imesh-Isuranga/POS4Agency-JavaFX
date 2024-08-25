@@ -62,17 +62,30 @@ public class OrderDetailsFormController {
         ObservableList<OrderDetailsTM> obList = FXCollections.observableArrayList();
         try {
             double total = 0.00;
+            double freeItemTotal = 0.00;
+
             ArrayList<OrderBookDTO> dtoList = orderBookBO.getAllOrderBooks("%" + searchText + "%");
             for (OrderBookDTO dto:dtoList) {
                 ArrayList<OrderDetailsDTO> OrderDetailsDTO = orderDetailBO.getAllOrderDetailsByOrderId(dto.getId());
-                for (OrderDetailsDTO o:OrderDetailsDTO) {
+                /*for (OrderDetailsDTO o:OrderDetailsDTO) {
+                    System.out.println("-----------------------------------");
                     System.out.println(o);
                     double unit_boxPrice = o.getUnitPrice_Box();
-                    System.out.println(itemBO.getItem(o.getItemCode()).getItemCountInBox());
+                    int freebox = o.getBoxQtyFree();
+                    int freeitem = o.getItemQtyFree();
                     int itemsCount_in_box = itemBO.getItem(o.getItemCode()).getItemCountInBox();
-                    double per_item_Price = o.getUnitPrice_Box()/itemsCount_in_box;
-                    total+=(unit_boxPrice*o.getBoxQty() + per_item_Price*o.getItemQty());
-                }
+                    double per_item_Price = 0.0;
+                    if(itemsCount_in_box==0){
+                        per_item_Price = o.getUnitPrice_Box();
+                    }else{
+                        per_item_Price = o.getUnitPrice_Box()/itemsCount_in_box;
+                    }
+                    total=(unit_boxPrice*o.getBoxQty() + per_item_Price*o.getItemQty());
+                    System.out.println(freebox);
+                    System.out.println(freeitem);
+                    System.out.println(unit_boxPrice);
+                    freeItemTotal = freebox*unit_boxPrice + freeitem*per_item_Price;
+                }*/
 
                 ArrayList<PaymentDTO> paymentDTOS = paymentBO.getPaymentByOrderId(dto.getId());
                 double cashAmount = 0.00;
@@ -95,12 +108,12 @@ public class OrderDetailsFormController {
                 double returnAmount = 0.00;
                 for (ReturnStockDTO r:returnByOrderId) {
                     ItemDTO itemDTO = itemBO.getItem(r.getItemCode());
-                    double unit_boxPrice = itemDTO.getUnitPrice_Box();
+                    double unit_QTYPrice = r.getPerQty();
+                    int boxQTY = r.getBoxQty();
+                    int itemQTY = r.getItemQty();
                     int itemsCount_in_box = itemDTO.getItemCountInBox();
-                    double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
-                    returnAmount+=(unit_boxPrice*r.getBoxQty() + per_item_Price*r.getItemQty());
+                    returnAmount+=(unit_QTYPrice*itemsCount_in_box*boxQTY + unit_QTYPrice*itemQTY);
                 }
-
 
                 ArrayList<DiscountDTO> allDiscountByOrderId = discountBO.getAllDiscountByOrderId(dto.getId());
                 int dupCount = 1;
@@ -128,18 +141,20 @@ public class OrderDetailsFormController {
                 }
 
 
-
+                System.out.println("000000000000000000000000000000000000000");
+                System.out.println(dto.getId());
+                System.out.println( orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()));
                 OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
                         dto.getOb_id(),
                         dto.getInvId(),
                         dto.getShopId(),
-                        total,
+                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getTotal(),
                         cashAmount,
                         creditAmount,
                         chequeAmount,
                         chequeNum,
                         returnAmount,
-                        finalDisValue
+                        finalDisValue + "-" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total() + " = " + (finalDisValue + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total())
                 );
                 obList.add(orderDetailsTM);
             }

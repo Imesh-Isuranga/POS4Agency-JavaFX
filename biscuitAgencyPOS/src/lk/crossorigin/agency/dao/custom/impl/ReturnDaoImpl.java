@@ -2,18 +2,18 @@ package lk.crossorigin.agency.dao.custom.impl;
 
 import lk.crossorigin.agency.dao.CrudUtil;
 import lk.crossorigin.agency.dao.custom.ReturnStockDAO;
+import lk.crossorigin.agency.entity.OrderDetail;
 import lk.crossorigin.agency.entity.ReturnStock;
-import lk.crossorigin.agency.entity.Shop;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ReturnDapImpl implements ReturnStockDAO {
+public class ReturnDaoImpl implements ReturnStockDAO {
     @Override
     public boolean saveReturn(ReturnStock s) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO ReturnStock VALUES(?,?,?,?,?)";
-        return CrudUtil.executeUpdate(sql,s.getId(),s.getOrderId(),s.getItemCode(),s.getBoxQty(),s.getItemQty());
+        String sql = "INSERT INTO ReturnStock VALUES(?,?,?,?,?,?)";
+        return CrudUtil.executeUpdate(sql,s.getId(),s.getOrderId(),s.getItemCode(),s.getBoxQty(),s.getItemQty(),s.getPerQty());
     }
 
     @Override
@@ -38,7 +38,8 @@ public class ReturnDapImpl implements ReturnStockDAO {
                     rst.getString(2),
                     rst.getString(3),
                     rst.getInt(4),
-                    rst.getInt(5)
+                    rst.getInt(5),
+                    rst.getDouble(6)
             );
         }
         return null;
@@ -56,13 +57,15 @@ public class ReturnDapImpl implements ReturnStockDAO {
                     rst.getString(2),
                     rst.getString(3),
                     rst.getInt(4),
-                    rst.getInt(5)
+                    rst.getInt(5),
+                    rst.getDouble(6)
             );
             entityList.add(returnStock);
         }
         return entityList;
     }
 
+    @Override
     public String getLastOrderIdReturn() throws SQLException, ClassNotFoundException {
         String sql = "SELECT orderId FROM ReturnStock ORDER BY id DESC LIMIT 1";
         ResultSet rst = CrudUtil.executeQuery(sql);

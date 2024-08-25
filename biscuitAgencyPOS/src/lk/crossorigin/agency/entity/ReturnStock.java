@@ -6,16 +6,19 @@ public class ReturnStock {
     private String itemCode;
     private int boxQty;
     private int itemQty;
+    private double perQty;
+
 
     public ReturnStock() {
     }
 
-    public ReturnStock(int id, String orderId, String itemCode, int boxQty, int itemQty) {
+    public ReturnStock(int id, String orderId, String itemCode, int boxQty, int itemQty, double perQty) {
         this.id = id;
         this.orderId = orderId;
         this.itemCode = itemCode;
         this.boxQty = boxQty;
         this.itemQty = itemQty;
+        this.perQty = perQty;
     }
 
     public int getId() {
@@ -58,6 +61,14 @@ public class ReturnStock {
         this.itemQty = itemQty;
     }
 
+    public double getPerQty() {
+        return perQty;
+    }
+
+    public void setPerQty(double perQty) {
+        this.perQty = perQty;
+    }
+
     @Override
     public String toString() {
         return "ReturnStock{" +
@@ -66,6 +77,7 @@ public class ReturnStock {
                 ", itemCode='" + itemCode + '\'' +
                 ", boxQty=" + boxQty +
                 ", itemQty=" + itemQty +
+                ", perQty=" + perQty +
                 '}';
     }
 }

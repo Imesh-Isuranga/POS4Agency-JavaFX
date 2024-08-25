@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="orderHistoryContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.ReturnItemsFormController">
+   <children>
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="19.0" layoutY="75.0" prefHeight="46.0" prefWidth="410.0" text="Return Items" textFill="#c80036">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1670.0" />
+      <TableView fx:id="retunItemsTbl" layoutX="14.0" layoutY="196.0" prefHeight="695.0" prefWidth="1678.0">
+        <columns>
+          <TableColumn fx:id="colItem" prefWidth="251.19999408721924" text="Item" />
+          <TableColumn fx:id="colshop" prefWidth="161.60003662109375" text="Shop" />
+            <TableColumn fx:id="colboxQty" prefWidth="207.199951171875" text="Box QTY" />
+            <TableColumn fx:id="colitemQty" prefWidth="413.60003662109375" text="Item QTY" />
+            <TableColumn fx:id="colperQtyPrice" prefWidth="642.4000000000001" text="Per QTY Price" />
+        </columns>
+      </TableView>
+      <TextField layoutX="15.0" layoutY="140.0" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="1336.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="36.0" prefWidth="354.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

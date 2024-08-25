@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loadStockContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoadStockFormController">
+<AnchorPane fx:id="loadStockContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.MainStockFormController">
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#backbtnOnAction" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <Label layoutX="14.0" layoutY="59.0" prefHeight="46.0" prefWidth="245.0" text="Load Stock" textFill="#c80036">
+      <Label layoutX="14.0" layoutY="59.0" prefHeight="46.0" prefWidth="245.0" text="Main Stock" textFill="#c80036">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
@@ -52,11 +52,6 @@
             <Font size="20.0" />
          </font></TextField>
       <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1439.0" layoutY="847.0" onAction="#printOnAction" prefHeight="38.0" prefWidth="246.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnMainStock" buttonType="RAISED" layoutX="1294.0" layoutY="40.0" onAction="#MainStockOnAction" prefHeight="38.0" prefWidth="257.0" style="-fx-background-color: #26355D;" text="Main Stock" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

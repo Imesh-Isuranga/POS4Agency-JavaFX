@@ -99,7 +99,8 @@
                   <TableColumn fx:id="colItemCodeReturn" prefWidth="156.79998779296875" text="Item Code" />
                   <TableColumn fx:id="colReturnBoxQty" prefWidth="176.79998779296875" text="Box" />
                   <TableColumn fx:id="colReturnItemQty" prefWidth="160.00006103515625" text="Item" />
-                  <TableColumn fx:id="colReturnRemove" prefWidth="190.4000244140625" text="Remove" />
+                  <TableColumn fx:id="colPer_Qty" prefWidth="95.99993896484375" text="Per_QTY" />
+                  <TableColumn fx:id="colReturnRemove" prefWidth="91.2000732421875" text="Remove" />
                </columns>
             </TableView>
             <JFXButton fx:id="btnAddReturnToTable" buttonType="RAISED" layoutX="646.0" layoutY="16.0" onAction="#addReturnToTableOnAction" prefHeight="18.0" prefWidth="32.0" style="-fx-background-color: #26355D;" text="+" textFill="WHITE">

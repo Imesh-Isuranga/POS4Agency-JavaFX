@@ -6,23 +6,26 @@ public class ReturnStockDTO {
     private String itemCode;
     private int boxQty;
     private int itemQty;
+    private double perQty;
+
 
     public ReturnStockDTO() {
     }
 
-    public ReturnStockDTO(String orderId, String itemCode, int boxQty, int itemQty) {
+    public ReturnStockDTO(String orderId, String itemCode, int boxQty, int itemQty, double perQty) {
         this.orderId = orderId;
         this.itemCode = itemCode;
         this.boxQty = boxQty;
         this.itemQty = itemQty;
+        this.perQty = perQty;
     }
-
-    public ReturnStockDTO(int id, String orderId, String itemCode, int boxQty, int itemQty) {
+    public ReturnStockDTO(int id, String orderId, String itemCode, int boxQty, int itemQty, double perQty) {
         this.id = id;
         this.orderId = orderId;
         this.itemCode = itemCode;
         this.boxQty = boxQty;
         this.itemQty = itemQty;
+        this.perQty = perQty;
     }
 
     public int getId() {
@@ -65,6 +68,14 @@ public class ReturnStockDTO {
         this.itemQty = itemQty;
     }
 
+    public double getPerQty() {
+        return perQty;
+    }
+
+    public void setPerQty(double perQty) {
+        this.perQty = perQty;
+    }
+
     @Override
     public String toString() {
         return "ReturnStockDTO{" +
@@ -73,6 +84,7 @@ public class ReturnStockDTO {
                 ", itemCode='" + itemCode + '\'' +
                 ", boxQty=" + boxQty +
                 ", itemQty=" + itemQty +
+                ", perQty=" + perQty +
                 '}';
     }
 }

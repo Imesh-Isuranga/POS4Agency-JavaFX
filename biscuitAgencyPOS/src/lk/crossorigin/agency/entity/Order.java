@@ -13,6 +13,8 @@ public class Order {
     public Order() {
     }
 
+
+
     public Order(String id, Date date, String shopId) {
         this.orderId = id;
         this.date = date;

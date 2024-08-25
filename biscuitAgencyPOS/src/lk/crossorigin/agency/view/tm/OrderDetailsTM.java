@@ -13,12 +13,12 @@ public class OrderDetailsTM {
     private double cheque;
     private String chequeNum;
     private double MR;
-    private double discount;
+    private String discount;
 
     public OrderDetailsTM() {
     }
 
-    public OrderDetailsTM(int no, String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, double discount) {
+    public OrderDetailsTM(int no, String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, String discount) {
         this.no = no;
         this.invNo = invNo;
         NameofDealer = nameofDealer;
@@ -103,11 +103,11 @@ public class OrderDetailsTM {
         this.MR = MR;
     }
 
-    public double getDiscount() {
+    public String getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(String discount) {
         this.discount = discount;
     }
 

@@ -2,7 +2,7 @@ package lk.crossorigin.agency.bo.custom.impl;
 
 import lk.crossorigin.agency.bo.custom.ReturnStockBO;
 import lk.crossorigin.agency.dao.DAOFactory;
-import lk.crossorigin.agency.dao.custom.impl.ReturnDapImpl;
+import lk.crossorigin.agency.dao.custom.impl.ReturnDaoImpl;
 import lk.crossorigin.agency.dto.ReturnStockDTO;
 import lk.crossorigin.agency.entity.ReturnStock;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class ReturnStockBoImpl implements ReturnStockBO {
 
-    ReturnDapImpl returnDao = DAOFactory.getInstance().getDao(DAOFactory.DaoType.RETURN);
+    ReturnDaoImpl returnDao = DAOFactory.getInstance().getDao(DAOFactory.DaoType.RETURN);
 
     public boolean saveReturn(ReturnStockDTO dto) throws SQLException, ClassNotFoundException{
         return returnDao.saveReturn(
@@ -19,8 +19,9 @@ public class ReturnStockBoImpl implements ReturnStockBO {
                         dto.getId(),
                         dto.getOrderId(),
                         dto.getItemCode(),
-                        dto.getBoxQty()
-                        ,dto.getItemQty()
+                        dto.getBoxQty(),
+                        dto.getItemQty(),
+                        dto.getPerQty()
                 )
         );
 
@@ -32,7 +33,8 @@ public class ReturnStockBoImpl implements ReturnStockBO {
                         dto.getOrderId(),
                         dto.getItemCode(),
                         dto.getBoxQty(),
-                        dto.getItemQty()
+                        dto.getItemQty(),
+                        dto.getPerQty()
                 )
         );
 
@@ -49,7 +51,8 @@ public class ReturnStockBoImpl implements ReturnStockBO {
                     returnStock.getOrderId(),
                     returnStock.getItemCode(),
                     returnStock.getBoxQty(),
-                    returnStock.getItemQty()
+                    returnStock.getItemQty(),
+                    returnStock.getPerQty()
             );
         }
         return null;
@@ -63,7 +66,8 @@ public class ReturnStockBoImpl implements ReturnStockBO {
                     returnStock.getOrderId(),
                     returnStock.getItemCode(),
                     returnStock.getBoxQty(),
-                    returnStock.getItemQty()
+                    returnStock.getItemQty(),
+                    returnStock.getPerQty()
             );
             dtoList.add(returnStockDTO);
         }
