@@ -352,11 +352,12 @@ public class AddOrderFormController {
                             orderDetail.getBoxQtyFree(),
                             orderDetail.getItemQtyFree()
                     );
-                    int boxQTY = (orderDetail.getBoxQty() + orderDetail.getBoxQtyFree())*-1;
-                    int itemQTY = (orderDetail.getItemQty() + orderDetail.getItemQtyFree())*-1;
+                    int boxQTY = (orderDetail.getBoxQty() + orderDetail.getBoxQtyFree());
+                    int itemQTY = (orderDetail.getItemQty() + orderDetail.getItemQtyFree());
+
 
                     ItemDTO itemDTO = new ItemDTO(orderDetail.getItemCode(),boxQTY,itemQTY);
-                    if(orderDetailBO.saveOrderDetails(orderDetailsDTO) && itemBO.updateItemQtys(itemDTO)){
+                    if(orderDetailBO.saveOrderDetails(orderDetailsDTO) && itemBO.updateItemQtyDecrease(itemDTO)){
                         if(k==(orderDetailList.size())){
                             if(savePayment()){
                                 if(shopBO.updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){

@@ -21,8 +21,12 @@ public class ItemBoImpl implements ItemBO {
     public boolean updateItem(ItemDTO dto) throws ClassNotFoundException, SQLException {
         return itemDAO.updateItem(new Item(dto.getCode(),dto.getName(), dto.getUnitPrice_Box_Agency(),dto.getUnitPrice_Box(),dto.getItemCountInBox(),dto.getBoxQty(),dto.getItemQty()));
     }
-    public boolean updateItemQtys(ItemDTO dto) throws ClassNotFoundException, SQLException {
-        return itemDAO.updateItemQtys(new Item(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
+    public boolean updateItemQtyDecrease(ItemDTO dto) throws ClassNotFoundException, SQLException {
+        return itemDAO.updateItemQtyDecrease(new Item(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
+    }
+
+    public boolean updateItemQtysIncrease(ItemDTO dto) throws ClassNotFoundException, SQLException {
+        return itemDAO.updateItemQtysIncrease(new Item(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
     }
     public ItemDTO getItem(String id) throws SQLException, ClassNotFoundException {
         Item item = itemDAO.getItem(id);

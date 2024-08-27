@@ -167,48 +167,92 @@ public class MainStockFormController {
         try {
             int boxCount;
             int itemCount;
+
             if(boxQtyTxt.getText().isEmpty()){
-                boxCount=0;
+                boxCount=-1;
+            }else if(Integer.parseInt(boxQtyTxt.getText()) < 0){
+                boxCount = -2;
             }else{
                 boxCount = Integer.parseInt(boxQtyTxt.getText());
             }
 
             if(itemQtyTxt.getText().isEmpty()){
-                itemCount=0;
+                itemCount=-1;
+            }else if(Integer.parseInt(itemQtyTxt.getText()) < 0){
+                itemCount = -2;
             }else {
                 itemCount = Integer.parseInt(itemQtyTxt.getText());
             }
 
-            if (Integer.parseInt(boxQtyTxt.getText()) < 0) {
-                boxCount = -2;
-            }
-            if (Integer.parseInt(itemQtyTxt.getText()) < 0) {
-                itemCount = -2;
-            }
-
-
 
             boxQtyTxt.clear();
             itemQtyTxt.clear();
+            MainItemDTO mainItem ;
 
-            MainItemDTO maindto;
             if(btnUpdateStock.getText().equalsIgnoreCase("Update")){
-                maindto = new MainItemDTO(itemTMSelected.getCode(),boxCount,itemCount);
-
-                MainItemDTO mainItemDTO = mainItemBO.getItem(itemTMSelected.getCode());
-                int boxToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),3).toString());
-                int itemToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),4).toString());
-
-                if((itemToUpdate + itemCount) >= mainItemDTO.getItemCountInBox()){
-                    int newItemCount = (itemToUpdate + itemCount) % (mainItemDTO.getItemCountInBox()) - itemToUpdate;
-                    int newBoxCount = boxCount + (itemToUpdate + itemCount) / (mainItemDTO.getItemCountInBox());
-                    maindto = new MainItemDTO(itemTMSelected.getCode(),newBoxCount,newItemCount);
+                mainItem = mainItemBO.getItem(itemTMSelected.getCode());
+                if(mainItem.getItemCountInBox()==0 && Integer.parseInt(boxQtyTxt.getText())==0){
+                    boxCount = -3;
                 }
             }else{
-                maindto = new MainItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
+                mainItem = mainItemBO.getItem(itemMap.get(selectedCode));
+                if(mainItem.getItemCountInBox()==0 && Integer.parseInt(boxQtyTxt.getText())==0){
+                    boxCount = -3;
+                }
             }
 
-            if(boxCount == -2 || itemCount == -2){
+
+            MainItemDTO maindto;
+
+            mainItem = mainItemBO.getItem(itemTMSelected.getCode());
+            maindto = new MainItemDTO(itemTMSelected.getCode(),boxCount,itemCount);
+
+
+            if(boxCount == -3){
+                new Alert(Alert.AlertType.WARNING,"Please Set Box QTY as 0",ButtonType.CANCEL).show();
+            }else if(boxCount == -2 || itemCount == -2){
+                new Alert(Alert.AlertType.WARNING,"Please Insert more than Zero",ButtonType.CANCEL).show();
+            }else if(boxCount == -1 || itemCount == -1){
+                new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
+            }else if(btnUpdateStock.getText().equalsIgnoreCase("Update")){
+                if(mainItem.getItemCountInBox()>itemCount){
+                    mainItem = mainItemBO.getItem(itemTMSelected.getCode());
+                    if((itemCount+mainItem.getItemQty()) >= mainItem.getItemCountInBox()){
+                        boxCount++;
+                        itemCount = (itemCount + mainItem.getItemQty()) - mainItem.getItemCountInBox() - mainItem.getItemQty();
+                        maindto = new MainItemDTO(itemTMSelected.getCode(),boxCount,itemCount);
+                    }
+                    if(mainItemBO.updateItemQtysIncrease(maindto)){
+                        new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
+                        loadAllItems("");
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Please enter items less than items count in box",ButtonType.CANCEL).show();
+                }
+                //int boxToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),3).toString());
+                //int itemToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),4).toString());
+
+                /*if((itemToUpdate + itemCount) >= mainItem.getItemCountInBox()){
+                    int newItemCount = (itemToUpdate + itemCount) % (mainItem.getItemCountInBox()) - itemToUpdate;
+                    int newBoxCount = boxCount + (itemToUpdate + itemCount) / (mainItem.getItemCountInBox());
+                    maindto = new MainItemDTO(itemTMSelected.getCode(),newBoxCount,newItemCount);
+                }*/
+            }else{
+                if(mainItem.getItemCountInBox()>itemCount){
+                    if(mainItemBO.updateItemQtysIncrease(maindto)){
+                        new Alert(Alert.AlertType.CONFIRMATION,"Item was Added", ButtonType.OK).show();
+                        loadAllItems("");
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Please enter items less than items count in box",ButtonType.CANCEL).show();
+                }
+            }
+
+            /*if(boxCount == -2 || itemCount == -2){
                 new Alert(Alert.AlertType.WARNING,"Please Insert more than Zero",ButtonType.CANCEL).show();
             }else if(boxCount == -1 && itemCount == -1){
                 new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
@@ -219,7 +263,7 @@ public class MainStockFormController {
                 loadAllItems("");
             }else{
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
-            }
+            }*/
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

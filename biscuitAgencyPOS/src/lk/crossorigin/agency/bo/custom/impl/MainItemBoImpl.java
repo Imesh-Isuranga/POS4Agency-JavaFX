@@ -25,8 +25,12 @@ public class MainItemBoImpl implements MainItemBO {
     public boolean updateItem(MainItemDTO dto) throws ClassNotFoundException, SQLException {
         return itemDAO.updateItem(new MainItem(dto.getCode(),dto.getName(), dto.getUnitPrice_Box_Agency(),dto.getUnitPrice_Box(),dto.getItemCountInBox(),dto.getBoxQty(),dto.getItemQty()));
     }
-    public boolean updateItemQtys(MainItemDTO dto) throws ClassNotFoundException, SQLException {
-        return itemDAO.updateItemQtys(new MainItem(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
+    public boolean updateItemQtysReduce(MainItemDTO dto) throws ClassNotFoundException, SQLException {
+        return itemDAO.updateItemQtysReduce(new MainItem(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
+    }
+
+    public boolean updateItemQtysIncrease(MainItemDTO dto) throws ClassNotFoundException, SQLException {
+        return itemDAO.updateItemQtysIncrease(new MainItem(dto.getCode(),dto.getBoxQty(),dto.getItemQty()));
     }
     public MainItemDTO getItem(String id) throws SQLException, ClassNotFoundException {
         MainItem mainItem = itemDAO.getItem(id);

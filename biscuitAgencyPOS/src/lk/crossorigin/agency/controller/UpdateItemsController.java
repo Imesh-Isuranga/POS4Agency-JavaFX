@@ -152,16 +152,15 @@ public class UpdateItemsController {
         Optional<ButtonType> confirmState = confirmation.showAndWait();
         if(confirmState.get().equals(ButtonType.YES)){
             try {
+                MainItemDTO mainItem = mainItemBO.getItem(itemMap.get(selectedCode));
                 if(itemBO.deleteItem(itemMap.get(selectedCode))) {
-                    MainItemDTO mainItemDTO;
-                    mainItemDTO =  new MainItemDTO(itemMap.get(selectedCode),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
-                    MainItemDTO mainItemDTO1 = mainItemBO.getItem(itemMap.get(selectedCode));
-                    if((mainItemDTO1.getItemQty() + Integer.parseInt(itemQtytxt.getText())) >= mainItemDTO1.getItemCountInBox()){
+                    MainItemDTO mainItemDTO =  new MainItemDTO(itemMap.get(selectedCode),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
+                    if((mainItem.getItemQty() + Integer.parseInt(itemQtytxt.getText())) >= mainItem.getItemCountInBox()){
                         int newBoxQTY = Integer.parseInt(boxQtytxt.getText()) + 1;
-                        int newItemQTY = ((Integer.parseInt(itemQtytxt.getText()) + mainItemDTO1.getItemQty()) % (mainItemDTO1.getItemCountInBox()) ) - mainItemDTO1.getItemQty();
+                        int newItemQTY = ((Integer.parseInt(itemQtytxt.getText()) + mainItem.getItemQty()) % (mainItem.getItemCountInBox()) ) - mainItem.getItemQty();
                         mainItemDTO =  new MainItemDTO(itemMap.get(selectedCode),newBoxQTY,newItemQTY);
                     }
-                    if(mainItemBO.updateItemQtys(mainItemDTO)){
+                    if(mainItemBO.updateItemQtysIncrease(mainItemDTO)){
                         new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                         clearAll();
                         cmbItems.setItems(loadComboBox(""));
@@ -181,6 +180,7 @@ public class UpdateItemsController {
         codetxt.clear();
         nametxt.clear();
         unitBoxPricetxt.clear();
+        unitBoxPriceAgencytxt.clear();
         itemCounttxt.clear();
         boxQtytxt.clear();
         itemQtytxt.clear();

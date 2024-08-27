@@ -106,8 +106,22 @@ public class MainUpdateItemsController {
         MainItemDTO mainItemDTO = new MainItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
         if(btnUpdate.getText().equalsIgnoreCase("Update")){
             if(mainItemBO.updateItem(mainItemDTO)) {
-                clearAll();
-                new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
+                ItemDTO item = itemBO.getItem(codetxt.getText());
+
+                if(mainItemBO.updateItem(mainItemDTO)){
+                    if(item != null){
+                        ItemDTO itemDTO = new ItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),item.getBoxQty(),item.getItemQty());
+                        if(itemBO.updateItem(itemDTO)){
+                            clearAll();
+                            new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
+                        }else{
+                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        }
+                    }else{
+                        clearAll();
+                        new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();                    }
+                }
+
             }else{
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
             }
@@ -152,6 +166,7 @@ public class MainUpdateItemsController {
         codetxt.clear();
         nametxt.clear();
         unitBoxPricetxt.clear();
+        unitBoxPriceAgencytxt.clear();
         itemCounttxt.clear();
         boxQtytxt.clear();
         itemQtytxt.clear();

@@ -23,22 +23,46 @@ public class MainItemDaoImpl implements MainItemDAO {
         return CrudUtil.executeUpdate(sql,i.getName(),i.getUnitPrice_Box_Agency(),i.getUnitPrice_Box(),i.getItemCountInBox(),i.getBoxQty(),i.getItemQty(),i.getCode());
     }
     @Override
-    public boolean updateItemQtys(MainItem i) throws SQLException, ClassNotFoundException {
+    public boolean updateItemQtysReduce(MainItem i) throws SQLException, ClassNotFoundException {
         MainItem mainItem = getItem(i.getCode());
-        if(i.getBoxQty() == 1 && i.getItemQty() > 1){
-            int ItemQTY = mainItem.getItemQty() + i.getItemQty();
-            String sql = "UPDATE MainItem SET itemQty=?  WHERE code=?";
-            return CrudUtil.executeUpdate(sql,ItemQTY,i.getCode());
-        } else if (i.getItemQty() == 1 && i.getBoxQty() > 1) {
-            int BoxQTY = mainItem.getBoxQty() + i.getBoxQty();
-            String sql = "UPDATE MainItem SET boxQty=?  WHERE code=?";
-            return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
+        if(i.getBoxQty() == 0 && i.getItemQty() > 0){
+            if(mainItem.getItemQty() >= i.getItemQty()){
+                int ItemQTY = mainItem.getItemQty() - i.getItemQty();
+                String sql = "UPDATE MainItem SET itemQty=?  WHERE code=?";
+                return CrudUtil.executeUpdate(sql,ItemQTY,i.getCode());
+            }else{
+                System.out.println("Please reduce item count as no stock");
+                return false;
+            }
+        } else if (i.getItemQty() == 0 && i.getBoxQty() > 0) {
+            if(mainItem.getBoxQty() >= i.getBoxQty()){
+                int BoxQTY = mainItem.getBoxQty() - i.getBoxQty();
+                String sql = "UPDATE MainItem SET boxQty=?  WHERE code=?";
+                return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
+            }else{
+                System.out.println("Please reduce box count as no stock");
+                return false;
+            }
         }else{
-            int ItemQTY = mainItem.getItemQty() + i.getItemQty();
-            int BoxQTY = mainItem.getBoxQty() + i.getBoxQty();
-            String sql = "UPDATE MainItem SET boxQty=?, itemQty=?  WHERE code=?";
-            return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
+            if((mainItem.getBoxQty() >= i.getBoxQty()) && (mainItem.getItemQty() >= i.getItemQty())){
+                int ItemQTY = mainItem.getItemQty() - i.getItemQty();
+                int BoxQTY = mainItem.getBoxQty() - i.getBoxQty();
+                String sql = "UPDATE MainItem SET boxQty=?, itemQty=?  WHERE code=?";
+                return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
+            }else{
+                System.out.println("Please reduce box and item count as no stock");
+                return false;
+            }
         }
+    }
+
+    @Override
+    public boolean updateItemQtysIncrease(MainItem i) throws SQLException, ClassNotFoundException {
+        MainItem mainItem = getItem(i.getCode());
+        int ItemQTY = mainItem.getItemQty() + i.getItemQty();
+        int BoxQTY = mainItem.getBoxQty() + i.getBoxQty();
+        String sql = "UPDATE MainItem SET boxQty=?, itemQty=?  WHERE code=?";
+        return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
     }
 
     @Override

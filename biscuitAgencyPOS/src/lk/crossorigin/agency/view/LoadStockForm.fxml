@@ -43,10 +43,6 @@
             <Font name="System Bold" size="20.0" />
          </font></JFXButton>
       <JFXComboBox fx:id="itemsCmbBox" layoutX="21.0" layoutY="132.0" prefHeight="46.0" prefWidth="230.0" promptText="Item Name" />
-      <JFXButton fx:id="btnUpdateItem" buttonType="RAISED" layoutX="12.0" layoutY="847.0" onAction="#updateItemOnAction" prefHeight="38.0" prefWidth="246.0" style="-fx-background-color: #26355D;" text="Update Item" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font></JFXButton>
       <TextField fx:id="itemQtyTxt" layoutX="585.0" layoutY="135.0" prefHeight="46.0" prefWidth="158.0" promptText="Item QTY " style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
@@ -66,5 +62,10 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="1202.0" layoutY="136.0" onAction="#DeleteOnAction" prefHeight="38.0" prefWidth="257.0" style="-fx-background-color: #26355D;" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
