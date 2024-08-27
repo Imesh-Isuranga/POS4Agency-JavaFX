@@ -107,6 +107,7 @@ public class AddOrderFormController {
 
     DiscountBO discountBO = new DiscountBoImpl();
     ItemBO itemBO = new ItemBoImpl();
+    MainItemBO mainItemBO = new MainItemBoImpl();
     OrderBO orderBO = new OrderBoImpl();
     OrderBookBO orderBookBO = new OrderBookBoImpl();
     OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
@@ -241,8 +242,12 @@ public class AddOrderFormController {
             itemCount = Integer.parseInt(txtItemQty.getText());
         }
 
-
-        if(boxCount==0 && itemCount==0){
+        int boxInMain = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString())).getBoxQty();
+        int itemInMain = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString())).getItemQty();
+        ItemDTO itemDTO = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString()));
+        if((itemDTO.getBoxQty() < (boxCount)) || ((itemDTO.getItemQty() + itemDTO.getItemCountInBox()* itemDTO.getBoxQty()) < (itemCount + boxCount* itemDTO.getItemCountInBox()))){
+            new Alert(Alert.AlertType.CONFIRMATION,"No Stock", ButtonType.OK).show();
+        }else if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
         }else {
             double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbItemCode.getValue().toString())).getUnitPrice_Box();
@@ -267,12 +272,23 @@ public class AddOrderFormController {
                 if(rowIndex!=-1) {
                     // Update the quantity and total of the existing item
                     OrderTM existingItem = obList.get(rowIndex);
-                    existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
-                    existingItem.setItemQty(existingItem.getItemQty() + itemCount);
-                    existingItem.setTotal(existingItem.getTotal() + total);
+                    if((existingItem.getBoxQty()+boxCount)>boxInMain || (existingItem.getItemQty()+itemCount + existingItem.getBoxQty()*itemCountInBox)>(itemInMain + boxInMain*itemCountInBox)){
+                        new Alert(Alert.AlertType.CONFIRMATION,"No Stock", ButtonType.OK).show();
+                    }else{
+                        if((existingItem.getItemQty() + itemCount) >= itemCountInBox){
+                            existingItem.setBoxQty(existingItem.getBoxQty() + boxCount + 1);
+                            existingItem.setItemQty((existingItem.getItemQty() + itemCount)%itemCountInBox);
+                            existingItem.setTotal(existingItem.getTotal() + total);
+                        }else{
+                            existingItem.setBoxQty(existingItem.getBoxQty() + boxCount);
+                            existingItem.setItemQty(existingItem.getItemQty() + itemCount);
+                            existingItem.setTotal(existingItem.getTotal() + total);
+                        }
 
-                    // Force the table to refresh by setting the item to itself
-                    obList.set(rowIndex, existingItem);
+                        // Force the table to refresh by setting the item to itself
+                        obList.set(rowIndex, existingItem);
+                    }
+
                 }else{
                     OrderTM orderTM = new OrderTM(cmbItemCode.getValue().toString(),boxCount,itemCount,total);
                     obList.add(orderTM);
@@ -516,6 +532,7 @@ public class AddOrderFormController {
         }
         //total -= calculateTotalValueFree();
         total -= calculateTotalDiscount();
+        total -= Double.parseDouble(returnTotallbl.getText());
         return total;
     }
 
@@ -577,12 +594,12 @@ public class AddOrderFormController {
             }
         }
         System.out.println("777777777777777777777777777777777777777777777777777777777777----------------");
-        double tempFree_DisTotal = Double.parseDouble(lblFreeDis.getText());
+        double tempFree_DisTotal = 0.00;
         System.out.println(tempFree_DisTotal);
         tempFree_DisTotal += total;
         lblFreeDis.setText(String.valueOf(tempFree_DisTotal));
 
-        double tempDisTotal = Double.parseDouble(lbldis.getText());
+        double tempDisTotal = 0.00;
         System.out.println(tempDisTotal);
         tempDisTotal += total;
         lbldis.setText(String.valueOf(tempDisTotal));
@@ -913,7 +930,7 @@ public class AddOrderFormController {
 
         if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
-        } else if (Integer.parseInt(txtPerQtyReturn.getText())==0) {
+        } else if (Double.parseDouble(txtPerQtyReturn.getText())==0.0) {
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Per QTY", ButtonType.OK).show();
         } else {
             double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbReturnItem.getValue().toString())).getUnitPrice_Box();
@@ -958,9 +975,9 @@ public class AddOrderFormController {
 
                 obListReturn.add(returnStockTM);
                 tblReturn.setItems(obListReturn);
-
             }
             returnTotallbl.setText(String.valueOf(returnTotal));
+            lblTotal.setText(String.valueOf(calculateTotalValue()));
         }
     }
 

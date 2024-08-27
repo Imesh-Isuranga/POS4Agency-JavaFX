@@ -98,7 +98,7 @@ public class MonthlyReportFormController{
                     return_tot = 0.0;
                 }
                 total += orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getTotal();
-                dis_tot += orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getDis_tot();
+                dis_tot += orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getFree_total() + orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getDis_tot();
                 return_tot += orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getReturn_tot();
 
                 if(length==dtoAllOrdersList.size()){

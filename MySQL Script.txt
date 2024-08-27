@@ -49,7 +49,7 @@ CREATE TABLE Payment (
     CONSTRAINT FOREIGN KEY (orderId) REFERENCES OrderBook(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Item(
+CREATE TABLE MainItem(
     code VARCHAR(6) NOT NULL,
     name VARCHAR(50),
     unitPrice_Box_Agency DECIMAL(8,2),
@@ -58,6 +58,19 @@ CREATE TABLE Item(
     boxQty INT(5) DEFAULT '0',
     itemQty INT(5) DEFAULT '0',
     CONSTRAINT PRIMARY KEY (code)
+);
+
+
+CREATE TABLE Item(
+    code VARCHAR(6) NOT NULL,
+    name VARCHAR(50),
+    unitPrice_Box_Agency DECIMAL(8,2),
+    unitPrice_Box DECIMAL(8,2),
+    itemCountInBox INT(5) NOT NULL,
+    boxQty INT(5) DEFAULT '0',
+    itemQty INT(5) DEFAULT '0',
+    CONSTRAINT PRIMARY KEY (code),
+    CONSTRAINT FOREIGN KEY (code) REFERENCES MainItem(code) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Discount (
@@ -74,18 +87,25 @@ CREATE TABLE Discount (
 CREATE TABLE ReturnStock (
     id INT NOT NULL AUTO_INCREMENT,
     orderId VARCHAR(100) NOT NULL,
-    itemCode VARCHAR(6) NOT NULL,
+    itemCode VARCHAR(100) NOT NULL,
     boxQty INT(5) DEFAULT '0',
     itemQty INT(5) DEFAULT '0',
+    perQTY_price DECIMAL(8,2),
     PRIMARY KEY (id),
     CONSTRAINT FOREIGN KEY (itemCode) REFERENCES Item(code) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FOREIGN KEY (orderId) REFERENCES OrderBook(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
+
 CREATE TABLE OrderDetail(
     orderId VARCHAR(100) NOT NULL,
     itemCode VARCHAR(6) NOT NULL,
     unitPrice_Box DECIMAL(8,2),
+    total DECIMAL(8,2),
+    free_total DECIMAL(8,2),
+    dis_total DECIMAL(8,2),
+    return_total DECIMAL(8,2),
     boxQty INT(5) DEFAULT '0',
     itemQty INT(5) DEFAULT '0',
     boxQtyFree INT(5) DEFAULT '0',
@@ -96,23 +116,23 @@ CREATE TABLE OrderDetail(
 );
 
 -- Insert data into the Item table
-INSERT INTO Item VALUES('P001', 'Keerisamba Retail', 105.00, 105.00, 5, 45, 0);
-INSERT INTO Item VALUES('P002', 'Keerisamba 5Kg ', 105.00, 1045.00, 5, 25, 0);
-INSERT INTO Item VALUES('P003', 'Keerisamba 10Kg', 105.00, 5.00, 5, 0, 5);
-INSERT INTO Item VALUES('P004', 'Keerisamba 50Kg', 105.00, 5.00, 5, 0, 5);
-INSERT INTO Item VALUES('P005', 'Red Raw Rice', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P006', 'Red Raw Rice 10Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO Item VALUES('P007', 'Red Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO Item VALUES('P008', 'White Raw Rice 5Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO Item VALUES('P009', 'White Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO Item VALUES('P010', 'Wattana Dhal 500g', 105.00, 5.00, 5, 45, 5);
-INSERT INTO Item VALUES('P011', 'Wattana Dhal 1Kg', 105.00, 5.00, 5, 45, 5);
-INSERT INTO Item VALUES('P012', 'Mysoor Dhal 500g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P013', 'Mysoor Dhal 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P014', 'Orient Green Gram 500g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P015', 'Orient Green Gram 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P016', 'Anchor F/C Milk powder 450g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P017', 'Anchor F/C Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P018', 'Anchor N/F Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P019', 'Milo Packet 400g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO Item VALUES('P020', 'Lipton Ceylon Tea 100g', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P001', 'Keerisamba Retail', 105.00, 105.00, 5, 45, 0);
+INSERT INTO MainItem VALUES('P002', 'Keerisamba 5Kg ', 105.00, 1045.00, 5, 25, 0);
+INSERT INTO MainItem VALUES('P003', 'Keerisamba 10Kg', 105.00, 5.00, 5, 0, 5);
+INSERT INTO MainItem VALUES('P004', 'Keerisamba 50Kg', 105.00, 5.00, 5, 0, 5);
+INSERT INTO MainItem VALUES('P005', 'Red Raw Rice', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P006', 'Red Raw Rice 10Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P007', 'Red Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P008', 'White Raw Rice 5Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P009', 'White Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P010', 'Wattana Dhal 500g', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P011', 'Wattana Dhal 1Kg', 105.00, 5.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P012', 'Mysoor Dhal 500g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P013', 'Mysoor Dhal 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P014', 'Orient Green Gram 500g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P015', 'Orient Green Gram 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P016', 'Anchor F/C Milk powder 450g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P017', 'Anchor F/C Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P018', 'Anchor N/F Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P019', 'Milo Packet 400g', 105.00, 105.00, 5, 45, 5);
+INSERT INTO MainItem VALUES('P020', 'Lipton Ceylon Tea 100g', 105.00, 5.00, 5, 45, 5);

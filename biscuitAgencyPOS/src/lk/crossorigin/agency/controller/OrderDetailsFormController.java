@@ -104,7 +104,7 @@ public class OrderDetailsFormController {
                     }
                 }
 
-                ArrayList<ReturnStockDTO> returnByOrderId = returnStockBO.getReturnByOrderId(dto.getId());
+                /*ArrayList<ReturnStockDTO> returnByOrderId = returnStockBO.getReturnByOrderId(dto.getId());
                 double returnAmount = 0.00;
                 for (ReturnStockDTO r:returnByOrderId) {
                     ItemDTO itemDTO = itemBO.getItem(r.getItemCode());
@@ -113,7 +113,7 @@ public class OrderDetailsFormController {
                     int itemQTY = r.getItemQty();
                     int itemsCount_in_box = itemDTO.getItemCountInBox();
                     returnAmount+=(unit_QTYPrice*itemsCount_in_box*boxQTY + unit_QTYPrice*itemQTY);
-                }
+                }*/
 
                 ArrayList<DiscountDTO> allDiscountByOrderId = discountBO.getAllDiscountByOrderId(dto.getId());
                 int dupCount = 1;
@@ -122,7 +122,7 @@ public class OrderDetailsFormController {
                         dupCount++;
                     }
                 }
-                double finalDisValue = 0.00;
+                /*double finalDisValue = 0.00;
                 for(int i=0; i<dupCount && allDiscountByOrderId.size()>0; i++){
                     ArrayList<DiscountDTO> allDiscountByIdDup = discountBO.getAllDiscountByIdDup(dto.getId(), String.valueOf(i + 1));
                     double totalDis = 0.00;
@@ -138,7 +138,7 @@ public class OrderDetailsFormController {
                     }
                     System.out.println(allDiscountByIdDup.get(0));
                     finalDisValue+=totalDis*(allDiscountByIdDup.get(0).getDiscountValue())/100;
-                }
+                }*/
 
 
                 System.out.println("000000000000000000000000000000000000000");
@@ -153,8 +153,8 @@ public class OrderDetailsFormController {
                         creditAmount,
                         chequeAmount,
                         chequeNum,
-                        returnAmount,
-                        finalDisValue + "-" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total() + " = " + (finalDisValue + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total())
+                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getReturn_tot(),
+                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total())
                 );
                 obList.add(orderDetailsTM);
             }

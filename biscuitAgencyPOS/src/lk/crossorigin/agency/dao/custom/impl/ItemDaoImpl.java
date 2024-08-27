@@ -36,9 +36,10 @@ public class ItemDaoImpl implements ItemDAO {
             String sql = "UPDATE Item SET boxQty=?  WHERE code=?";
             return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
         }else{
-            System.out.println("//////////////");
-            System.out.println(item.getBoxQty());
             System.out.println(item.getItemQty());
+            System.out.println(i.getItemQty());
+            System.out.println(item.getBoxQty());
+            System.out.println(i.getBoxQty());
             int ItemQTY = item.getItemQty() + i.getItemQty();
             int BoxQTY = item.getBoxQty() + i.getBoxQty();
             String sql = "UPDATE Item SET boxQty=?, itemQty=?  WHERE code=?";

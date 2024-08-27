@@ -44,9 +44,14 @@ public class MainUpdateItemsController {
 
 
     MainItemBO mainItemBO = new MainItemBoImpl();
+    ItemBO itemBO = new ItemBoImpl();
 
     public void initialize(){
         cmbItems.setItems(loadComboBox(""));
+
+        /*codetxt.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnUpdate.setText("Save");
+        });*/
 
         cmbItems.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -67,6 +72,7 @@ public class MainUpdateItemsController {
         MainItemDTO mainItemDTO = mainItemBO.getItem(code);
         codetxt.setText(mainItemDTO.getCode());
         nametxt.setText(mainItemDTO.getName());
+        unitBoxPriceAgencytxt.setText(String.valueOf(mainItemDTO.getUnitPrice_Box_Agency()));
         unitBoxPricetxt.setText(String.valueOf(mainItemDTO.getUnitPrice_Box()));
         itemCounttxt.setText(String.valueOf(mainItemDTO.getItemCountInBox()));
         boxQtytxt.setText(String.valueOf(mainItemDTO.getBoxQty()));
@@ -125,9 +131,14 @@ public class MainUpdateItemsController {
         if(confirmState.get().equals(ButtonType.YES)){
             try {
                 if(mainItemBO.deleteItem(itemMap.get(selectedCode))) {
-                    new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
-                    clearAll();
-                    cmbItems.setItems(loadComboBox(""));
+                    ItemDTO item = itemBO.getItem(itemMap.get(selectedCode));
+                    if(((item != null)  && (itemBO.deleteItem(itemMap.get(selectedCode)))) || item == null){
+                        new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
+                        clearAll();
+                        cmbItems.setItems(loadComboBox(""));
+                    }else {
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
                 }else{
                     new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                 }

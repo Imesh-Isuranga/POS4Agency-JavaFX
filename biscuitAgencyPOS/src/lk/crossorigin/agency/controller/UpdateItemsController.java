@@ -50,11 +50,15 @@ public class UpdateItemsController {
     public void initialize(){
         cmbItems.setItems(loadComboBox(""));
 
+        /*codetxt.textProperty().addListener((observable, oldValue, newValue) -> {
+          btnUpdate.setText("Save");
+        });*/
+
         cmbItems.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 btnUpdate.setText("Update");
                 selectedCode = (String) newValue;
-                if(itemBO.getItem(itemMap.get(selectedCode)) != null){
+                if(mainItemBO.getItem(itemMap.get(selectedCode)) != null){
                     loadTxtFields(itemMap.get(selectedCode));
                 }
             } catch (SQLException e) {
@@ -69,6 +73,7 @@ public class UpdateItemsController {
         ItemDTO itemDTO = itemBO.getItem(code);
         codetxt.setText(itemDTO.getCode());
         nametxt.setText(itemDTO.getName());
+        unitBoxPriceAgencytxt.setText(String.valueOf(itemDTO.getUnitPrice_Box_Agency()));
         unitBoxPricetxt.setText(String.valueOf(itemDTO.getUnitPrice_Box()));
         itemCounttxt.setText(String.valueOf(itemDTO.getItemCountInBox()));
         boxQtytxt.setText(String.valueOf(itemDTO.getBoxQty()));
@@ -148,9 +153,21 @@ public class UpdateItemsController {
         if(confirmState.get().equals(ButtonType.YES)){
             try {
                 if(itemBO.deleteItem(itemMap.get(selectedCode))) {
-                    new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
-                    clearAll();
-                    cmbItems.setItems(loadComboBox(""));
+                    MainItemDTO mainItemDTO;
+                    mainItemDTO =  new MainItemDTO(itemMap.get(selectedCode),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
+                    MainItemDTO mainItemDTO1 = mainItemBO.getItem(itemMap.get(selectedCode));
+                    if((mainItemDTO1.getItemQty() + Integer.parseInt(itemQtytxt.getText())) >= mainItemDTO1.getItemCountInBox()){
+                        int newBoxQTY = Integer.parseInt(boxQtytxt.getText()) + 1;
+                        int newItemQTY = ((Integer.parseInt(itemQtytxt.getText()) + mainItemDTO1.getItemQty()) % (mainItemDTO1.getItemCountInBox()) ) - mainItemDTO1.getItemQty();
+                        mainItemDTO =  new MainItemDTO(itemMap.get(selectedCode),newBoxQTY,newItemQTY);
+                    }
+                    if(mainItemBO.updateItemQtys(mainItemDTO)){
+                        new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
+                        clearAll();
+                        cmbItems.setItems(loadComboBox(""));
+                    }else {
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
                 }else{
                     new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                 }

@@ -61,5 +61,10 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
+      <Label fx:id="lblTot" layoutX="727.0" layoutY="843.0" prefHeight="46.0" prefWidth="195.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -2,6 +2,7 @@ package lk.crossorigin.agency.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,6 +52,7 @@ public class MainStockFormController {
     public TextField itemQtyTxt;
     public TableColumn colUnitPrice_Box_Agency;
     public JFXButton btnPrint;
+    public Label lblTot;
 
     MainItemBO mainItemBO = new MainItemBoImpl();
 
@@ -75,6 +77,9 @@ public class MainStockFormController {
         itemsTbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null){
                 itemTMSelected = newValue;
+                boxQtyTxt.setText(String.valueOf(itemTMSelected.getBoxQty()));
+                itemQtyTxt.setText(String.valueOf(itemTMSelected.getItemQty()));
+                btnUpdateStock.setText("Update");
             }
         });
 
@@ -103,8 +108,7 @@ public class MainStockFormController {
         ObservableList<MainItemTM> obList = FXCollections.observableArrayList();
         try {
             ArrayList<MainItemDTO> dtoList = mainItemBO.getAllItems("%" + searchText + "%");
-            System.out.println("11111111111111111111111111111111111111111111111111111111111111111");
-            System.out.println(dtoList);
+            double wholeTotal = 0.00;
             for (MainItemDTO dto: dtoList) {
                 double total = 0.0;
                 if(dto.getItemCountInBox()==0){
@@ -112,6 +116,7 @@ public class MainStockFormController {
                 }else{
                     total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
                 }
+                wholeTotal += total;
                 MainItemTM mainItemTM = new MainItemTM(
                         dto.getCode(),
                         dto.getName(),
@@ -122,6 +127,7 @@ public class MainStockFormController {
                         total
                         );
                 obList.add(mainItemTM);
+                lblTot.setText(String.valueOf(wholeTotal));
             }
             itemsTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {
@@ -134,29 +140,81 @@ public class MainStockFormController {
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/LoadStockForm.fxml"))));
     }
 
+    public Object getCellValue(int rowIndex, int columnIndex) {
+        // Step 1: Retrieve the row's data (item) from the TableView's items
+        MainItemTM rowData = itemsTbl.getItems().get(rowIndex);
+
+        // Step 2: Retrieve the TableColumn for the given column index
+        TableColumn<MainItemTM, ?> column = itemsTbl.getColumns().get(columnIndex);
+
+        // Step 3: Get the value from the cell using the column's CellDataFeatures
+        ObservableValue<?> cellValue = column.getCellObservableValue(rowData);
+
+        // Step 4: Return the cell value
+        return cellValue.getValue();
+    }
+
+    private int isAlreadyExists(String itemCode){
+        for(int i = 0; i<itemsTbl.getItems().size(); i++){
+            if(getCellValue(i,1).toString().equals(itemCode)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void UpdateStockOnAction(ActionEvent actionEvent) {
         try {
             int boxCount;
             int itemCount;
             if(boxQtyTxt.getText().isEmpty()){
-                boxCount=-1;
+                boxCount=0;
             }else{
                 boxCount = Integer.parseInt(boxQtyTxt.getText());
             }
 
             if(itemQtyTxt.getText().isEmpty()){
-                itemCount=-1;
+                itemCount=0;
             }else {
                 itemCount = Integer.parseInt(itemQtyTxt.getText());
             }
 
+            if (Integer.parseInt(boxQtyTxt.getText()) < 0) {
+                boxCount = -2;
+            }
+            if (Integer.parseInt(itemQtyTxt.getText()) < 0) {
+                itemCount = -2;
+            }
+
+
+
             boxQtyTxt.clear();
             itemQtyTxt.clear();
 
-            MainItemDTO dto = new MainItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
-            if(boxCount == -1 && itemCount == -1){
+            MainItemDTO maindto;
+            if(btnUpdateStock.getText().equalsIgnoreCase("Update")){
+                maindto = new MainItemDTO(itemTMSelected.getCode(),boxCount,itemCount);
+
+                MainItemDTO mainItemDTO = mainItemBO.getItem(itemTMSelected.getCode());
+                int boxToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),3).toString());
+                int itemToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),4).toString());
+
+                if((itemToUpdate + itemCount) >= mainItemDTO.getItemCountInBox()){
+                    int newItemCount = (itemToUpdate + itemCount) % (mainItemDTO.getItemCountInBox()) - itemToUpdate;
+                    int newBoxCount = boxCount + (itemToUpdate + itemCount) / (mainItemDTO.getItemCountInBox());
+                    maindto = new MainItemDTO(itemTMSelected.getCode(),newBoxCount,newItemCount);
+                }
+            }else{
+                maindto = new MainItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
+            }
+
+            if(boxCount == -2 || itemCount == -2){
+                new Alert(Alert.AlertType.WARNING,"Please Insert more than Zero",ButtonType.CANCEL).show();
+            }else if(boxCount == -1 && itemCount == -1){
                 new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
-            }else if(mainItemBO.updateItemQtys(dto)) {
+            } else if (itemCount >= mainItemBO.getItem(itemTMSelected.getCode()).getItemCountInBox()) {
+                new Alert(Alert.AlertType.WARNING,"Please reduce items less than items count in box.",ButtonType.CANCEL).show();
+            } else if(mainItemBO.updateItemQtys(maindto)) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Item was Saved", ButtonType.OK).show();
                 loadAllItems("");
             }else{

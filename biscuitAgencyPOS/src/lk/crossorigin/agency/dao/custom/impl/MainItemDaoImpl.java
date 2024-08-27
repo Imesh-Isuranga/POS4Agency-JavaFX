@@ -25,11 +25,11 @@ public class MainItemDaoImpl implements MainItemDAO {
     @Override
     public boolean updateItemQtys(MainItem i) throws SQLException, ClassNotFoundException {
         MainItem mainItem = getItem(i.getCode());
-        if(i.getBoxQty() == -1){
+        if(i.getBoxQty() == 1 && i.getItemQty() > 1){
             int ItemQTY = mainItem.getItemQty() + i.getItemQty();
             String sql = "UPDATE MainItem SET itemQty=?  WHERE code=?";
             return CrudUtil.executeUpdate(sql,ItemQTY,i.getCode());
-        } else if (i.getItemQty() == -1) {
+        } else if (i.getItemQty() == 1 && i.getBoxQty() > 1) {
             int BoxQTY = mainItem.getBoxQty() + i.getBoxQty();
             String sql = "UPDATE MainItem SET boxQty=?  WHERE code=?";
             return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
