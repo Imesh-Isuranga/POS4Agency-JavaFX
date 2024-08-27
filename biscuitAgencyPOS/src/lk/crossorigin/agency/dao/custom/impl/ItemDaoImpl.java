@@ -33,6 +33,11 @@ public class ItemDaoImpl implements ItemDAO {
                 int ItemQTY = item.getItemQty() - i.getItemQty();
                 String sql = "UPDATE Item SET itemQty=?  WHERE code=?";
                 return CrudUtil.executeUpdate(sql,ItemQTY,i.getCode());
+            }else if(item.getItemQty() < i.getItemQty()){
+                int BoxQTY = item.getBoxQty()-1;
+                int ItemQTY = item.getItemQty() + item.getItemCountInBox() - i.getItemQty();
+                String sql = "UPDATE Item SET boxQty=?, itemQty=?  WHERE code=?";
+                return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
             }else{
                 System.out.println("Please reduce item count as no stock");
                 return false;

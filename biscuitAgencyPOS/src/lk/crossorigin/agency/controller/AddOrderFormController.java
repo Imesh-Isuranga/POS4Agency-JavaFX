@@ -300,6 +300,8 @@ public class AddOrderFormController {
             }
 
         }
+        txtBoxQty.clear();
+        txtItemQty.clear();
     }
 
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException {
