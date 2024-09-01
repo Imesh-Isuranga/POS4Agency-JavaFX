@@ -18,6 +18,8 @@ public class DashBoardFormController {
 
     public JFXButton btnMonthlyReport;
     public JFXButton btnReturnStock;
+    public JFXButton btnShopsCredit;
+    public JFXButton btnSave;
     OrderBO orderBO = new OrderBoImpl();
     OrderBookBO orderBookBO = new OrderBookBoImpl();
     ReturnStockBO returnStockBO = new ReturnStockBoImpl();
@@ -79,5 +81,13 @@ public class DashBoardFormController {
 
     public void returnStockOnAction(ActionEvent actionEvent) throws IOException {
         setUi("Returnitems");
+    }
+
+    public void returnShopCredit(ActionEvent actionEvent) throws IOException {
+        setUi("Shopscredit");
+    }
+
+    public void saveOnAction(ActionEvent actionEvent) throws IOException {
+        setUi("Save");
     }
 }

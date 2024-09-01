@@ -1,6 +1,7 @@
 package lk.crossorigin.agency.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,12 +13,22 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.crossorigin.agency.bo.custom.*;
 import lk.crossorigin.agency.bo.custom.impl.*;
+import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.*;
+import lk.crossorigin.agency.view.tm.MonthlyReportTM;
 import lk.crossorigin.agency.view.tm.OrderDetailsTM;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OrderDetailsFormController {
     public AnchorPane orderHistoryContext;
@@ -34,6 +45,8 @@ public class OrderDetailsFormController {
     public TableColumn colMR;
     public TableColumn colDiscount;
     public JFXButton btnSearch;
+    public JFXButton btnPrint;
+    public TextField txtSearch;
 
 
     OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
@@ -42,6 +55,7 @@ public class OrderDetailsFormController {
     PaymentBO paymentBO = new PaymentBoImpl();
     ReturnStockBO returnStockBO = new ReturnStockBoImpl();
     DiscountBO discountBO = new DiscountBoImpl();
+    OrderHistoryBO orderHistoryBO = new OrderHistoryBoImpl();
 
     public void initialize(){
         colNum.setCellValueFactory(new PropertyValueFactory<>("no"));
@@ -170,5 +184,62 @@ public class OrderDetailsFormController {
     }
 
     public void searchOnAction(ActionEvent actionEvent) {
+        loadAllDetails(txtSearch.getText());
+    }
+
+    public Object getCellValueReturn(int rowIndex, int columnIndex) {
+        // Step 1: Retrieve the row's data (item) from the TableView's items
+        OrderDetailsTM rowData = orderHistoryTbl.getItems().get(rowIndex);
+
+        // Step 2: Retrieve the TableColumn for the given column index
+        TableColumn<OrderDetailsTM, ?> column = orderHistoryTbl.getColumns().get(columnIndex);
+
+        // Step 3: Get the value from the cell using the column's CellDataFeatures
+        ObservableValue<?> cellValue = column.getCellObservableValue(rowData);
+
+        // Step 4: Return the cell value
+        return cellValue.getValue();
+    }
+
+    public void printOnAction(ActionEvent actionEvent) {
+        try {
+            if(orderHistoryBO.deleteOrderHistory()){
+                for (int i=0; i<orderHistoryTbl.getItems().size(); i++){
+                    OrderHistoryDTO orderHistoryDTO = new OrderHistoryDTO(
+                            getCellValueReturn(i,1).toString(),
+                            getCellValueReturn(i,2).toString(),
+                            Double.parseDouble(getCellValueReturn(i,3).toString()),
+                            Double.parseDouble(getCellValueReturn(i,4).toString()),
+                            Double.parseDouble(getCellValueReturn(i,5).toString()),
+                            Double.parseDouble(getCellValueReturn(i,6).toString()),
+                            getCellValueReturn(i,7).toString(),
+                            Double.parseDouble(getCellValueReturn(i,8).toString()),
+                            getCellValueReturn(i,9).toString()
+                    );
+                    if(orderHistoryBO.saveOrderHistory(orderHistoryDTO)){
+                        if(i==orderHistoryTbl.getItems().size()-1){
+                            JasperDesign design = JRXmlLoader.load("src/lk/crossorigin/agency/reports/Order_History.jrxml");
+                            JasperReport jasperReport = JasperCompileManager.compileReport(design);
+                            Connection conn = DBConnection.getInstance().getConnection();
+                            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), conn);
+                            JasperViewer.viewReport(jasperPrint, false);                    }
+                    }else {
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        break;
+                    }
+                }
+            }else{
+                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+            }
+        } catch (JRException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "JRException: " + e.getMessage(), ButtonType.OK).show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQLException: " + e.getMessage(), ButtonType.OK).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "ClassNotFoundException: " + e.getMessage(), ButtonType.OK).show();
+        }
     }
 }

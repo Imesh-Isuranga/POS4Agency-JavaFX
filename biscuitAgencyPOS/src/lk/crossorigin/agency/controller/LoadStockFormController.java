@@ -295,7 +295,7 @@ public class LoadStockFormController {
 
     public void printOnAction(ActionEvent actionEvent) {
         try {
-            JasperDesign design = JRXmlLoader.load("src/lk/crossorigin/agency/reports/items.jrxml");
+            JasperDesign design = JRXmlLoader.load("src/lk/crossorigin/agency/reports/Stock_Lorry.jrxml");
             JasperReport jasperReport = JasperCompileManager.compileReport(design);
             Connection conn = DBConnection.getInstance().getConnection();
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), conn);

@@ -16,7 +16,7 @@ public class DAOFactory {
     }
 
     public enum DaoType{
-        DISCOUNT,ITEM,ORDERBOOK,ORDER,ORDERDETAILS,PAYMENT,RETURN,SHOP,MainITEM;
+        DISCOUNT,ITEM,ORDERBOOK,ORDER,ORDERDETAILS,PAYMENT,RETURN,SHOP,MainITEM,ShopCredit,SAVELIST,MONTHLYREPORT,ORDERHISTORY;
     }
 
     public <T> T getDao(DaoType type){
@@ -39,6 +39,14 @@ public class DAOFactory {
                 return (T) new  ShopDaoImpl();
             case MainITEM:
                 return (T) new  MainItemDaoImpl();
+            case ShopCredit:
+                return (T) new ShopCreditDaoImpl();
+            case SAVELIST:
+                return (T) new SaveListDaoImpl();
+            case MONTHLYREPORT:
+                return (T) new MonthlyReportDaoImpl();
+            case ORDERHISTORY:
+                return (T) new OrderHistoryDaoImpl();
             default:
                 return null;
         }

@@ -12,12 +12,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.crossorigin.agency.bo.custom.*;
 import lk.crossorigin.agency.bo.custom.impl.*;
+import lk.crossorigin.agency.db.DBConnection;
 import lk.crossorigin.agency.dto.ShopDTO;
 import lk.crossorigin.agency.view.tm.ShopTM;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class AddShopFormController {
@@ -34,6 +40,7 @@ public class AddShopFormController {
     public TableColumn colOption;
     public JFXButton btnSaveShop;
     public JFXButton btnNewShop;
+    public JFXButton btnPrint;
 
     private ShopTM shopTM;
 
@@ -159,6 +166,25 @@ public class AddShopFormController {
             } catch (ClassNotFoundException | SQLException e1) {
                 e1.printStackTrace();
             }
+        }
+    }
+
+    public void printOnAction(ActionEvent actionEvent) {
+        try {
+            JasperDesign design = JRXmlLoader.load("src/lk/crossorigin/agency/reports/Shop_list.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(design);
+            Connection conn = DBConnection.getInstance().getConnection();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), conn);
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "JRException: " + e.getMessage(), ButtonType.OK).show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQLException: " + e.getMessage(), ButtonType.OK).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "ClassNotFoundException: " + e.getMessage(), ButtonType.OK).show();
         }
     }
 }

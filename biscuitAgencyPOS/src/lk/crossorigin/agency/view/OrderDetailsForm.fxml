@@ -36,11 +36,16 @@
             <TableColumn fx:id="colDiscount" prefWidth="278.4000244140625" text="Discount" />
         </columns>
       </TableView>
-      <TextField layoutX="15.0" layoutY="140.0" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
+      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
          <font>
             <Font size="20.0" />
          </font></TextField>
       <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="1336.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="36.0" prefWidth="354.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1331.0" layoutY="21.0" onAction="#printOnAction" prefHeight="36.0" prefWidth="354.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

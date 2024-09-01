@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Return_Stock" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9e8f24f-54aa-4adc-aab7-3f0ede01780d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (4)"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    rs.id AS ReturnStockID,
+    rs.orderId AS OrderID,
+    o.shopId AS ShopID,
+    rs.itemCode AS ItemCode,
+    rs.boxQty AS BoxQuantity,
+    rs.itemQty AS ItemQuantity,
+    rs.perQTY_price AS PricePerQuantity,
+    s.name AS ShopName,
+    s.address AS ShopAddress
+FROM 
+    ReturnStock rs
+JOIN 
+    Orders o ON rs.orderId = o.orderId
+JOIN 
+    Shop s ON o.shopId = s.id
+ORDER BY 
+    rs.id;]]>
+	</queryString>
+	<field name="ReturnStockID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ReturnStockID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnstock"/>
+	</field>
+	<field name="OrderID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="OrderID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnstock"/>
+	</field>
+	<field name="ShopID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ShopID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="ItemCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ItemCode"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnstock"/>
+	</field>
+	<field name="BoxQuantity" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="BoxQuantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnstock"/>
+	</field>
+	<field name="ItemQuantity" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ItemQuantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnstock"/>
+	</field>
+	<field name="PricePerQuantity" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="PricePerQuantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="returnstock"/>
+	</field>
+	<field name="ShopName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ShopName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="shop"/>
+	</field>
+	<field name="ShopAddress" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ShopAddress"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="shop"/>
+	</field>
+	<group name="ReturnStockID">
+		<groupExpression><![CDATA[$F{ReturnStockID}]]></groupExpression>
+	</group>
+	<group name="OrderID">
+		<groupExpression><![CDATA[$F{OrderID}]]></groupExpression>
+	</group>
+	<group name="ShopID">
+		<groupExpression><![CDATA[$F{ShopID}]]></groupExpression>
+	</group>
+	<group name="ItemCode">
+		<groupExpression><![CDATA[$F{ItemCode}]]></groupExpression>
+	</group>
+	<group name="BoxQuantity">
+		<groupExpression><![CDATA[$F{BoxQuantity}]]></groupExpression>
+	</group>
+	<group name="ItemQuantity">
+		<groupExpression><![CDATA[$F{ItemQuantity}]]></groupExpression>
+	</group>
+	<group name="PricePerQuantity">
+		<groupExpression><![CDATA[$F{PricePerQuantity}]]></groupExpression>
+	</group>
+	<group name="ShopName">
+		<groupExpression><![CDATA[$F{ShopName}]]></groupExpression>
+	</group>
+	<group name="ShopAddress">
+		<groupExpression><![CDATA[$F{ShopAddress}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="10" width="420" height="69" uuid="860efa67-502f-4fd3-9e1c-407356ba2f1c"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mahawaththa Agency
+Return Stock]]></text>
+			</staticText>
+			<textField pattern="M/d/yy">
+				<reportElement x="5" y="3" width="100" height="30" uuid="11a4b93d-ecec-4027-abf8-ce94dffdc62a"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-20" y="75" width="841" height="1" uuid="d0acd36a-1c16-456d-b968-d62f9fff973c"/>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="4" width="100" height="30" uuid="261dde2f-8386-4ddf-86d0-b677a6458d2f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="4" width="153" height="30" uuid="51225aeb-39b5-409f-88ba-ed9b17abb204">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shop ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="4" width="100" height="30" uuid="de11ba0c-391a-4010-a21a-7651fb0d00e1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOX QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="4" width="100" height="30" uuid="d0ee7fc5-d863-4fe6-a48d-197862d78f62">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="680" y="3" width="126" height="30" uuid="99184f49-54f9-4ac7-9dad-7f229dfcb0d5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Per QTY Price]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="cf31c931-db5b-4994-8b73-464565651ba0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="2" width="153" height="18" uuid="f29703ab-47ad-4ece-9591-37681b3456e4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ShopID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="2" width="100" height="18" uuid="4f7622ad-84b6-47b1-84cb-6184d9c2ff5e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BoxQuantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="2" width="100" height="18" uuid="842aeb6d-58a1-4087-aa98-78bd2380cbd6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="680" y="-1" width="126" height="18" uuid="ce8184af-e4b7-4589-9698-048a7f6df0ec">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PricePerQuantity}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="5" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
