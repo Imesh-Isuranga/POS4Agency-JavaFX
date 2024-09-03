@@ -115,24 +115,42 @@ CREATE TABLE OrderDetail(
     CONSTRAINT FOREIGN KEY (itemCode) REFERENCES Item(code) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Insert data into the Item table
-INSERT INTO MainItem VALUES('P001', 'Keerisamba Retail', 105.00, 105.00, 5, 45, 0);
-INSERT INTO MainItem VALUES('P002', 'Keerisamba 5Kg ', 105.00, 1045.00, 5, 25, 0);
-INSERT INTO MainItem VALUES('P003', 'Keerisamba 10Kg', 105.00, 5.00, 5, 0, 5);
-INSERT INTO MainItem VALUES('P004', 'Keerisamba 50Kg', 105.00, 5.00, 5, 0, 5);
-INSERT INTO MainItem VALUES('P005', 'Red Raw Rice', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P006', 'Red Raw Rice 10Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P007', 'Red Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P008', 'White Raw Rice 5Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P009', 'White Raw Rice 50Kg Pack', 105.00, 5.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P010', 'Wattana Dhal 500g', 105.00, 5.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P011', 'Wattana Dhal 1Kg', 105.00, 5.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P012', 'Mysoor Dhal 500g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P013', 'Mysoor Dhal 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P014', 'Orient Green Gram 500g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P015', 'Orient Green Gram 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P016', 'Anchor F/C Milk powder 450g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P017', 'Anchor F/C Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P018', 'Anchor N/F Milk powder 1Kg', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P019', 'Milo Packet 400g', 105.00, 105.00, 5, 45, 5);
-INSERT INTO MainItem VALUES('P020', 'Lipton Ceylon Tea 100g', 105.00, 5.00, 5, 45, 5);
+CREATE TABLE ShopsCredit (
+    id INT NOT NULL AUTO_INCREMENT,
+    shopId VARCHAR(100) NOT NULL,
+    date_paid DATE NOT NULL, -- Changed to DATE
+    amount DECIMAL(8,2),
+    paymentDetails VARCHAR(50) DEFAULT '',
+    PRIMARY KEY (id),
+    CONSTRAINT FOREIGN KEY (shopId) REFERENCES Shop(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE SaveList (
+    id INT NOT NULL AUTO_INCREMENT,
+    description VARCHAR(1000) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE MonthlyReport (
+    id INT NOT NULL AUTO_INCREMENT,
+    date DATE,
+    total DECIMAL(8,2),
+    mr DECIMAL(8,2),
+    discount DECIMAL(8,2),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE OrderHistory (
+    id INT NOT NULL AUTO_INCREMENT,
+    invoice_num VARCHAR(100) NOT NULL,
+    name_of_dealer VARCHAR(100) NOT NULL,
+    total DECIMAL(8,2),
+    cash DECIMAL(8,2),
+    credit DECIMAL(8,2),
+    cheque VARCHAR(100) NOT NULL,
+    cheque_no VARCHAR(100) NOT NULL,
+    mr DECIMAL(8,2),
+    discount VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);
+
