@@ -44,15 +44,10 @@ public class MainItemDaoImpl implements MainItemDAO {
                 return false;
             }
         }else{
-            if((mainItem.getBoxQty() >= i.getBoxQty()) && (mainItem.getItemQty() >= i.getItemQty())){
-                int ItemQTY = mainItem.getItemQty() - i.getItemQty();
-                int BoxQTY = mainItem.getBoxQty() - i.getBoxQty();
-                String sql = "UPDATE MainItem SET boxQty=?, itemQty=?  WHERE code=?";
-                return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
-            }else{
-                System.out.println("Please reduce box and item count as no stock");
-                return false;
-            }
+            int ItemQTY = mainItem.getItemQty() - i.getItemQty();
+            int BoxQTY = mainItem.getBoxQty() - i.getBoxQty();
+            String sql = "UPDATE MainItem SET boxQty=?, itemQty=?  WHERE code=?";
+            return CrudUtil.executeUpdate(sql,BoxQTY,ItemQTY,i.getCode());
         }
     }
 

@@ -103,23 +103,34 @@ public class MainUpdateItemsController {
     }
 
     public void updateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        MainItemDTO mainItemDTO = new MainItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
-        if(btnUpdate.getText().equalsIgnoreCase("Update")){
+        MainItemDTO mainItemDTO = null;
+        if(!codetxt.getText().isEmpty() && !nametxt.getText().isEmpty() && !unitBoxPriceAgencytxt.getText().isEmpty() && !unitBoxPricetxt.getText().isEmpty() && !itemCounttxt.getText().isEmpty() && !boxQtytxt.getText().isEmpty() && !itemQtytxt.getText().isEmpty()){
+            mainItemDTO = new MainItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),Integer.parseInt(boxQtytxt.getText()),Integer.parseInt(itemQtytxt.getText()));
+        }
+
+        if(codetxt.getText().isEmpty() || nametxt.getText().isEmpty() || unitBoxPriceAgencytxt.getText().isEmpty() || unitBoxPricetxt.getText().isEmpty() || itemCounttxt.getText().isEmpty() || boxQtytxt.getText().isEmpty() || itemQtytxt.getText().isEmpty() || (itemCounttxt.getText().equalsIgnoreCase("0") && (itemQtytxt.getText().equalsIgnoreCase("0")) && (boxQtytxt.getText().equalsIgnoreCase("0")))){
+            new Alert(Alert.AlertType.WARNING,"Please fill all fields.",ButtonType.CANCEL).show();
+        }else if(itemCounttxt.getText().equalsIgnoreCase("0") && !(boxQtytxt.getText().equalsIgnoreCase("0"))){
+            new Alert(Alert.AlertType.WARNING,"Item count in box cant be zero as box count is not zero.",ButtonType.CANCEL).show();
+        }else if(Integer.parseInt(itemCounttxt.getText()) == 0 && Integer.parseInt(boxQtytxt.getText()) != 0){
+            new Alert(Alert.AlertType.WARNING,"Please make box count to 0",ButtonType.CANCEL).show();
+        }else if(Integer.parseInt(itemCounttxt.getText()) <= Integer.parseInt(itemQtytxt.getText()) && (Integer.parseInt(itemCounttxt.getText()) != 0)){
+            new Alert(Alert.AlertType.WARNING,"Please reduce item count less than itemCount in box.",ButtonType.CANCEL).show();
+        }else if(btnUpdate.getText().equalsIgnoreCase("Update")){
             if(mainItemBO.updateItem(mainItemDTO)) {
                 ItemDTO item = itemBO.getItem(codetxt.getText());
 
-                if(mainItemBO.updateItem(mainItemDTO)){
-                    if(item != null){
-                        ItemDTO itemDTO = new ItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),item.getBoxQty(),item.getItemQty());
-                        if(itemBO.updateItem(itemDTO)){
-                            clearAll();
-                            new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
-                        }else{
-                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
-                        }
-                    }else{
+                if(item != null){
+                    ItemDTO itemDTO = new ItemDTO(codetxt.getText(),nametxt.getText(),Double.parseDouble(unitBoxPriceAgencytxt.getText()),Double.parseDouble(unitBoxPricetxt.getText()),Integer.parseInt(itemCounttxt.getText()),item.getBoxQty(),item.getItemQty());
+                    if(itemBO.updateItem(itemDTO)){
                         clearAll();
-                        new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();                    }
+                        new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
+                }else{
+                    clearAll();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Item was Updated", ButtonType.OK).show();
                 }
 
             }else{

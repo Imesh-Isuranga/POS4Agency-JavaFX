@@ -53,6 +53,7 @@ public class LoadStockFormController {
     public TextField boxQtyTxt;
     public TextField itemQtyTxt;
     public TableColumn colUnitPrice_Box_Agency;
+
     public JFXButton btnPrint;
     public JFXButton btnMainStock;
     public Label lblTot;
@@ -77,6 +78,7 @@ public class LoadStockFormController {
 
         itemsCmbBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             selectedCode = (String) newValue;
+            btnUpdateStock.setText("Add Stock");
         });
 
         itemsTbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -175,7 +177,6 @@ public class LoadStockFormController {
             int itemCount;
 
 
-
             if(boxQtyTxt.getText().isEmpty()){
                 boxCount=-1;
             }else if(Integer.parseInt(boxQtyTxt.getText()) < 0){
@@ -192,54 +193,62 @@ public class LoadStockFormController {
                 itemCount = Integer.parseInt(itemQtyTxt.getText());
             }
 
-            boxQtyTxt.clear();
-            itemQtyTxt.clear();
 
-            MainItemDTO mainItem ;
-            if(boxCount == -3){
-                new Alert(Alert.AlertType.WARNING,"Please Set Box QTY as 0",ButtonType.CANCEL).show();
-            }else if(btnUpdateStock.getText().equalsIgnoreCase("Update")){
+            MainItemDTO mainItem = null;
+            MainItemDTO mainItemTemp ;
+            if(btnUpdateStock.getText().equalsIgnoreCase("Update")){
                 mainItem = mainItemBO.getItem(itemTMSelected.getCode());
-                if(mainItem.getItemCountInBox()==0 && Integer.parseInt(boxQtyTxt.getText())==0){
+                if(mainItem.getItemCountInBox()==0 && !(boxQtyTxt.getText().equalsIgnoreCase("0"))){
                     boxCount = -3;
                 }
             }else{
-                mainItem = mainItemBO.getItem(itemMap.get(selectedCode));
-                if(mainItem.getItemCountInBox()==0 && Integer.parseInt(boxQtyTxt.getText())==0){
-                    boxCount = -3;
+                try {
+                    mainItem = mainItemBO.getItem(itemMap.get(selectedCode));
+                    if(selectedCode != null){
+                        if(mainItem.getItemCountInBox()==0 && !(boxQtyTxt.getText().equalsIgnoreCase("0"))){
+                            boxCount = -3;
+                        }
+                    }
+                }catch (ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
                 }
+            }
+
+            MainItemDTO mainItemDTO;
+            ItemDTO dto;
+            ItemDTO item;
+            if(selectedCode != null){
+                dto = new ItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
             }
 
 
 
-
-            mainItem = mainItemBO.getItem(itemMap.get(selectedCode));
-            MainItemDTO mainItemDTO;
-            ItemDTO dto;
-            ItemDTO item;
-            dto = new ItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
-
-
-
-
-            if(boxCount == -2 || itemCount == -2){
+            if(selectedCode == null && !(btnUpdateStock.getText().equalsIgnoreCase("Update"))){
+                new Alert(Alert.AlertType.WARNING,"Please select item",ButtonType.CANCEL).show();
+            }else if(boxCount == -2 || itemCount == -2){
                 new Alert(Alert.AlertType.WARNING,"Please Insert more than Zero",ButtonType.CANCEL).show();
             }else if(boxCount == -1 || itemCount == -1){
                 new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
+            }else if(boxCount == -3){
+                new Alert(Alert.AlertType.CONFIRMATION,"Please make boxQTY to 0", ButtonType.OK).show();
+            }else if(mainItem.getItemCountInBox()!=0 && (Integer.parseInt(itemQtyTxt.getText())>=mainItem.getItemCountInBox())){
+                new Alert(Alert.AlertType.CONFIRMATION,"Please insert items less than Item count in box.", ButtonType.OK).show();
+            }else if(boxCount > mainItem.getBoxQty() || ((boxCount*mainItem.getItemCountInBox())+itemCount > (mainItem.getBoxQty()*mainItem.getItemCountInBox()+mainItem.getItemQty()))){
+                new Alert(Alert.AlertType.CONFIRMATION,"No Stock", ButtonType.OK).show();
             }else if(btnUpdateStock.getText().equalsIgnoreCase("Update")){
                 mainItem = mainItemBO.getItem(itemTMSelected.getCode());
                 item = itemBO.getItem(itemTMSelected.getCode());
                 dto = new ItemDTO(itemTMSelected.getCode(),boxCount,itemCount);
-                if((item.getItemQty() + itemCount) >= item.getItemCountInBox()){
+                if((item.getItemQty() + itemCount) >= item.getItemCountInBox() && !(mainItem.getItemCountInBox()==0 && mainItem.getBoxQty()==0 && boxQtyTxt.getText().equalsIgnoreCase("0"))){
                     dto = new ItemDTO(itemTMSelected.getCode(),(boxCount+1),(item.getItemQty() + itemCount)-item.getItemCountInBox() - item.getItemQty());
                 }
                 //boxToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),3).toString());
                 //itemToUpdate = Integer.parseInt(getCellValue(isAlreadyExists(mainItemDTO.getName()),4).toString());
-                if(mainItem.getItemCountInBox()>itemCount){
-                    if(mainItem.getItemQty() >= itemCount){
+                if(mainItem.getItemCountInBox()>itemCount  || (mainItem.getItemCountInBox()==0 && mainItem.getBoxQty()==0 && boxQtyTxt.getText().equalsIgnoreCase("0"))){
+                    if(mainItem.getItemQty() >= itemCount || (mainItem.getItemCountInBox()==0 && mainItem.getBoxQty()==0 && boxQtyTxt.getText().equalsIgnoreCase("0"))){
                         mainItemDTO = new MainItemDTO(itemTMSelected.getCode(),boxCount,itemCount);
                     }else{
-                        mainItemDTO = new MainItemDTO(itemTMSelected.getCode(),(boxCount+1),(mainItem.getItemCountInBox())-itemCount - mainItem.getItemQty()- mainItem.getItemQty());
+                        mainItemDTO = new MainItemDTO(itemTMSelected.getCode(),(boxCount+1),(-mainItem.getItemCountInBox())+itemCount - mainItem.getItemQty()+ mainItem.getItemQty());
                     }
                     if(itemBO.updateItemQtysIncrease(dto)){
                         if(mainItemBO.updateItemQtysReduce(mainItemDTO)){
@@ -252,8 +261,11 @@ public class LoadStockFormController {
                         new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                     }
                 }else{
-                    new Alert(Alert.AlertType.WARNING,"Please enter items less than items count in box",ButtonType.CANCEL).show();
-                }
+                    if(mainItem.getItemCountInBox()==0 && mainItem.getBoxQty()==0 && !(boxQtyTxt.getText().equalsIgnoreCase("0"))){
+                        new Alert(Alert.AlertType.WARNING,"Please make boxQTY to 0",ButtonType.CANCEL).show();
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"Please enter items less than items count in box",ButtonType.CANCEL).show();
+                    }                }
 
 
                 /*if(mainItemDTO.getItemQty() < itemCount){
@@ -266,7 +278,7 @@ public class LoadStockFormController {
                 }*/
             }else{
                 dto = new ItemDTO(itemMap.get(selectedCode),selectedCode,mainItem.getUnitPrice_Box_Agency(), mainItem.getUnitPrice_Box(), mainItem.getItemCountInBox(),boxCount,itemCount);
-                if(mainItem.getItemCountInBox()>itemCount){
+                if((mainItem.getItemCountInBox()>itemCount || (mainItem.getItemCountInBox()==0 && mainItem.getBoxQty()==0 && boxQtyTxt.getText().equalsIgnoreCase("0"))) && (itemCount <= mainItem.getItemQty())){
                     if(itemBO.saveItem(dto)){
                         mainItemDTO = new MainItemDTO(itemMap.get(selectedCode),boxCount,itemCount);
                         if(mainItemBO.updateItemQtysReduce(mainItemDTO)){
@@ -279,9 +291,23 @@ public class LoadStockFormController {
                         new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
                     }
                 }else{
-                    new Alert(Alert.AlertType.WARNING,"Please enter items less than items count in box",ButtonType.CANCEL).show();
+                    if(itemBO.saveItem(dto)){
+                        mainItemDTO = new MainItemDTO(itemMap.get(selectedCode),(boxCount+1),((-mainItem.getItemQty() - mainItem.getItemCountInBox())+itemCount+mainItem.getItemQty()));
+                        if(mainItemBO.updateItemQtysReduce(mainItemDTO)){
+                            new Alert(Alert.AlertType.CONFIRMATION,"Item was Added", ButtonType.OK).show();
+                            loadAllItems("");
+                        }else{
+                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        }
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
                 }
             }
+
+            boxQtyTxt.clear();
+            itemQtyTxt.clear();
+
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -333,8 +359,18 @@ public class LoadStockFormController {
                 if(itemBO.deleteItem(itemTMSelected.getCode())) {
                     MainItemDTO mainItemDTO =  new MainItemDTO(itemTMSelected.getCode(),boxToDelete,itemToDelete);
                     if((mainItem.getItemQty() + itemToDelete) >= mainItem.getItemCountInBox()){
-                        int newBoxQTY = boxToDelete + 1;
-                        int newItemQTY = (itemToDelete + mainItem.getItemQty()) % (mainItem.getItemCountInBox()) - mainItem.getItemQty();
+                        int newBoxQTY;
+                        int newItemQTY;
+                        if(mainItem.getItemCountInBox()!=0){
+                            newBoxQTY = boxToDelete + 1;
+                        }else{
+                            newBoxQTY = 0;
+                        }
+                        if(mainItem.getItemCountInBox()!=0){
+                            newItemQTY = (itemToDelete + mainItem.getItemQty()) % (mainItem.getItemCountInBox()) - mainItem.getItemQty();
+                        }else{
+                            newItemQTY = (itemToDelete + mainItem.getItemQty()) - mainItem.getItemQty();
+                        }
                         mainItemDTO =  new MainItemDTO(itemTMSelected.getCode(),newBoxQTY,newItemQTY);
                     }
                     if(mainItemBO.updateItemQtysIncrease(mainItemDTO)){

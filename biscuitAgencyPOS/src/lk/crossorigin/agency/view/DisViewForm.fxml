@@ -9,27 +9,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="creditContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.EachCreditShopsFormController">
+<AnchorPane fx:id="disViewContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.DisViewFormController">
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <Label fx:id="eachCreditContext" layoutX="19.0" layoutY="75.0" prefHeight="46.0" prefWidth="410.0" text="Credit History" textFill="#c80036">
+      <Label layoutX="19.0" layoutY="75.0" prefHeight="46.0" prefWidth="410.0" text="Discount View" textFill="#c80036">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
       <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1670.0" />
-      <TableView fx:id="creditTbl" layoutX="14.0" layoutY="196.0" prefHeight="695.0" prefWidth="1678.0">
+      <TableView fx:id="disViewtbl" layoutX="14.0" layoutY="196.0" prefHeight="695.0" prefWidth="1678.0">
         <columns>
-          <TableColumn fx:id="colNum" prefWidth="68.79998111724854" text="No" />
-          <TableColumn fx:id="colShopId" prefWidth="874.400074005127" text="Shop Id" />
-            <TableColumn fx:id="colCredit" prefWidth="734.4000000000001" text="Credit" />
+          <TableColumn fx:id="colId" prefWidth="251.19999408721924" text="Id" />
+          <TableColumn fx:id="colOrderId" prefWidth="463.2000732421875" text="Order Id" />
+            <TableColumn fx:id="colItem" prefWidth="642.39990234375" text="Item" />
+            <TableColumn fx:id="colDisPercentage" prefWidth="323.2000732421875" text="Discount Percentage" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
+      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
          <font>
             <Font size="20.0" />
          </font></TextField>

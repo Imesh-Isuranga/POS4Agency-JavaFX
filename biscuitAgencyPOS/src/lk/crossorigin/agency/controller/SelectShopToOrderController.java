@@ -110,7 +110,9 @@ public class SelectShopToOrderController {
     }
 
     public void nextOnAction(ActionEvent actionEvent) throws IOException, SQLException, ClassNotFoundException {
-        if(tblSaveList.getItems().size()==0){
+        if(bookNumtxt.getText().isEmpty() || invoiceNumtxt.getText().isEmpty() || shopIdcmb.getValue() == null){
+            new Alert(Alert.AlertType.WARNING,"Please fill all fields to continue", ButtonType.OK).show();
+        }else if(tblSaveList.getItems().size()==0){
             OrderBookDTO orderBookDTO = new OrderBookDTO(orderBookBO.generateOrderId(bookNumtxt.getText(),invoiceNumtxt.getText()), bookNumtxt.getText(),invoiceNumtxt.getText(),shopIdcmb.getValue().toString());
             if(orderBookBO.saveOrderBook(orderBookDTO)){
                 Stage stage = (Stage) selectShopToOrderContext.getScene().getWindow();

@@ -92,6 +92,7 @@ public class AddOrderFormController {
     public Label lblFree;
     public Label lbldis;
     public TableColumn colPer_Qty;
+    public JFXButton btnDisView;
     private OrderTM orderTM;
     private FreeItemsTM freeItemsTM;
     private DiscountItemsTM discountItemsTM;
@@ -245,7 +246,9 @@ public class AddOrderFormController {
         int boxInMain = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString())).getBoxQty();
         int itemInMain = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString())).getItemQty();
         ItemDTO itemDTO = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString()));
-        if((itemDTO.getBoxQty() < (boxCount)) || ((itemDTO.getItemQty() + itemDTO.getItemCountInBox()* itemDTO.getBoxQty()) < (itemCount + boxCount* itemDTO.getItemCountInBox()))){
+        if(txtBoxQty.getText().isEmpty() || txtItemQty.getText().isEmpty()){
+            new Alert(Alert.AlertType.WARNING,"Please enter box and item count.",ButtonType.CANCEL).show();
+        }else if((itemDTO.getBoxQty() < (boxCount)) || ((itemDTO.getItemQty() + itemDTO.getItemCountInBox()* itemDTO.getBoxQty()) < (itemCount + boxCount* itemDTO.getItemCountInBox()))){
             new Alert(Alert.AlertType.CONFIRMATION,"No Stock", ButtonType.OK).show();
         }else if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
@@ -570,6 +573,22 @@ public class AddOrderFormController {
                     System.out.println("items_per_Box  " + items_per_Box);
                     double per_box_price = itemDTO.getUnitPrice_Box();
                     System.out.println("per_box_price   " +per_box_price);
+                    int index = 0;
+                    System.out.println(itemBO.getItem(discountDTO.getItemCode()).getName());
+                    for(int j=0; j<addFreeTbl.getItems().size(); j++){
+                        if((itemBO.getItem(discountDTO.getItemCode()).getName()).equalsIgnoreCase(getCellValueFree(j,0).toString())){
+                            System.out.println("+++++++++++++++++++++++++++++++++++++");
+                            index = j;
+                            break;
+                        }
+                    }
+                    int freeBox = 0;
+                    int freeItem = 0;
+                    if(itemBO.getItem(discountDTO.getItemCode()).getName().equalsIgnoreCase(getCellValueFree(0,0).toString())){
+                        freeBox = Integer.parseInt(getCellValueFree(index,1).toString());
+                        freeItem = Integer.parseInt(getCellValueFree(index,2).toString());
+                    }
+
                     OrderDetailsDTO orderDetailsDTO = orderDetailBO.getOrderDetail(lblOrderId.getText(),itemDTO.getCode());
                     int freeBoxcount = 0;
                     int freeItemcount = 0;
@@ -581,6 +600,8 @@ public class AddOrderFormController {
                         System.out.println("freeBoxcount   " + freeBoxcount);
                         freeItemcount = orderDetailsDTO.getItemQtyFree();
                     }
+                    System.out.println("freeItem   " +freeItem);
+                    System.out.println("freeBox   " +freeBox);
                     System.out.println("freeItemcount   " +freeItemcount);
                     System.out.println("boxCountInTable  " + boxCountInTable);
                     System.out.println("itemsCountInTable   " + itemsCountInTable);
@@ -588,7 +609,13 @@ public class AddOrderFormController {
                     System.out.println("per_box_price   " + per_box_price);
                     System.out.println("freeBoxcount   " + freeBoxcount);
                     System.out.println("freeItemcount   " + freeItemcount);
-                    total += ((per_box_price*(boxCountInTable-freeBoxcount)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItemcount))*((disPercent)/100);
+                    if(items_per_Box==0){
+                        //total += (per_box_price*(itemsCountInTable-freeItemcount))*((disPercent)/100);
+                        total += (per_box_price*(itemsCountInTable-freeItem))*((disPercent)/100);
+                    }else{
+                       // total += ((per_box_price*(boxCountInTable-freeBoxcount)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItemcount))*((disPercent)/100);
+                        total += ((per_box_price*(boxCountInTable-freeBox)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItem))*((disPercent)/100);
+                    }
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -596,7 +623,6 @@ public class AddOrderFormController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("777777777777777777777777777777777777777777777777777777777777----------------");
         double tempFree_DisTotal = 0.00;
         System.out.println(tempFree_DisTotal);
         tempFree_DisTotal += total;
@@ -626,6 +652,9 @@ public class AddOrderFormController {
 
         double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getUnitPrice_Box();
         int itemCountInBox = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getItemCountInBox();
+        int itemCountInLorry = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getItemQty();
+        int boxCountInLorry = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getBoxQty();
+        String itemNameInLorry = itemBO.getItemByName(itemMap.get(cmbFreeItemCode.getValue().toString())).getName();
         double total ;
 
         if(itemCountInBox==0){
@@ -641,20 +670,28 @@ public class AddOrderFormController {
         double tempFreeTotal = Double.parseDouble(lblFree.getText());
         tempFreeTotal += total;
         lblFree.setText(String.valueOf(tempFreeTotal));
+        int index = 0;
+        for (int i = 0; i<itemDisCodesObList.size(); i++) {
+            if(itemNameInLorry.equalsIgnoreCase(getCellValue(i,0).toString())){
+                index = i;
+                break;
+            }
+        }
 
-        if(freeboxCount==0 && freeitemCount==0){
+        int presentBoxCount = Integer.parseInt(getCellValue(index,1).toString());
+        int presentItemCount = Integer.parseInt(getCellValue(index,2).toString());
+        if((freeboxCount+presentBoxCount)>boxCountInLorry || (freeboxCount+presentBoxCount)*itemCountInBox+(presentItemCount+freeitemCount)> (boxCountInLorry*itemCountInBox+itemCountInLorry)){
+            new Alert(Alert.AlertType.WARNING,"No Stock",ButtonType.CANCEL).show();
+        }else if(freeboxCount==0 && freeitemCount==0){
             new Alert(Alert.AlertType.WARNING,"Please Add Some Count",ButtonType.CANCEL).show();
         } else if (itemCountInBox==0 && freeboxCount!=0) {
             new Alert(Alert.AlertType.WARNING,"Please Add Box QTY as 0",ButtonType.CANCEL).show();
         } else {
             int rowIndex = isAlreadyExistsInFreeItems(cmbFreeItemCode.getValue().toString());
-            System.out.println("999999999999999999999999999999999");
-            System.out.println(rowIndex);
             Button btn = new Button("Remove");
 
 
             if(rowIndex!=-1) {
-                System.out.println("1111111111111111111111111111111111111111111111111111111");
                 // Update the quantity and total of the existing item
                 FreeItemsTM existingFreeItem = obFreeList.get(rowIndex);
                 existingFreeItem.setFreeBoxQty(existingFreeItem.getFreeBoxQty() + freeboxCount);
@@ -933,7 +970,11 @@ public class AddOrderFormController {
 
         if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
-        } else if (Double.parseDouble(txtPerQtyReturn.getText())==0.0) {
+        }else if(itemBO.getItem(itemMap.get(cmbReturnItem.getValue()).toString()).getItemCountInBox()==0 && !(txtBoxQtyReturn.getText().equalsIgnoreCase("0"))){
+            new Alert(Alert.AlertType.WARNING,"Please make box qty to 0",ButtonType.CANCEL).show();
+        }else if((itemBO.getItem(itemMap.get(cmbReturnItem.getValue()).toString()).getItemCountInBox()<=Integer.parseInt(txtItemQtyReturn.getText())) && itemBO.getItem(itemMap.get(cmbReturnItem.getValue()).toString()).getItemCountInBox() != 0){
+            new Alert(Alert.AlertType.WARNING,"Please make item count less than item count in box",ButtonType.CANCEL).show();
+        }else if (Double.parseDouble(txtPerQtyReturn.getText())==0.0) {
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Per QTY", ButtonType.OK).show();
         } else {
             double unitPrice_Box = itemBO.getItemByName(itemMap.get(cmbReturnItem.getValue().toString())).getUnitPrice_Box();
@@ -1004,4 +1045,13 @@ public class AddOrderFormController {
             }
         }
     }
+
+    public void disViewOnAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/DisViewForm.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.show();
+    }
+
 }

@@ -38,7 +38,7 @@
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnUpdateStock" buttonType="RAISED" layoutX="912.0" layoutY="136.0" onAction="#UpdateStockOnAction" prefHeight="38.0" prefWidth="257.0" style="-fx-background-color: #26355D;" text="Add Stock" textFill="WHITE">
+      <JFXButton fx:id="btnUpdateStock" buttonType="RAISED" layoutX="912.0" layoutY="136.0" onAction="#UpdateStockOnAction" prefHeight="38.0" prefWidth="257.0" style="-fx-background-color: #26355D;" text="Update" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font></JFXButton>
@@ -57,6 +57,11 @@
          </font>
       </JFXButton>
       <Label fx:id="lblTot" layoutX="664.0" layoutY="844.0" prefHeight="46.0" prefWidth="195.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTot1" layoutX="571.0" layoutY="843.0" prefHeight="46.0" prefWidth="82.0" text="Total :">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

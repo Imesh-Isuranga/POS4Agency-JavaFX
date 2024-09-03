@@ -11,6 +11,7 @@ public interface DiscountDAO {
     public boolean saveDiscount(Discount d) throws SQLException, ClassNotFoundException;
     public boolean updateDiscount(Discount d) throws SQLException, ClassNotFoundException;
     public boolean deleteDiscount(String orderId) throws SQLException, ClassNotFoundException;
+    public boolean deleteDiscountByIdDup(int idDup) throws SQLException, ClassNotFoundException ;
     public Discount getItemByOrderId(String orderId) throws SQLException, ClassNotFoundException;
     public ArrayList<Discount> getAllDiscountByIdDup(String orderId,String orderIdDup) throws SQLException, ClassNotFoundException;
     public ArrayList<Discount> getAllDiscountByOrderId(String orderId) throws SQLException, ClassNotFoundException ;

@@ -22,6 +22,10 @@ public class DiscountBoImpl implements DiscountBO {
     public boolean deleteDiscount(String orderId) throws SQLException, ClassNotFoundException {
         return discountDAO.deleteDiscount(orderId);
     }
+
+    public boolean deleteDiscountByIdDup(int idDup) throws SQLException, ClassNotFoundException {
+        return discountDAO.deleteDiscountByIdDup(idDup);
+    }
     public DiscountDTO getItemByOrderId(String disId) throws SQLException, ClassNotFoundException {
         Discount discount = discountDAO.getItemByOrderId(disId);
         if(discount != null){

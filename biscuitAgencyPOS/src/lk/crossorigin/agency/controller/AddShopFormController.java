@@ -73,7 +73,9 @@ public class AddShopFormController {
     }
 
     public void SaveShopOnAction(ActionEvent actionEvent) {
-        if(btnSaveShop.getText().equalsIgnoreCase("Save Shop")){
+        if(shopNameTxt.getText().length()<3 && shopAddressTxt.getText().length()<3){
+            new Alert(Alert.AlertType.WARNING,"Minimum letter count is 4 letters",ButtonType.CANCEL).show();
+        }else if(btnSaveShop.getText().equalsIgnoreCase("Save Shop")){
             try {
                 System.out.println("`````````````````````````");
                 String id = shopBO.generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());

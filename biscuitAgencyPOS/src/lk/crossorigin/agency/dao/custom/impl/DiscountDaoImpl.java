@@ -28,6 +28,12 @@ public class DiscountDaoImpl implements DiscountDAO {
     }
 
     @Override
+    public boolean deleteDiscountByIdDup(int idDup) throws SQLException, ClassNotFoundException {
+        String sql = "DELETE FROM Discount WHERE idDup=?";
+        return CrudUtil.executeUpdate(sql,idDup);
+    }
+
+    @Override
     public Discount getItemByOrderId(String disId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Discount WHERE orderId=?";
         ResultSet rst = CrudUtil.executeQuery(sql,disId);
