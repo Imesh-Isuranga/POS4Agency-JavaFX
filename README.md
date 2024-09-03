@@ -72,7 +72,7 @@ Below is some screenshots of system.
 
 ![App Screenshot](https://raw.githubusercontent.com/Imesh-Isuranga/POS4Agency-JavaFX/main/ScreenShots/1.png)
 
-![App Screenshot](https://raw.githubusercontent.com/Imesh-Isuranga/POS4Agency-JavaFX/main/ScreenShots/2.png)
+![App Screenshot](https://raw.githubusercontent.com/Imesh-Isuranga/POS4Agency-JavaFX/main/ScreenShots/f2.png)
 
 
 
