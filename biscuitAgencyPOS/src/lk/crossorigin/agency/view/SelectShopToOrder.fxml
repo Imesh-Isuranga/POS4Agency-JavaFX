@@ -16,11 +16,11 @@
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField fx:id="invoiceNumtxt" layoutX="866.0" layoutY="127.0" prefHeight="47.0" prefWidth="394.0" promptText="Invoice Num" style="-fx-background-color: #F3F7EC;">
+      <TextField fx:id="invoiceNumtxt" layoutX="866.0" layoutY="127.0" prefHeight="47.0" prefWidth="377.0" promptText="Invoice Num" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="898.0" layoutY="204.0" onAction="#nextOnAction" prefHeight="47.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Next" textFill="WHITE">
+      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="882.0" layoutY="218.0" onAction="#nextOnAction" prefHeight="47.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Next" textFill="WHITE">
          <font>
             <Font name="System Bold" size="27.0" />
          </font></JFXButton>
@@ -29,12 +29,12 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <Label alignment="CENTER" layoutX="621.0" layoutY="38.0" prefHeight="47.0" prefWidth="458.0" text="Select Shop" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="509.0" layoutY="35.0" prefHeight="47.0" prefWidth="458.0" text="Select Shop" textFill="WHITE">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-      <TableView fx:id="tblSaveList" layoutX="161.0" layoutY="270.0" prefHeight="274.0" prefWidth="1098.0">
+      <TableView fx:id="tblSaveList" layoutX="89.0" layoutY="329.0" prefHeight="274.0" prefWidth="1098.0">
         <columns>
           <TableColumn fx:id="colNo" prefWidth="93.60000610351562" text="No" />
           <TableColumn fx:id="colListItem" prefWidth="732.0000305175781" text="List Item" />
