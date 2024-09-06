@@ -11,14 +11,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginFormContext" prefHeight="711.0" prefWidth="1239.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoginFormController">
+<AnchorPane fx:id="loginFormContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.LoginFormController">
    <children>
-      <ImageView fitHeight="733.0" fitWidth="661.0" layoutX="615.0" layoutY="-23.0" pickOnBounds="true">
+      <ImageView fitHeight="664.0" fitWidth="661.0" layoutX="619.0" pickOnBounds="true">
          <image>
             <Image url="@../assert/login_bg.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="15.0" layoutY="38.0" prefHeight="46.0" prefWidth="127.0" text="Loginzz" textFill="#ff7f3e">
+      <Label layoutX="15.0" layoutY="38.0" prefHeight="46.0" prefWidth="127.0" text="Login" textFill="#ff7f3e">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
@@ -53,11 +53,11 @@
          </font></Label>
       <Separator layoutX="339.0" layoutY="490.0" prefHeight="6.0" prefWidth="269.0" />
       <Separator layoutX="30.0" layoutY="489.0" prefHeight="6.0" prefWidth="241.0" />
-      <Label layoutX="266.0" layoutY="686.0" prefHeight="22.0" prefWidth="370.0" text="From CrossOrigin PVT(LTD)">
+      <Label layoutX="257.0" layoutY="641.0" prefHeight="22.0" prefWidth="370.0" text="From CrossOrigin PVT(LTD)">
          <font>
             <Font size="15.0" />
          </font></Label>
-      <Label layoutX="25.0" layoutY="686.0" prefHeight="22.0" prefWidth="185.0" text="Version 1.0.0">
+      <Label layoutX="16.0" layoutY="641.0" prefHeight="22.0" prefWidth="185.0" text="Version 1.0.0">
          <font>
             <Font size="15.0" />
          </font></Label>
