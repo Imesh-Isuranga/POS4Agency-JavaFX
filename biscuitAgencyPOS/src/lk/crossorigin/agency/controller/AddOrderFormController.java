@@ -266,6 +266,7 @@ public class AddOrderFormController {
                     total = (unitPrice_Box * boxCount) + (unitPrice_Box/itemCountInBox)*itemCount;
                 }
 
+                total = Math.round(total * 100.0) / 100.0;
                 double temp_totat_without_any = Double.parseDouble(lblTotalwithoutAny.getText());
                 temp_totat_without_any += total;
                 lblTotalwithoutAny.setText(String.valueOf(temp_totat_without_any));
@@ -539,6 +540,8 @@ public class AddOrderFormController {
         //total -= calculateTotalValueFree();
         total -= calculateTotalDiscount();
         total -= Double.parseDouble(returnTotallbl.getText());
+        total = Math.round(total * 100.0) / 100.0;
+        lblFreeDis.setText(String.valueOf((Double.parseDouble(lblFree.getText()))+Double.parseDouble(lbldis.getText())));
         return total;
     }
 
@@ -547,6 +550,9 @@ public class AddOrderFormController {
         for(int i = 0; i<addFreeTbl.getItems().size(); i++){
             total += Double.parseDouble(getCellValueFree(i,3).toString());
         }
+        total = Math.round(total * 100.0) / 100.0;
+        lblFree.setText(String.valueOf(total));
+        lblFreeDis.setText(String.valueOf((Double.parseDouble(lblFree.getText()))+Double.parseDouble(lbldis.getText())));
         return total;
     }
 
@@ -582,12 +588,12 @@ public class AddOrderFormController {
                             break;
                         }
                     }
-                    int freeBox = 0;
+                   /* int freeBox = 0;
                     int freeItem = 0;
                     if(itemBO.getItem(discountDTO.getItemCode()).getName().equalsIgnoreCase(getCellValueFree(0,0).toString())){
                         freeBox = Integer.parseInt(getCellValueFree(index,1).toString());
                         freeItem = Integer.parseInt(getCellValueFree(index,2).toString());
-                    }
+                    }*/
 
                     OrderDetailsDTO orderDetailsDTO = orderDetailBO.getOrderDetail(lblOrderId.getText(),itemDTO.getCode());
                     int freeBoxcount = 0;
@@ -600,8 +606,8 @@ public class AddOrderFormController {
                         System.out.println("freeBoxcount   " + freeBoxcount);
                         freeItemcount = orderDetailsDTO.getItemQtyFree();
                     }
-                    System.out.println("freeItem   " +freeItem);
-                    System.out.println("freeBox   " +freeBox);
+                    //System.out.println("freeItem   " +freeItem);
+                    //System.out.println("freeBox   " +freeBox);
                     System.out.println("freeItemcount   " +freeItemcount);
                     System.out.println("boxCountInTable  " + boxCountInTable);
                     System.out.println("itemsCountInTable   " + itemsCountInTable);
@@ -610,28 +616,30 @@ public class AddOrderFormController {
                     System.out.println("freeBoxcount   " + freeBoxcount);
                     System.out.println("freeItemcount   " + freeItemcount);
                     if(items_per_Box==0){
-                        //total += (per_box_price*(itemsCountInTable-freeItemcount))*((disPercent)/100);
-                        total += (per_box_price*(itemsCountInTable-freeItem))*((disPercent)/100);
+                        total += (per_box_price*(itemsCountInTable-freeItemcount))*((disPercent)/100);
+                        //total += (per_box_price*(itemsCountInTable-freeItem))*((disPercent)/100);
                     }else{
-                       // total += ((per_box_price*(boxCountInTable-freeBoxcount)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItemcount))*((disPercent)/100);
-                        total += ((per_box_price*(boxCountInTable-freeBox)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItem))*((disPercent)/100);
+                        total += ((per_box_price*(boxCountInTable-freeBoxcount)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItemcount))*((disPercent)/100);
+                       // total += ((per_box_price*(boxCountInTable-freeBox)) + (per_box_price/items_per_Box)*(itemsCountInTable-freeItem))*((disPercent)/100);
                     }
                 }
+                total = Math.round(total * 100.0) / 100.0;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
-        double tempFree_DisTotal = 0.00;
+        /*double tempFree_DisTotal = 0.00;
         System.out.println(tempFree_DisTotal);
         tempFree_DisTotal += total;
-        lblFreeDis.setText(String.valueOf(tempFree_DisTotal));
+        lblFreeDis.setText(String.valueOf(tempFree_DisTotal));*/
 
         double tempDisTotal = 0.00;
         System.out.println(tempDisTotal);
         tempDisTotal += total;
         lbldis.setText(String.valueOf(tempDisTotal));
+        lblFreeDis.setText(String.valueOf((Double.parseDouble(lblFree.getText()))+Double.parseDouble(lbldis.getText())));
         return total;
     }
     public void addFreeOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -663,9 +671,9 @@ public class AddOrderFormController {
             total = (unitPrice_Box * freeboxCount) + (unitPrice_Box/itemCountInBox)*freeitemCount;
         }
 
-        double tempFree_DisTotal = Double.parseDouble(lblFreeDis.getText());
+        /*double tempFree_DisTotal = Double.parseDouble(lblFreeDis.getText());
         tempFree_DisTotal += total;
-        lblFreeDis.setText(String.valueOf(tempFree_DisTotal));
+        lblFreeDis.setText(String.valueOf(tempFree_DisTotal));*/
 
         double tempFreeTotal = Double.parseDouble(lblFree.getText());
         tempFreeTotal += total;
@@ -747,6 +755,7 @@ public class AddOrderFormController {
                             if(confirmState.get().equals(ButtonType.YES)){
                                 if(removeItemByCodeFree(freeItemTM.getFreeItemCode())) {
                                     lblTotal.setText(String.valueOf(calculateTotalValue()));
+                                    calculateTotalValueFree();
                                     new Alert(Alert.AlertType.CONFIRMATION,"Free Item was Deleted", ButtonType.OK).show();
 
                                 }else{
@@ -1007,6 +1016,7 @@ public class AddOrderFormController {
                     if(confirmState.get().equals(ButtonType.YES)){
                         if(removeItemByCodeReturnStock(returnStockTM.getItemCode())) {
                             returnTotal-=((perQTY *itemCountInBox* returnStockTM.getBoxQty()) + perQTY*returnStockTM.getItemQty());
+                            returnTotal = Math.round(returnTotal * 100.0) / 100.0;
                             returnTotallbl.setText(String.valueOf(returnTotal));
                             new Alert(Alert.AlertType.CONFIRMATION,"Return Item was Deleted", ButtonType.OK).show();
                         }else{
@@ -1020,6 +1030,7 @@ public class AddOrderFormController {
                 obListReturn.add(returnStockTM);
                 tblReturn.setItems(obListReturn);
             }
+            returnTotal = Math.round(returnTotal * 100.0) / 100.0;
             returnTotallbl.setText(String.valueOf(returnTotal));
             lblTotal.setText(String.valueOf(calculateTotalValue()));
         }

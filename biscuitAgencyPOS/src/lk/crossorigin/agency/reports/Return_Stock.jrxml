@@ -96,7 +96,7 @@ ORDER BY
 				<textElement textAlignment="Center">
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mahawaththa Agency
+				<text><![CDATA[M.A Distributor
 Return Stock]]></text>
 			</staticText>
 			<textField pattern="M/d/yy">

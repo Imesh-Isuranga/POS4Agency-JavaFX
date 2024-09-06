@@ -51,8 +51,8 @@
 				<textElement textAlignment="Center">
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mahawaththa Agency
-Lorry Stock]]></text>
+				<text><![CDATA[M.A Distributor
+Main Stock]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="-20" y="74" width="841" height="1" uuid="d86d8a86-eea3-414a-8748-1907cf6039d8"/>

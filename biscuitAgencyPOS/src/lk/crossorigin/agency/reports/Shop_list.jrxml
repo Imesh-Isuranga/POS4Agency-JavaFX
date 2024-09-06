@@ -51,7 +51,7 @@
 				<textElement textAlignment="Center">
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mahawaththa Agency
+				<text><![CDATA[M.A Distributor
 Registered Shops]]></text>
 			</staticText>
 			<textField pattern="M/d/yy">

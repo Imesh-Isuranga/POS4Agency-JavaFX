@@ -123,7 +123,9 @@ public class LoadStockFormController {
                 }else{
                     total = dto.getUnitPrice_Box_Agency()*dto.getBoxQty() + (dto.getUnitPrice_Box_Agency()/dto.getItemCountInBox())*dto.getItemQty();
                 }
+                total = Math.round(total * 100.0) / 100.0;
                 wholeTotal += total;
+
                 ItemTM itemTM = new ItemTM(
                         dto.getCode(),
                         dto.getName(),
@@ -136,6 +138,7 @@ public class LoadStockFormController {
                 obList.add(itemTM);
             }
             itemsTbl.setItems(obList);
+            wholeTotal = Math.round(wholeTotal * 100.0) / 100.0;
             lblTot.setText(String.valueOf(wholeTotal));
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

@@ -49,7 +49,7 @@
             <Font name="System Bold" size="43.0" />
          </font>
       </Label>
-      <Label layoutX="240.0" layoutY="14.0" text="Mahawaththa Agency" textFill="WHITE">
+      <Label layoutX="240.0" layoutY="14.0" prefHeight="66.0" prefWidth="431.0" text="M.A Distributor" textFill="WHITE">
          <font>
             <Font name="System Bold" size="44.0" />
          </font>

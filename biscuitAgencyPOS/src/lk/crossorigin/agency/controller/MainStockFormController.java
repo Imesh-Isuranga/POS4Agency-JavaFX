@@ -116,7 +116,10 @@ public class MainStockFormController {
                 }else{
                     total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
                 }
+                total = Math.round(total * 100.0) / 100.0;
                 wholeTotal += total;
+
+
                 MainItemTM mainItemTM = new MainItemTM(
                         dto.getCode(),
                         dto.getName(),

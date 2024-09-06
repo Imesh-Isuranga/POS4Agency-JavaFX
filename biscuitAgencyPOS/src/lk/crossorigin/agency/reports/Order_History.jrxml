@@ -93,7 +93,7 @@
 				<textElement textAlignment="Center">
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mahawaththa Agency
+				<text><![CDATA[M.A Distributor
 Order History]]></text>
 			</staticText>
 			<rectangle>

@@ -32,7 +32,6 @@ import java.util.Optional;
 public class DisViewFormController {
 
     public AnchorPane disViewContext;
-    public JFXButton btnBack;
     public TableView<DisViewTM> disViewtbl;
     public TableColumn colId;
     public TableColumn colOrderId;
@@ -71,10 +70,7 @@ public class DisViewFormController {
         }
     }
 
-    public void backbtnOnAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) disViewContext.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
-    }
+
 
     public void searchOnAction(ActionEvent actionEvent) {
         loadAllDetails(txtSearch.getText());
