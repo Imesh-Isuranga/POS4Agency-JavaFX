@@ -9,11 +9,11 @@
 
 <AnchorPane fx:id="saveContext" prefHeight="652.0" prefWidth="1084.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.SaveFormController">
    <children>
-      <TextField fx:id="txtDescription" layoutX="94.0" layoutY="127.0" prefHeight="47.0" prefWidth="917.0" promptText="Description" style="-fx-background-color: #F3F7EC;">
+      <TextField fx:id="txtDescription" layoutX="94.0" layoutY="127.0" prefHeight="47.0" prefWidth="776.0" promptText="Description" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="1094.0" layoutY="117.0" onAction="#addOnAction" prefHeight="57.0" prefWidth="74.0" style="-fx-background-color: #26355D;" text="+" textFill="WHITE">
+      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="884.0" layoutY="122.0" onAction="#addOnAction" prefHeight="57.0" prefWidth="74.0" style="-fx-background-color: #26355D;" text="+" textFill="WHITE">
          <font>
             <Font name="System Bold" size="27.0" />
          </font></JFXButton>
@@ -22,16 +22,16 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <Label alignment="CENTER" layoutX="621.0" layoutY="38.0" prefHeight="47.0" prefWidth="458.0" text="Save List" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="347.0" layoutY="34.0" prefHeight="47.0" prefWidth="458.0" text="Save List" textFill="WHITE">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="1079.0" layoutY="195.0" onAction="#saveOnAction" prefHeight="58.0" prefWidth="282.0" style="-fx-background-color: #26355D;" text="Save" textFill="WHITE">
+      <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="596.0" layoutY="190.0" onAction="#saveOnAction" prefHeight="57.0" prefWidth="361.0" style="-fx-background-color: #26355D;" text="Save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="27.0" />
          </font>
       </JFXButton>
-      <JFXTextArea fx:id="txtSaveDescription" layoutX="94.0" layoutY="265.0" prefHeight="371.0" prefWidth="1278.0" />
+      <JFXTextArea fx:id="txtSaveDescription" layoutX="94.0" layoutY="265.0" prefHeight="371.0" prefWidth="863.0" />
    </children>
 </AnchorPane>

@@ -21,19 +21,19 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1670.0" />
-      <TableView fx:id="creditTbl" layoutX="14.0" layoutY="196.0" prefHeight="454.0" prefWidth="1670.0">
+      <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1235.0" />
+      <TableView fx:id="creditTbl" layoutX="14.0" layoutY="196.0" prefHeight="454.0" prefWidth="1251.0">
         <columns>
-          <TableColumn fx:id="colNum" prefWidth="68.79998111724854" text="No" />
-          <TableColumn fx:id="colShopId" prefWidth="874.400074005127" text="Shop Id" />
-            <TableColumn fx:id="colCredit" prefWidth="734.4000000000001" text="Credit" />
+          <TableColumn fx:id="colNum" prefWidth="175.19997882843018" text="No" />
+          <TableColumn fx:id="colShopId" prefWidth="356.00001525878906" text="Shop Id" />
+            <TableColumn fx:id="colCredit" prefWidth="1148.7999877929688" text="Credit" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
+      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="43.0" prefWidth="776.0" promptText="Search here">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="1336.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="43.0" prefWidth="345.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="849.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="43.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

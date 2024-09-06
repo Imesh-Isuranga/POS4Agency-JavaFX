@@ -10,12 +10,12 @@
 
 <AnchorPane fx:id="monthlyReportContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.MonthlyReportFormController">
    <children>
-      <TableView fx:id="tblMonthlyReport" layoutX="14.0" layoutY="109.0" prefHeight="534.0" prefWidth="1678.0">
+      <TableView fx:id="tblMonthlyReport" layoutX="14.0" layoutY="109.0" prefHeight="534.0" prefWidth="1258.0">
         <columns>
           <TableColumn fx:id="colDate" prefWidth="377.60001850128174" text="Date" />
           <TableColumn fx:id="colTotal" prefWidth="434.39996337890625" text="Total" />
-            <TableColumn fx:id="colreturn" prefWidth="363.99993896484375" text="M/R" />
-            <TableColumn fx:id="colDis" prefWidth="495.199951171875" text="Discount" />
+            <TableColumn fx:id="colreturn" prefWidth="155.2000732421875" text="M/R" />
+            <TableColumn fx:id="colDis" prefWidth="339.19989013671875" text="Discount" />
         </columns>
       </TableView>
       <Label layoutX="460.0" layoutY="47.0" prefHeight="46.0" prefWidth="410.0" text="Monthly Report" textFill="#c80036">
@@ -28,8 +28,8 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <Separator layoutX="25.0" layoutY="93.0" prefHeight="0.0" prefWidth="1670.0" />
-      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1415.0" layoutY="25.0" onAction="#printOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
+      <Separator layoutX="25.0" layoutY="96.0" prefHeight="0.0" prefWidth="1246.0" />
+      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1000.0" layoutY="25.0" onAction="#printOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

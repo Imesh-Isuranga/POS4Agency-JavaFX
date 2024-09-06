@@ -22,7 +22,7 @@
          </font>
       </Label>
       <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1235.0" />
-      <TableView fx:id="creditTbl" layoutX="-58.0" layoutY="196.0" prefHeight="448.0" prefWidth="1322.0">
+      <TableView fx:id="creditTbl" layoutX="13.0" layoutY="196.0" prefHeight="448.0" prefWidth="1251.0">
         <columns>
           <TableColumn fx:id="colNum" prefWidth="51.199978828430176" text="No" />
           <TableColumn fx:id="colShopId" prefWidth="248.8000030517578" text="Shop Id" />
