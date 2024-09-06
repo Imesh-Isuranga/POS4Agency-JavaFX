@@ -18,7 +18,7 @@
             <Image url="@../assert/login_bg.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="15.0" layoutY="38.0" prefHeight="46.0" prefWidth="127.0" text="Login" textFill="#ff7f3e">
+      <Label layoutX="15.0" layoutY="38.0" prefHeight="46.0" prefWidth="127.0" text="Loginzz" textFill="#ff7f3e">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
