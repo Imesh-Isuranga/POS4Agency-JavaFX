@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="dashboardContext" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.DashBoardFormController">
+<AnchorPane fx:id="dashboardContext" minHeight="-Infinity" minWidth="-Infinity" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.DashBoardFormController">
    <children>
-      <ImageView fitHeight="329.0" fitWidth="894.0" layoutX="793.0" layoutY="121.0" onMouseClicked="#loadOrderDetailsForm" pickOnBounds="true">
+      <ImageView fitHeight="224.0" fitWidth="480.0" layoutX="793.0" layoutY="121.0" onMouseClicked="#loadOrderDetailsForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/order_details.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="372.0" fitWidth="451.0" layoutX="14.0" layoutY="106.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
+      <ImageView fitHeight="230.0" fitWidth="451.0" layoutX="14.0" layoutY="106.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/load_Stock.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="399.0" fitWidth="759.0" layoutX="25.0" layoutY="490.0" onMouseClicked="#loadAddShopForm" pickOnBounds="true">
+      <ImageView fitHeight="163.0" fitWidth="759.0" layoutX="25.0" layoutY="490.0" onMouseClicked="#loadAddShopForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/add_shop.jpg" />
          </image>
@@ -29,7 +29,7 @@
             <Font name="System Bold" size="43.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="793.0" layoutY="107.0" prefHeight="64.0" prefWidth="894.0" style="-fx-background-color: #003285;" text="Order Details" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="793.0" layoutY="107.0" prefHeight="64.0" prefWidth="480.0" style="-fx-background-color: #003285;" text="Order Details" textFill="WHITE">
          <font>
             <Font name="System Bold" size="42.0" />
          </font>
@@ -39,12 +39,12 @@
             <Font name="System Bold" size="44.0" />
          </font>
       </Label>
-      <ImageView fitHeight="430.0" fitWidth="893.0" layoutX="794.0" layoutY="458.0" onMouseClicked="#loadAddOrderForm" pickOnBounds="true">
+      <ImageView fitHeight="283.0" fitWidth="480.0" layoutX="792.0" layoutY="368.0" onMouseClicked="#loadAddOrderForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/add_order.jpg" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="794.0" layoutY="458.0" prefHeight="64.0" prefWidth="893.0" style="-fx-background-color: #003285;" text="Add Order" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="793.0" layoutY="367.0" prefHeight="64.0" prefWidth="480.0" style="-fx-background-color: #003285;" text="Add Order" textFill="WHITE">
          <font>
             <Font name="System Bold" size="43.0" />
          </font>

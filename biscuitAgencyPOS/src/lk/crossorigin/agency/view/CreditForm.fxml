@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="creditContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.CreditFormController">
+<AnchorPane fx:id="creditContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.CreditFormController">
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
