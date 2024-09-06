@@ -18,9 +18,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jfoenix-1.11.1" level="project" />
-    <orderEntry type="library" name="mysql-connector-j-8.4.0" level="project" />
-    <orderEntry type="library" name="intellij-jasper-report-support-1.0.2" level="application" />
-    <orderEntry type="library" name="net.sf.jasperreports" level="application" />
+    <orderEntry type="library" exported="" name="jfoenix-1.11.1" level="project" />
+    <orderEntry type="library" exported="" name="mysql-connector-j-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="intellij-jasper-report-support-1.0.2" level="application" />
+    <orderEntry type="library" exported="" name="net.sf.jasperreports" level="application" />
+    <orderEntry type="library" exported="" name="javafx-swt" level="application" />
   </component>
 </module>
