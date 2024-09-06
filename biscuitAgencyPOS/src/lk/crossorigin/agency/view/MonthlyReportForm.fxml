@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="monthlyReportContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.MonthlyReportFormController">
+<AnchorPane fx:id="monthlyReportContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.MonthlyReportFormController">
    <children>
-      <TableView fx:id="tblMonthlyReport" layoutX="14.0" layoutY="109.0" prefHeight="774.0" prefWidth="1678.0">
+      <TableView fx:id="tblMonthlyReport" layoutX="14.0" layoutY="109.0" prefHeight="534.0" prefWidth="1678.0">
         <columns>
           <TableColumn fx:id="colDate" prefWidth="377.60001850128174" text="Date" />
           <TableColumn fx:id="colTotal" prefWidth="434.39996337890625" text="Total" />

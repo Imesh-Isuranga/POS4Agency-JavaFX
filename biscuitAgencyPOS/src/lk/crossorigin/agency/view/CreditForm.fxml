@@ -21,21 +21,21 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1670.0" />
-      <TableView fx:id="creditTbl" layoutX="14.0" layoutY="196.0" prefHeight="695.0" prefWidth="1678.0">
+      <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1235.0" />
+      <TableView fx:id="creditTbl" layoutX="-58.0" layoutY="196.0" prefHeight="448.0" prefWidth="1322.0">
         <columns>
           <TableColumn fx:id="colNum" prefWidth="51.199978828430176" text="No" />
-          <TableColumn fx:id="colShopId" prefWidth="342.40003967285156" text="Shop Id" />
-            <TableColumn fx:id="colDate" prefWidth="205.5999755859375" text="Date" />
-            <TableColumn fx:id="colAmount" prefWidth="456.800048828125" text="Amount" />
-            <TableColumn fx:id="colBankDetails" prefWidth="622.4000854492188" text="Bank Details" />
+          <TableColumn fx:id="colShopId" prefWidth="248.8000030517578" text="Shop Id" />
+            <TableColumn fx:id="colDate" prefWidth="230.39996337890625" text="Date" />
+            <TableColumn fx:id="colAmount" prefWidth="145.5999755859375" text="Amount" />
+            <TableColumn fx:id="colBankDetails" prefWidth="1007.199951171875" text="Bank Details" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="36.0" prefWidth="1303.0" promptText="Search here">
+      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="43.0" prefWidth="822.0" promptText="Search here">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="1336.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="36.0" prefWidth="354.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="859.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="43.0" prefWidth="403.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -45,7 +45,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1331.0" layoutY="22.0" onAction="#printOnAction" prefHeight="36.0" prefWidth="354.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
+      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="854.0" layoutY="22.0" onAction="#printOnAction" prefHeight="43.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

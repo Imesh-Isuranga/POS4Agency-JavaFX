@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="itemUpdateContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.MainUpdateItemsController">
+<AnchorPane fx:id="itemUpdateContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.MainUpdateItemsController">
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="29.0" layoutY="23.0" onAction="#backbtnOnAction" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>

@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="selectShopToOrderContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.SelectShopToOrderController">
+<AnchorPane fx:id="selectShopToOrderContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.SelectShopToOrderController">
    <children>
       <JFXComboBox fx:id="shopIdcmb" layoutX="39.0" layoutY="124.0" prefHeight="47.0" prefWidth="401.0" promptText="Shop Id" />
       <TextField fx:id="bookNumtxt" layoutX="472.0" layoutY="127.0" prefHeight="47.0" prefWidth="362.0" promptText="Book Num" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField fx:id="invoiceNumtxt" layoutX="866.0" layoutY="127.0" prefHeight="47.0" prefWidth="805.0" promptText="Invoice Num" style="-fx-background-color: #F3F7EC;">
+      <TextField fx:id="invoiceNumtxt" layoutX="866.0" layoutY="127.0" prefHeight="47.0" prefWidth="394.0" promptText="Invoice Num" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="1247.0" layoutY="201.0" onAction="#nextOnAction" prefHeight="47.0" prefWidth="423.0" style="-fx-background-color: #26355D;" text="Next" textFill="WHITE">
+      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="898.0" layoutY="204.0" onAction="#nextOnAction" prefHeight="47.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Next" textFill="WHITE">
          <font>
             <Font name="System Bold" size="27.0" />
          </font></JFXButton>
@@ -34,7 +34,7 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-      <TableView fx:id="tblSaveList" layoutX="323.0" layoutY="386.0" prefHeight="273.0" prefWidth="1136.0">
+      <TableView fx:id="tblSaveList" layoutX="161.0" layoutY="270.0" prefHeight="274.0" prefWidth="1098.0">
         <columns>
           <TableColumn fx:id="colNo" prefWidth="93.60000610351562" text="No" />
           <TableColumn fx:id="colListItem" prefWidth="732.0000305175781" text="List Item" />

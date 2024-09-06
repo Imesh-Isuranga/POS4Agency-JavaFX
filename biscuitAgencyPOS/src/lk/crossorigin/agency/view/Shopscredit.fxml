@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="shopCreditContext" prefHeight="900.0" prefWidth="1700.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.ShopscreditFormController">
+<AnchorPane fx:id="shopCreditContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.ShopscreditFormController">
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="29.0" layoutY="23.0" onAction="#backbtnOnAction" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
@@ -21,7 +21,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Separator layoutX="29.0" layoutY="113.0" prefHeight="0.0" prefWidth="1661.0" />
+      <Separator layoutX="29.0" layoutY="116.0" prefHeight="0.0" prefWidth="1234.0" />
       <JFXComboBox fx:id="cmbShops" layoutX="190.0" layoutY="203.0" prefHeight="38.0" prefWidth="428.0" promptText="Shop" />
       <TextField fx:id="txtCashAmount" layoutX="436.0" layoutY="376.0" prefHeight="38.0" prefWidth="275.0" promptText="Cash Amount" style="-fx-background-color: #F3F7EC;" />
       <JFXButton fx:id="tbnPay" buttonType="RAISED" layoutX="190.0" layoutY="470.0" onAction="#payOnAction" prefHeight="38.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Pay" textFill="WHITE">
