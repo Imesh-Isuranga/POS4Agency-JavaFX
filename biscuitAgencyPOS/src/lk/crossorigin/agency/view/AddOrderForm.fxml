@@ -78,17 +78,17 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="735.0" layoutY="9.0" text="Shop Id : ">
+      <Label layoutX="601.0" layoutY="7.0" text="Shop Id : ">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="shopIdlbl" layoutX="826.0" layoutY="9.0" text="20">
+      <Label fx:id="shopIdlbl" layoutX="700.0" layoutY="9.0" text="20">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrderId" layoutX="386.0" layoutY="6.0" prefHeight="30.0" prefWidth="324.0" text="D001">
+      <Label fx:id="lblOrderId" layoutX="386.0" layoutY="6.0" prefHeight="30.0" prefWidth="107.0" text="D001">
          <font>
             <Font name="System Bold" size="20.0" />
          </font></Label>

@@ -14,7 +14,7 @@
             <Image url="@../assert/order_details.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="230.0" fitWidth="451.0" layoutX="14.0" layoutY="106.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
+      <ImageView fitHeight="373.0" fitWidth="451.0" layoutX="14.0" layoutY="106.0" onMouseClicked="#loadStockForm" pickOnBounds="true">
          <image>
             <Image url="@../assert/load_Stock.jpg" />
          </image>

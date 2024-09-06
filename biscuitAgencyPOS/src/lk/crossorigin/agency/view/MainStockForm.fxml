@@ -29,9 +29,9 @@
           <TableColumn fx:id="colItemName" prefWidth="124.80003356933594" text="Item Name" />
             <TableColumn fx:id="colUnitPrice_Box" prefWidth="148.0" text="Outlet/Trade" />
             <TableColumn fx:id="colBoxQty" prefWidth="145.59991455078125" text="Box QTY" />
-            <TableColumn fx:id="colItemQty" prefWidth="126.4000244140625" text="Item QTY" />
-            <TableColumn fx:id="colTotal" prefWidth="124.0" text="Total" />
-            <TableColumn fx:id="colUnitPrice_Box_Agency" minWidth="0.0" prefWidth="898.3999633789062" text="Distributor" />
+            <TableColumn fx:id="colItemQty" prefWidth="193.5999755859375" text="Item QTY" />
+            <TableColumn fx:id="colTotal" prefWidth="275.2000732421875" text="Total" />
+            <TableColumn fx:id="colUnitPrice_Box_Agency" prefWidth="250.40008544921875" text="Distributor" />
         </columns>
       </TableView>
       <TextField fx:id="boxQtyTxt" layoutX="283.0" layoutY="135.0" prefHeight="46.0" prefWidth="158.0" promptText="Box QTY " style="-fx-background-color: #F3F7EC;">
