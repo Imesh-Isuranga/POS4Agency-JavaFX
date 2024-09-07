@@ -119,9 +119,9 @@ public class LoadStockFormController {
             for (ItemDTO dto: dtoList) {
                 double total = 0.0;
                 if(dto.getItemCountInBox()==0){
-                    total = dto.getUnitPrice_Box_Agency()*dto.getItemQty();
+                    total = dto.getUnitPrice_Box()*dto.getItemQty();
                 }else{
-                    total = dto.getUnitPrice_Box_Agency()*dto.getBoxQty() + (dto.getUnitPrice_Box_Agency()/dto.getItemCountInBox())*dto.getItemQty();
+                    total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/dto.getItemCountInBox())*dto.getItemQty();
                 }
                 total = Math.round(total * 100.0) / 100.0;
                 wholeTotal += total;

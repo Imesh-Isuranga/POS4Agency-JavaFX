@@ -308,7 +308,7 @@ public class AddOrderFormController {
         txtItemQty.clear();
     }
 
-    public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException {
+    public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException, IOException {
         if((Double.parseDouble(lblTotal.getText()) <= Double.parseDouble(paidAmountlbl.getText())) || ((Double.parseDouble(lblTotal.getText()) > Double.parseDouble(paidAmountlbl.getText())) && creditcbx.isSelected()) && Double.parseDouble(lblTotal.getText())!=0.00 ){
             ArrayList <OrderDetail>orderDetailList=new ArrayList<>();
 
@@ -367,7 +367,43 @@ public class AddOrderFormController {
                         if(k==(orderDetailList.size())){
                             if(savePayment()){
                                 if(shopBO.updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){
-                                    new Alert(Alert.AlertType.CONFIRMATION,"Order was Added", ButtonType.OK).show();
+                                    Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,"Order was Added.Do you want to add new order?",ButtonType.YES,ButtonType.CANCEL);
+                                        Optional<ButtonType> confirmState = confirmation.showAndWait();
+                                        if(confirmState.get().equals(ButtonType.YES)){
+                                            TextInputDialog inputDialog = new TextInputDialog();
+                                            inputDialog.setTitle("New Order Input");
+                                            inputDialog.setHeaderText("Please enter the Invoice Num:");
+                                            inputDialog.setContentText("InvoiceNum:");
+
+                                            Optional<String> result = inputDialog.showAndWait();
+                                            result.ifPresent(invoiceNum -> {
+                                                // Here you can process the orderName input
+                                                if (!invoiceNum.isEmpty()) {
+                                                    try {
+                                                        String bookNum = orderBookBO.getOrderBook(lblOrderId.getText()).getBookId();
+                                                        OrderBookDTO orderBookDTO = new OrderBookDTO(orderBookBO.generateOrderId(bookNum,invoiceNum), bookNum,invoiceNum,shopBO.getShop(shopIdlbl.getText()).getId());
+                                                        if(orderBookBO.saveOrderBook(orderBookDTO)){
+                                                            Stage stage = (Stage) addOrderContext.getScene().getWindow();
+                                                            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
+                                                        }else{
+                                                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.", ButtonType.OK).show();
+                                                        }
+                                                    } catch (SQLException e) {
+                                                        throw new RuntimeException(e);
+                                                    } catch (ClassNotFoundException e) {
+                                                        throw new RuntimeException(e);
+                                                    } catch (IOException e) {
+                                                        throw new RuntimeException(e);
+                                                    }
+                                                } else {
+                                                    new Alert(Alert.AlertType.WARNING, "Something went wrong! Please try again.", ButtonType.CANCEL).show();
+                                                }
+                                            });
+
+                                        }else{
+                                            Stage stage = (Stage) addOrderContext.getScene().getWindow();
+                                            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
+                                        }
                                 }else {
                                     new Alert(Alert.AlertType.WARNING,"Something went wrong about Credit! Please try again.",ButtonType.CANCEL).show();
                                 }
