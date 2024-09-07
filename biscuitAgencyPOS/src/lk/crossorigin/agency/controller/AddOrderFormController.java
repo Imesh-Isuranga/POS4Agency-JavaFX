@@ -333,7 +333,9 @@ public class AddOrderFormController {
                         System.out.println(freeItemCount);
                     }
                 }
-                OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), itemCode, unitPrice_Box,Double.parseDouble(lblTotal.getText()),Double.parseDouble(lblFree.getText()),Double.parseDouble(lbldis.getText()),Double.parseDouble(returnTotallbl.getText()), orderBoxQty, orderItemQty, freeBoxCount, freeItemCount);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = dateFormat.parse(lblDate.getText());
+                OrderDetail orderDetail=new OrderDetail(lblOrderId.getText(), itemCode, unitPrice_Box,Double.parseDouble(lblTotal.getText()),Double.parseDouble(lblFree.getText()),Double.parseDouble(lbldis.getText()),Double.parseDouble(returnTotallbl.getText()), orderBoxQty, orderItemQty, freeBoxCount, freeItemCount,date);
                 orderDetailList.add(orderDetail);
             }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -342,6 +344,8 @@ public class AddOrderFormController {
 
             if (isAdded) {
                 int k = 0;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = dateFormat.parse(lblDate.getText());
                 for (OrderDetail orderDetail:orderDetailList) {
                     k++;
                     OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(
@@ -355,7 +359,8 @@ public class AddOrderFormController {
                             orderDetail.getBoxQty(),
                             orderDetail.getItemQty(),
                             orderDetail.getBoxQtyFree(),
-                            orderDetail.getItemQtyFree()
+                            orderDetail.getItemQtyFree(),
+                            date
                     );
                     int boxQTY = (orderDetail.getBoxQty() + orderDetail.getBoxQtyFree());
                     int itemQTY = (orderDetail.getItemQty() + orderDetail.getItemQtyFree());

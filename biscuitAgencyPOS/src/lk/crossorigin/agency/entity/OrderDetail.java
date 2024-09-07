@@ -1,5 +1,7 @@
 package lk.crossorigin.agency.entity;
 
+import java.util.Date;
+
 public class OrderDetail {
     private String orderId;
     private String itemCode;
@@ -12,12 +14,13 @@ public class OrderDetail {
     private int itemQty;
     private int boxQtyFree;
     private int itemQtyFree;
+    private Date orderDate;
 
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String orderId, String itemCode, double unitPrice_Box, double total, double free_total, double dis_total, double return_total, int boxQty, int itemQty, int boxQtyFree, int itemQtyFree) {
+    public OrderDetail(String orderId, String itemCode, double unitPrice_Box, double total, double free_total, double dis_total, double return_total, int boxQty, int itemQty, int boxQtyFree, int itemQtyFree, Date orderDate) {
         this.orderId = orderId;
         this.itemCode = itemCode;
         this.unitPrice_Box = unitPrice_Box;
@@ -29,6 +32,7 @@ public class OrderDetail {
         this.itemQty = itemQty;
         this.boxQtyFree = boxQtyFree;
         this.itemQtyFree = itemQtyFree;
+        this.orderDate = orderDate;
     }
 
     public String getOrderId() {
@@ -119,6 +123,14 @@ public class OrderDetail {
         this.itemQtyFree = itemQtyFree;
     }
 
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
     @Override
     public String toString() {
         return "OrderDetail{" +
@@ -133,6 +145,7 @@ public class OrderDetail {
                 ", itemQty=" + itemQty +
                 ", boxQtyFree=" + boxQtyFree +
                 ", itemQtyFree=" + itemQtyFree +
+                ", orderDate=" + orderDate +
                 '}';
     }
 }

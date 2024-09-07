@@ -1,5 +1,7 @@
 package lk.crossorigin.agency.dto;
 
+import java.util.Date;
+
 public class OrderDetailsDTO {
 
     private String orderId;
@@ -13,11 +15,12 @@ public class OrderDetailsDTO {
     private int itemQty;
     private int boxQtyFree;
     private int itemQtyFree;
+    private Date orderDate;
 
     public OrderDetailsDTO() {
     }
 
-    public OrderDetailsDTO(String orderId, String itemCode, double unitPrice_Box, double total, double free_total, double dis_tot, double return_tot, int boxQty, int itemQty, int boxQtyFree, int itemQtyFree) {
+    public OrderDetailsDTO(String orderId, String itemCode, double unitPrice_Box, double total, double free_total, double dis_tot, double return_tot, int boxQty, int itemQty, int boxQtyFree, int itemQtyFree,Date orderDate) {
         this.orderId = orderId;
         this.itemCode = itemCode;
         this.unitPrice_Box = unitPrice_Box;
@@ -29,6 +32,7 @@ public class OrderDetailsDTO {
         this.itemQty = itemQty;
         this.boxQtyFree = boxQtyFree;
         this.itemQtyFree = itemQtyFree;
+        this.orderDate = orderDate;
     }
 
     public String getOrderId() {
@@ -119,6 +123,14 @@ public class OrderDetailsDTO {
         this.itemQtyFree = itemQtyFree;
     }
 
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
     @Override
     public String toString() {
         return "OrderDetailsDTO{" +
@@ -133,6 +145,7 @@ public class OrderDetailsDTO {
                 ", itemQty=" + itemQty +
                 ", boxQtyFree=" + boxQtyFree +
                 ", itemQtyFree=" + itemQtyFree +
+                ", orderDate=" + orderDate +
                 '}';
     }
 }

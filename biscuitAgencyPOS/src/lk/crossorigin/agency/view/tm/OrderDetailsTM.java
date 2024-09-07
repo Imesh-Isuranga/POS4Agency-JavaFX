@@ -14,11 +14,12 @@ public class OrderDetailsTM {
     private String chequeNum;
     private double MR;
     private String discount;
+    private Date date;
 
     public OrderDetailsTM() {
     }
 
-    public OrderDetailsTM(int no, String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, String discount) {
+    public OrderDetailsTM(int no,Date date ,String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, String discount) {
         this.no = no;
         this.invNo = invNo;
         NameofDealer = nameofDealer;
@@ -29,6 +30,7 @@ public class OrderDetailsTM {
         this.chequeNum = chequeNum;
         this.MR = MR;
         this.discount = discount;
+        this.date = date;
     }
 
     public int getNo() {
@@ -111,6 +113,14 @@ public class OrderDetailsTM {
         this.discount = discount;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "OrderDetailsTM{" +
@@ -120,10 +130,11 @@ public class OrderDetailsTM {
                 ", total=" + total +
                 ", cash=" + cash +
                 ", credit=" + credit +
-                ", cheque='" + cheque + '\'' +
+                ", cheque=" + cheque +
                 ", chequeNum='" + chequeNum + '\'' +
                 ", MR=" + MR +
-                ", discount=" + discount +
+                ", discount='" + discount + '\'' +
+                ", date=" + date +
                 '}';
     }
 }
