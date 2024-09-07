@@ -12,37 +12,37 @@
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="29.0" layoutY="23.0" onAction="#backbtnOnAction" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <Label layoutX="29.0" layoutY="64.0" prefHeight="38.0" prefWidth="354.0" text="Item Update Or Delete" textFill="#cf033d">
+      <Label layoutX="29.0" layoutY="56.0" prefHeight="38.0" prefWidth="354.0" text="Item Update Or Delete" textFill="#cf033d">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Separator layoutX="29.0" layoutY="113.0" prefHeight="0.0" prefWidth="1661.0" />
-      <JFXComboBox fx:id="cmbItems" layoutX="190.0" layoutY="203.0" prefHeight="38.0" prefWidth="428.0" promptText="Items" />
-      <TextField fx:id="nametxt" layoutX="189.0" layoutY="357.0" prefHeight="38.0" prefWidth="444.0" promptText="Name" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="unitBoxPricetxt" layoutX="1090.0" layoutY="357.0" prefHeight="38.0" prefWidth="386.0" promptText="Unit Box Price" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="itemCounttxt" layoutX="189.0" layoutY="442.0" prefHeight="38.0" prefWidth="173.0" promptText="Item Count " style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="itemQtytxt" layoutX="690.0" layoutY="441.0" prefHeight="38.0" prefWidth="275.0" promptText="Item QTY" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="boxQtytxt" layoutX="393.0" layoutY="441.0" prefHeight="38.0" prefWidth="275.0" promptText="Box QTY" style="-fx-background-color: #F3F7EC;" />
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="190.0" layoutY="555.0" onAction="#updateOnAction" prefHeight="38.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Update" textFill="WHITE">
+      <Separator layoutX="29.0" layoutY="116.0" prefHeight="6.0" prefWidth="1236.0" />
+      <JFXComboBox fx:id="cmbItems" layoutX="107.0" layoutY="203.0" prefHeight="38.0" prefWidth="428.0" promptText="Items" />
+      <TextField fx:id="nametxt" layoutX="106.0" layoutY="357.0" prefHeight="38.0" prefWidth="444.0" promptText="Name" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="unitBoxPricetxt" layoutX="796.0" layoutY="357.0" prefHeight="38.0" prefWidth="263.0" promptText="Unit Box Price" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="itemCounttxt" layoutX="106.0" layoutY="442.0" prefHeight="38.0" prefWidth="173.0" promptText="Item Count " style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="itemQtytxt" layoutX="604.0" layoutY="441.0" prefHeight="38.0" prefWidth="275.0" promptText="Item QTY" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="boxQtytxt" layoutX="310.0" layoutY="441.0" prefHeight="38.0" prefWidth="275.0" promptText="Box QTY" style="-fx-background-color: #F3F7EC;" />
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="107.0" layoutY="555.0" onAction="#updateOnAction" prefHeight="38.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Update" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="658.0" layoutY="555.0" onAction="#deleteOnAction" prefHeight="38.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Delete" textFill="WHITE">
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="572.0" layoutY="555.0" onAction="#deleteOnAction" prefHeight="38.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Delete" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
       <JFXButton fx:id="btnAddItem" buttonType="RAISED" layoutX="680.0" layoutY="203.0" onAction="#addItemOnAction" prefHeight="38.0" prefWidth="373.0" style="-fx-background-color: #26355D;" text="Add New Item" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <TextField fx:id="codetxt" layoutX="190.0" layoutY="275.0" prefHeight="38.0" prefWidth="310.0" promptText="Code" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="unitBoxPriceAgencytxt" layoutX="648.0" layoutY="357.0" prefHeight="38.0" prefWidth="428.0" promptText="Unit Box Agency Price" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="codetxt" layoutX="107.0" layoutY="275.0" prefHeight="38.0" prefWidth="310.0" promptText="Code" style="-fx-background-color: #F3F7EC;" />
+      <TextField fx:id="unitBoxPriceAgencytxt" layoutX="561.0" layoutY="357.0" prefHeight="38.0" prefWidth="218.0" promptText="Unit Box Agency Price" style="-fx-background-color: #F3F7EC;" />
    </children>
 </AnchorPane>

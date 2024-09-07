@@ -11,18 +11,18 @@
 
 <AnchorPane fx:id="orderHistoryContext" prefHeight="900.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.ReturnItemsFormController">
    <children>
-      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="34.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <Label layoutX="19.0" layoutY="75.0" prefHeight="46.0" prefWidth="410.0" text="Return Items" textFill="#c80036">
+      <Label layoutX="19.0" layoutY="47.0" prefHeight="46.0" prefWidth="410.0" text="Return Items" textFill="#c80036">
          <font>
-            <Font name="System Bold" size="30.0" />
+            <Font name="System Bold" size="23.0" />
          </font>
       </Label>
-      <Separator layoutX="19.0" layoutY="125.0" prefHeight="7.0" prefWidth="1273.0" />
-      <TableView fx:id="retunItemsTbl" layoutX="14.0" layoutY="196.0" prefHeight="695.0" prefWidth="1281.0">
+      <Separator layoutX="19.0" layoutY="90.0" prefHeight="7.0" prefWidth="1273.0" />
+      <TableView fx:id="retunItemsTbl" layoutX="14.0" layoutY="157.0" prefHeight="734.0" prefWidth="1282.0">
         <columns>
           <TableColumn fx:id="colItem" prefWidth="251.19999408721924" text="Item" />
           <TableColumn fx:id="colshop" prefWidth="161.60003662109375" text="Shop" />
@@ -31,18 +31,18 @@
             <TableColumn fx:id="colperQtyPrice" prefWidth="287.20001220703125" text="per Qty Price" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="43.0" prefWidth="1054.0" promptText="Search here">
+      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="105.0" prefHeight="43.0" prefWidth="1054.0" promptText="Search here">
          <font>
-            <Font size="20.0" />
+            <Font size="14.0" />
          </font></TextField>
-      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="1078.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="43.0" prefWidth="216.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="1078.0" layoutY="108.0" onAction="#searchOnAction" prefHeight="34.0" prefWidth="216.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1036.0" layoutY="23.0" onAction="#printOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
+      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1036.0" layoutY="23.0" onAction="#printOnAction" prefHeight="34.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
    </children>

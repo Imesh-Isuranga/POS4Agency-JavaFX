@@ -23,15 +23,15 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <TextField layoutX="16.0" layoutY="236.0" prefHeight="36.0" prefWidth="587.0" promptText="Email" style="-fx-background-color: #F3F7EC;">
+      <TextField layoutX="16.0" layoutY="175.0" prefHeight="36.0" prefWidth="587.0" promptText="Email" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <PasswordField layoutX="16.0" layoutY="326.0" prefHeight="36.0" prefWidth="587.0" promptText="Password" style="-fx-background-color: #F3F7EC;">
+      <PasswordField layoutX="16.0" layoutY="235.0" prefHeight="36.0" prefWidth="587.0" promptText="Password" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></PasswordField>
-      <JFXButton buttonType="RAISED" layoutX="16.0" layoutY="412.0" onAction="#loginOnAction" prefHeight="36.0" prefWidth="587.0" style="-fx-background-color: FF7F3E;" text="Let's Go">
+      <JFXButton buttonType="RAISED" layoutX="16.0" layoutY="329.0" onAction="#loginOnAction" prefHeight="36.0" prefWidth="587.0" style="-fx-background-color: FF7F3E;" text="Let's Go">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -39,7 +39,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="16.0" layoutY="536.0" prefHeight="36.0" prefWidth="587.0" style="-fx-background-color: E88D67;" text="Sign Up">
+      <JFXButton buttonType="RAISED" layoutX="16.0" layoutY="444.0" prefHeight="36.0" prefWidth="587.0" style="-fx-background-color: E88D67;" text="Sign Up">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -47,19 +47,24 @@
             <Font name="System Bold" size="20.0" />
          </font></JFXButton>
       <Separator layoutX="142.0" layoutY="65.0" prefHeight="0.0" prefWidth="450.0" />
-      <Label layoutX="296.0" layoutY="483.0" text="OR">
+      <Label layoutX="283.0" layoutY="400.0" text="OR">
          <font>
             <Font size="15.0" />
          </font></Label>
-      <Separator layoutX="339.0" layoutY="490.0" prefHeight="6.0" prefWidth="269.0" />
-      <Separator layoutX="30.0" layoutY="489.0" prefHeight="6.0" prefWidth="241.0" />
-      <Label layoutX="257.0" layoutY="641.0" prefHeight="22.0" prefWidth="370.0" text="From CrossOrigin PVT(LTD)">
+      <Separator layoutX="329.0" layoutY="407.0" prefHeight="6.0" prefWidth="269.0" />
+      <Separator layoutX="18.0" layoutY="406.0" prefHeight="6.0" prefWidth="241.0" />
+      <Label layoutX="174.0" layoutY="615.0" prefHeight="22.0" prefWidth="186.0" text="From CrossOrigin PVT(LTD)">
          <font>
             <Font size="15.0" />
          </font></Label>
-      <Label layoutX="16.0" layoutY="641.0" prefHeight="22.0" prefWidth="185.0" text="Version 1.0.0">
+      <Label layoutX="16.0" layoutY="617.0" prefHeight="22.0" prefWidth="185.0" text="Version 1.0.0">
          <font>
             <Font size="15.0" />
          </font></Label>
+      <Label layoutX="427.0" layoutY="615.0" prefHeight="22.0" prefWidth="186.0" text="Contact : +94 769352432">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

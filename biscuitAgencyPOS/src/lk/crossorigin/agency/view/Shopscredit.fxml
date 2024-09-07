@@ -13,7 +13,7 @@
    <children>
       <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="29.0" layoutY="23.0" onAction="#backbtnOnAction" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
       <Label layoutX="29.0" layoutY="64.0" prefHeight="38.0" prefWidth="354.0" text="Shop Credit" textFill="#cf033d">
@@ -21,7 +21,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Separator layoutX="29.0" layoutY="116.0" prefHeight="0.0" prefWidth="1234.0" />
+      <Separator layoutX="29.0" layoutY="110.0" prefHeight="0.0" prefWidth="1234.0" />
       <JFXComboBox fx:id="cmbShops" layoutX="190.0" layoutY="203.0" prefHeight="38.0" prefWidth="428.0" promptText="Shop" />
       <TextField fx:id="txtCashAmount" layoutX="436.0" layoutY="376.0" prefHeight="38.0" prefWidth="275.0" promptText="Cash Amount" style="-fx-background-color: #F3F7EC;" />
       <JFXButton fx:id="tbnPay" buttonType="RAISED" layoutX="190.0" layoutY="470.0" onAction="#payOnAction" prefHeight="38.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Pay" textFill="WHITE">
@@ -29,9 +29,9 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnShowTable" buttonType="RAISED" layoutX="680.0" layoutY="31.0" onAction="#showInAction" prefHeight="38.0" prefWidth="202.0" style="-fx-background-color: #26355D;" text="Show IN Table" textFill="WHITE">
+      <JFXButton fx:id="btnShowTable" buttonType="RAISED" layoutX="680.0" layoutY="23.0" onAction="#showInAction" prefHeight="38.0" prefWidth="202.0" style="-fx-background-color: #26355D;" text="Show IN Table" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
       <Label layoutX="190.0" layoutY="290.0" text="Upto Now Credit">

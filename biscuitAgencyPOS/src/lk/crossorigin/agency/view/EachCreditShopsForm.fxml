@@ -11,31 +11,31 @@
 
 <AnchorPane fx:id="creditContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.EachCreditShopsFormController">
    <children>
-      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="43.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="19.0" layoutY="14.0" onAction="#backbtnOnAction" prefHeight="29.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="eachCreditContext" layoutX="19.0" layoutY="42.0" prefHeight="46.0" prefWidth="410.0" text="Credit History" textFill="#c80036">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
-      </JFXButton>
-      <Label fx:id="eachCreditContext" layoutX="19.0" layoutY="75.0" prefHeight="46.0" prefWidth="410.0" text="Credit History" textFill="#c80036">
-         <font>
-            <Font name="System Bold" size="30.0" />
-         </font>
       </Label>
-      <Separator layoutX="19.0" layoutY="124.0" prefHeight="0.0" prefWidth="1235.0" />
-      <TableView fx:id="creditTbl" layoutX="14.0" layoutY="196.0" prefHeight="454.0" prefWidth="1251.0">
+      <Separator layoutX="19.0" layoutY="87.0" prefHeight="0.0" prefWidth="1235.0" />
+      <TableView fx:id="creditTbl" layoutX="14.0" layoutY="139.0" prefHeight="511.0" prefWidth="1251.0">
         <columns>
           <TableColumn fx:id="colNum" prefWidth="175.19997882843018" text="No" />
           <TableColumn fx:id="colShopId" prefWidth="356.00001525878906" text="Shop Id" />
             <TableColumn fx:id="colCredit" prefWidth="1148.7999877929688" text="Credit" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="140.0" prefHeight="43.0" prefWidth="776.0" promptText="Search here">
+      <TextField fx:id="txtSearch" layoutX="15.0" layoutY="98.0" prefHeight="30.0" prefWidth="776.0" promptText="Search here">
          <font>
-            <Font size="20.0" />
+            <Font size="14.0" />
          </font></TextField>
-      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="849.0" layoutY="140.0" onAction="#searchOnAction" prefHeight="43.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="849.0" layoutY="98.0" onAction="#searchOnAction" prefHeight="30.0" prefWidth="410.0" style="-fx-background-color: #26355D;" text="Search" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
    </children>

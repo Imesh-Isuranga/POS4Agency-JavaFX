@@ -11,16 +11,16 @@
 
 <AnchorPane fx:id="selectShopToOrderContext" prefHeight="658.0" prefWidth="1277.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.SelectShopToOrderController">
    <children>
-      <JFXComboBox fx:id="shopIdcmb" layoutX="39.0" layoutY="124.0" prefHeight="47.0" prefWidth="401.0" promptText="Shop Id" />
-      <TextField fx:id="bookNumtxt" layoutX="472.0" layoutY="127.0" prefHeight="47.0" prefWidth="362.0" promptText="Book Num" style="-fx-background-color: #F3F7EC;">
+      <JFXComboBox fx:id="shopIdcmb" layoutX="39.0" layoutY="124.0" prefHeight="39.0" prefWidth="402.0" promptText="Shop Id" />
+      <TextField fx:id="bookNumtxt" layoutX="472.0" layoutY="127.0" prefHeight="39.0" prefWidth="362.0" promptText="Book Num" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField fx:id="invoiceNumtxt" layoutX="866.0" layoutY="127.0" prefHeight="47.0" prefWidth="377.0" promptText="Invoice Num" style="-fx-background-color: #F3F7EC;">
+      <TextField fx:id="invoiceNumtxt" layoutX="866.0" layoutY="127.0" prefHeight="39.0" prefWidth="378.0" promptText="Invoice Num" style="-fx-background-color: #F3F7EC;">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="882.0" layoutY="218.0" onAction="#nextOnAction" prefHeight="47.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Next" textFill="WHITE">
+      <JFXButton fx:id="btnNext" buttonType="RAISED" layoutX="879.0" layoutY="191.0" onAction="#nextOnAction" prefHeight="39.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Next  &gt;&gt;&gt;" textFill="WHITE">
          <font>
             <Font name="System Bold" size="27.0" />
          </font></JFXButton>
@@ -29,9 +29,9 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <Label alignment="CENTER" layoutX="509.0" layoutY="35.0" prefHeight="47.0" prefWidth="458.0" text="Select Shop" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="509.0" layoutY="29.0" prefHeight="47.0" prefWidth="458.0" text="Select Shop" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="40.0" />
+            <Font name="System Bold" size="27.0" />
          </font>
       </Label>
       <TableView fx:id="tblSaveList" layoutX="89.0" layoutY="329.0" prefHeight="274.0" prefWidth="1098.0">
