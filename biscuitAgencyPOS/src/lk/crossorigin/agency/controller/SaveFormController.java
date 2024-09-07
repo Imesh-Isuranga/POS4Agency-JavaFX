@@ -52,6 +52,7 @@ public class SaveFormController {
         if(addedTaskstoList.isEmpty()){
             addedTaskstoList = "";
         }
+        txtDescription.setText("");
         //txtSaveDescription.setText(addedTaskstoList + saveTask + System.lineSeparator());
         txtSaveDescription.setText(addedTaskstoList + saveTask + ",");
     }

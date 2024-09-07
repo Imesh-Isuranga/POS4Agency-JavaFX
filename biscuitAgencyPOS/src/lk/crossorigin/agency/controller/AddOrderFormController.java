@@ -267,6 +267,7 @@ public class AddOrderFormController {
                 total = Math.round(total * 100.0) / 100.0;
                 double temp_totat_without_any = Double.parseDouble(lblTotalwithoutAny.getText());
                 temp_totat_without_any += total;
+                temp_totat_without_any = Math.round(temp_totat_without_any * 100.0) / 100.0;
                 lblTotalwithoutAny.setText(String.valueOf(temp_totat_without_any));
 
                 int rowIndex = isAlreadyExists(cmbItemCode.getValue().toString());
@@ -492,6 +493,7 @@ public class AddOrderFormController {
     }
 
     public void removeOnAction(ActionEvent actionEvent) {
+        lblTotalwithoutAny.setText(String.valueOf(Double.parseDouble(lblTotalwithoutAny.getText())-orderTM.getTotal()));
         obList.remove(orderTM);
         lblTotal.setText(String.valueOf(calculateTotalValue()));
     }

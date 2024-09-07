@@ -99,6 +99,10 @@ public class MonthlyReportFormController{
                 dis_tot += orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getFree_total() + orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getDis_tot();
                 return_tot += orderDetailBO.getAllOrderDetailsByOrderId(orderId).get(0).getReturn_tot();
 
+                total = Math.round(total * 100.0) / 100.0;
+                dis_tot = Math.round(dis_tot * 100.0) / 100.0;
+                return_tot = Math.round(return_tot * 100.0) / 100.0;
+
                 if(length==dtoAllOrdersList.size()){
                     MonthlyReportTM monthlyReportTM = new MonthlyReportTM(
                             date,
