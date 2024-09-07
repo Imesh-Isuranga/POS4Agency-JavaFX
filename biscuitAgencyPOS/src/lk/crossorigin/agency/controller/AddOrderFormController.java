@@ -13,15 +13,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import lk.crossorigin.agency.bo.custom.*;
 import lk.crossorigin.agency.bo.custom.impl.*;
 import lk.crossorigin.agency.dto.*;
 import lk.crossorigin.agency.entity.OrderDetail;
-import lk.crossorigin.agency.view.tm.DiscountItemsTM;
-import lk.crossorigin.agency.view.tm.FreeItemsTM;
-import lk.crossorigin.agency.view.tm.OrderTM;
-import lk.crossorigin.agency.view.tm.ReturnStockTM;
+import lk.crossorigin.agency.view.tm.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -376,23 +374,71 @@ public class AddOrderFormController {
                                             inputDialog.setContentText("InvoiceNum:");
 
                                             Optional<String> result = inputDialog.showAndWait();
+
                                             result.ifPresent(invoiceNum -> {
-                                                // Here you can process the orderName input
                                                 if (!invoiceNum.isEmpty()) {
                                                     try {
+                                                        // Process the invoice number (e.g., retrieve bookNum)
                                                         String bookNum = orderBookBO.getOrderBook(lblOrderId.getText()).getBookId();
-                                                        OrderBookDTO orderBookDTO = new OrderBookDTO(orderBookBO.generateOrderId(bookNum,invoiceNum), bookNum,invoiceNum,shopBO.getShop(shopIdlbl.getText()).getId());
-                                                        if(orderBookBO.saveOrderBook(orderBookDTO)){
-                                                            Stage stage = (Stage) addOrderContext.getScene().getWindow();
-                                                            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
-                                                        }else{
-                                                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.", ButtonType.OK).show();
-                                                        }
-                                                    } catch (SQLException e) {
-                                                        throw new RuntimeException(e);
-                                                    } catch (ClassNotFoundException e) {
-                                                        throw new RuntimeException(e);
-                                                    } catch (IOException e) {
+
+                                                        // Now show a custom dialog with a ComboBox after the invoice number is entered
+                                                        Dialog<String> comboBoxDialog = new Dialog<>();
+                                                        comboBoxDialog.setTitle("Select Option");
+                                                        comboBoxDialog.setHeaderText("Choose an option for the new order:");
+
+                                                        // Set the button types
+                                                        ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+                                                        comboBoxDialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+
+                                                        // Create the ComboBox and add items to it
+                                                        ComboBox<String> comboBox = new ComboBox<>();
+                                                        comboBox.setPromptText("Select Shop");
+
+                                                        comboBox.setItems(loadAllShopIds());
+                                                        // Layout for the dialog content
+
+                                                        comboBoxDialog.getDialogPane().setContent(comboBox);
+
+                                                        // Convert the result to the selected option when the submit button is clicked
+                                                        comboBoxDialog.setResultConverter(dialogButton -> {
+                                                            if (dialogButton == submitButtonType) {
+                                                                return comboBox.getValue();
+                                                            }
+                                                            return null;
+                                                        });
+
+                                                        // Show the ComboBox dialog and capture the result
+                                                        Optional<String> selectedOption = comboBoxDialog.showAndWait();
+
+                                                        selectedOption.ifPresent(option -> {
+                                                            // Proceed with the selected option
+                                                            try {
+                                                                OrderBookDTO orderBookDTO = new OrderBookDTO(
+                                                                        orderBookBO.generateOrderId(bookNum, invoiceNum),
+                                                                        bookNum,
+                                                                        invoiceNum,
+                                                                        shopBO.getShop(shopIdlbl.getText()).getId()
+                                                                );
+
+                                                                if (orderBookBO.saveOrderBook(orderBookDTO)) {
+                                                                    System.out.println("111111111111111111111111111111111111111111111111");
+                                                                    lblOrderId.setText(orderBookBO.generateOrderId(bookNum, invoiceNum));
+                                                                    System.out.println(selectedOption);
+                                                                    System.out.println(selectedOption.get());
+                                                                    System.out.println(option);
+                                                                    System.out.println("11111111111111112222222222222222");
+                                                                    shopIdlbl.setText(option);
+                                                                    Stage stage = (Stage) addOrderContext.getScene().getWindow();
+                                                                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
+                                                                } else {
+                                                                    new Alert(Alert.AlertType.WARNING, "Something went wrong! Please try again.", ButtonType.OK).show();
+                                                                }
+                                                            } catch (SQLException | ClassNotFoundException | IOException e) {
+                                                                throw new RuntimeException(e);
+                                                            }
+                                                        });
+
+                                                    } catch (SQLException | ClassNotFoundException e) {
                                                         throw new RuntimeException(e);
                                                     }
                                                 } else {
@@ -400,7 +446,7 @@ public class AddOrderFormController {
                                                 }
                                             });
 
-                                        }else{
+                                        } else {
                                             Stage stage = (Stage) addOrderContext.getScene().getWindow();
                                             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
                                         }
@@ -474,6 +520,18 @@ public class AddOrderFormController {
 
         return itemCodesObList;
     }
+
+    private ObservableList<String> loadAllShopIds() throws SQLException, ClassNotFoundException {
+        ObservableList<String> shopIdsObList = FXCollections.observableArrayList();;
+        ArrayList<ShopDTO> shopDTOArrayList = shopBO.getAllShops("%"+""+"%");
+
+        for (ShopDTO shopDTO:shopDTOArrayList) {
+            shopIdsObList.add(shopDTO.getId());
+        }
+
+        return shopIdsObList;
+    }
+
 
     private int isAlreadyExists(String itemCode){
         for(int i = 0; i<addOrderTbl.getItems().size(); i++){

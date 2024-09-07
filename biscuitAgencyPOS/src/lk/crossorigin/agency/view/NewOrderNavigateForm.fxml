@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="newOrderContext" prefHeight="197.0" prefWidth="238.0" style="-fx-background-color: #3AA6B9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.crossorigin.agency.controller.NewOrderNavigateFormController">
+   <children>
+      <TextField fx:id="txtInvoiceNum" layoutX="35.0" layoutY="95.0" prefHeight="36.0" prefWidth="170.0" promptText="Description" style="-fx-background-color: #F3F7EC;" text="Invoice Num">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <JFXButton fx:id="btnCancel" buttonType="RAISED" layoutX="174.0" layoutY="8.0" onAction="#cancelbtnOnAction" prefHeight="19.0" prefWidth="30.0" style="-fx-background-color: red;" text="X" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnNeworder" buttonType="RAISED" layoutX="44.0" layoutY="142.0" onAction="#saveOnAction" prefHeight="36.0" prefWidth="151.0" style="-fx-background-color: #26355D;" text="New Order" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXComboBox fx:id="cmbItemCode" layoutX="37.0" layoutY="58.0" prefHeight="26.0" prefWidth="170.0" promptText="Item Code" style="-fx-background-color: #F3F7EC;" />
+   </children>
+</AnchorPane>

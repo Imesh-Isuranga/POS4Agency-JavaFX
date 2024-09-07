@@ -219,6 +219,6 @@ Return Stock]]></text>
 		<band height="5" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="4" splitType="Stretch"/>
 	</summary>
 </jasperReport>
