@@ -78,10 +78,37 @@ public class AddShopFormController {
         }else if(btnSaveShop.getText().equalsIgnoreCase("Save Shop")){
             try {
                 System.out.println("`````````````````````````");
+                System.out.println("`````````````````````````");
                 String id = shopBO.generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
+                System.out.println(id);
+                System.out.println("seeeeeeeeeeeeeeeeeee");
+                int numLength = 0;
+
+                // Loop through the string and count numeric characters at the beginning
+                for (int i = 0; i < id.length(); i++) {
+                    if (Character.isDigit(id.charAt(i))) {
+                        numLength++;
+                    } else {
+                        break; // Stop counting when a non-numeric character is found
+                    }
+                }
+                System.out.println(id.length());
+                System.out.println(numLength);
+                int new_id = 1;
+                if(numLength==1){
+                    new_id = Integer.parseInt(id.substring(0,1));
+                }else if(numLength==2){
+                    new_id = Integer.parseInt(id.substring(0,2));
+                }else if(numLength==3){
+                    new_id = Integer.parseInt(id.substring(0,3));
+                }else if(numLength==4){
+                    new_id = Integer.parseInt(id.substring(0,4));
+                }else{
+                    new_id = Integer.parseInt(id.substring(0,5));
+                }
 
                 ShopDTO dto = new ShopDTO(
-                        Integer.parseInt(id.substring(0,1)),
+                        new_id,
                         id,
                         shopNameTxt.getText(),
                         shopAddressTxt.getText(),
@@ -100,13 +127,43 @@ public class AddShopFormController {
             }
         }else{
             try {
-                String id = shopBO.generateShopId(shopNameTxt.getText(),shopAddressTxt.getText());
+                String id = shopBO.getShop(shopTM.getId()).getId();
+                int numLength = 0;
+
+                // Loop through the string and count numeric characters at the beginning
+                for (int i = 0; i < id.length(); i++) {
+                    if (Character.isDigit(id.charAt(i))) {
+                        numLength++;
+                    } else {
+                        break; // Stop counting when a non-numeric character is found
+                    }
+                }
+                int new_id = 1;
+                if(numLength==1){
+                    new_id = Integer.parseInt(id.substring(0,1));
+                }else if(numLength==2){
+                    new_id = Integer.parseInt(id.substring(0,2));
+                }else if(numLength==3){
+                    new_id = Integer.parseInt(id.substring(0,3));
+                }else if(numLength==4){
+                    new_id = Integer.parseInt(id.substring(0,4));
+                }else{
+                    new_id = Integer.parseInt(id.substring(0,5));
+                }
+
+                System.out.println("111111111111111111111111++++");
+                System.out.println(id);
+                System.out.println(new_id);
+
                 ShopDTO dto = new ShopDTO(
-                        Integer.parseInt(shopTM.getId().substring(0,1)),
-                        shopTM.getId().substring(0,1) + " "+shopNameTxt.getText().substring(0,3) +"-" +shopAddressTxt.getText(),
+                        new_id,
+                        new_id + " "+shopNameTxt.getText().substring(0,3) +"-" +shopAddressTxt.getText(),
                         shopNameTxt.getText(),
                         shopAddressTxt.getText()
                 );
+
+
+
                 if(shopBO.updateShopWithoutCredit(dto)) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Updated", ButtonType.OK).show();
                     loadAllShops("");
@@ -158,8 +215,30 @@ public class AddShopFormController {
         Optional<ButtonType> confirmState = confirmation.showAndWait();
         if(confirmState.get().equals(ButtonType.YES)){
             try {
-                String id = String.valueOf(shopTM.getId().charAt(0));
-                if(shopBO.deleteShop(id)) {
+                String id = String.valueOf(shopTM.getId());
+                int numLength = 0;
+
+                // Loop through the string and count numeric characters at the beginning
+                for (int i = 0; i < id.length(); i++) {
+                    if (Character.isDigit(id.charAt(i))) {
+                        numLength++;
+                    } else {
+                        break; // Stop counting when a non-numeric character is found
+                    }
+                }
+                int new_id = 1;
+                if(numLength==1){
+                    new_id = Integer.parseInt(id.substring(0,1));
+                }else if(numLength==2){
+                    new_id = Integer.parseInt(id.substring(0,2));
+                }else if(numLength==3){
+                    new_id = Integer.parseInt(id.substring(0,3));
+                }else if(numLength==4){
+                    new_id = Integer.parseInt(id.substring(0,4));
+                }else{
+                    new_id = Integer.parseInt(id.substring(0,5));
+                }
+                if(shopBO.deleteShop(String.valueOf(new_id))) {
                     new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
                     loadAllShops("");
                 }else{

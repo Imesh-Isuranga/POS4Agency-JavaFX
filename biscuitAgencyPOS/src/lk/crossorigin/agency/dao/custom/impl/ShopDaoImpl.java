@@ -35,6 +35,12 @@ public class ShopDaoImpl implements ShopDAO {
     @Override
     public boolean updateShopWithoutCredit(Shop s) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Shop SET id=?,name=?,address=? WHERE sh_id=?";
+        System.out.println("1111122222222333");
+        System.out.println(s.getId());
+        System.out.println(s.getName());
+        System.out.println(s.getAddress());
+        System.out.println(s.getSh_id());
+        System.out.println(CrudUtil.executeUpdate(sql,s.getId(),s.getName(),s.getAddress(),s.getSh_id()));
         return CrudUtil.executeUpdate(sql,s.getId(),s.getName(),s.getAddress(),s.getSh_id());
     }
 
@@ -81,9 +87,13 @@ public class ShopDaoImpl implements ShopDAO {
             System.out.println(rst.getInt(1));
             int autoId = rst.getInt(1);
             int nextId = autoId + 1;
+            System.out.println("sssssssssssssssssssssssssssssssss11111");
             System.out.println(nextId);
+            System.out.println(nextId + " "+firstThreeOfA +"-" +name);
             return nextId + " "+firstThreeOfA +"-" +name;
         } else {
+            System.out.println("ssssssssssssssssssssssssssssssssssss");
+            System.out.println("1" + " "+firstThreeOfA +"-" +name);
             return "1" + " "+firstThreeOfA +"-" +name;
         }
     }
