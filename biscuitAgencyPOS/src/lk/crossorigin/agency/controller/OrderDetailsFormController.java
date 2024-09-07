@@ -176,6 +176,13 @@ public class OrderDetailsFormController {
                 discount += orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total();
 
 
+                totalsum = Math.round(totalsum * 100.0) / 100.0;
+                cash = Math.round(cash * 100.0) / 100.0;
+                credit = Math.round(credit * 100.0) / 100.0;
+                cheque = Math.round(cheque * 100.0) / 100.0;
+                mr = Math.round(mr * 100.0) / 100.0;
+                discount = Math.round(discount * 100.0) / 100.0;
+
                 System.out.println("000000000000000000000000000000000000000");
                 System.out.println(dto.getId());
                 System.out.println( orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()));
