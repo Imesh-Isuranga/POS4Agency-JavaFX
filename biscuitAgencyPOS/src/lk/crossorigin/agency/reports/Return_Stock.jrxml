@@ -115,89 +115,89 @@ Return Stock]]></text>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="37" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="4" width="100" height="30" uuid="261dde2f-8386-4ddf-86d0-b677a6458d2f">
+				<reportElement x="0" y="4" width="100" height="16" uuid="261dde2f-8386-4ddf-86d0-b677a6458d2f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Item Code]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="157" y="4" width="153" height="30" uuid="51225aeb-39b5-409f-88ba-ed9b17abb204">
+				<reportElement x="157" y="4" width="153" height="16" uuid="51225aeb-39b5-409f-88ba-ed9b17abb204">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Shop ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="341" y="4" width="100" height="30" uuid="de11ba0c-391a-4010-a21a-7651fb0d00e1">
+				<reportElement x="341" y="4" width="100" height="16" uuid="de11ba0c-391a-4010-a21a-7651fb0d00e1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BOX QTY]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="521" y="4" width="100" height="30" uuid="d0ee7fc5-d863-4fe6-a48d-197862d78f62">
+				<reportElement x="521" y="4" width="100" height="16" uuid="d0ee7fc5-d863-4fe6-a48d-197862d78f62">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Item QTY]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="680" y="3" width="126" height="30" uuid="99184f49-54f9-4ac7-9dad-7f229dfcb0d5">
+				<reportElement x="680" y="3" width="126" height="17" uuid="99184f49-54f9-4ac7-9dad-7f229dfcb0d5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Per QTY Price]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="100" height="20" uuid="cf31c931-db5b-4994-8b73-464565651ba0">
+				<reportElement x="0" y="0" width="100" height="17" uuid="cf31c931-db5b-4994-8b73-464565651ba0">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="157" y="2" width="153" height="18" uuid="f29703ab-47ad-4ece-9591-37681b3456e4">
+				<reportElement x="157" y="2" width="153" height="15" uuid="f29703ab-47ad-4ece-9591-37681b3456e4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ShopID}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="341" y="2" width="100" height="18" uuid="4f7622ad-84b6-47b1-84cb-6184d9c2ff5e">
+				<reportElement x="341" y="2" width="100" height="15" uuid="4f7622ad-84b6-47b1-84cb-6184d9c2ff5e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{BoxQuantity}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="521" y="2" width="100" height="18" uuid="842aeb6d-58a1-4087-aa98-78bd2380cbd6">
+				<reportElement x="521" y="2" width="100" height="15" uuid="842aeb6d-58a1-4087-aa98-78bd2380cbd6">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
 			</textField>
@@ -206,14 +206,14 @@ Return Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b539e8ff-1909-44de-9db4-d6a0d1d4e23b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PricePerQuantity}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="2" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="5" splitType="Stretch"/>

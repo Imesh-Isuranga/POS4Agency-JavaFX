@@ -82,7 +82,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c7d2872-5140-4d65-aaee-1a754ec07c0d"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Code]]></text>
 			</staticText>
@@ -91,7 +91,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57c3f780-9511-4e1a-8321-0acf21bb1cb3"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Name]]></text>
 			</staticText>
@@ -100,7 +100,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f4dbd70c-e322-40a5-be9e-329e705f1744"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UnitPrice Box Agency]]></text>
 			</staticText>
@@ -109,7 +109,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f17aa58-b5ba-4e55-a2df-27dd662fd708"/>
 				</reportElement>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UnitPrice Box]]></text>
 			</staticText>
@@ -118,7 +118,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a7b71bf6-c3b7-4e72-80f4-2cd7bbe68bf2"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Item Count In Box]]></text>
 			</staticText>
@@ -127,7 +127,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ba5bfc9d-3588-42b8-8e39-47df334fa418"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Box Qty]]></text>
 			</staticText>
@@ -136,7 +136,7 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f0bd22a-2257-4990-a881-deaaa4ad384b"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Item Qty]]></text>
 			</staticText>
@@ -145,81 +145,81 @@ Lorry Stock]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f0bd22a-2257-4990-a881-deaaa4ad384b"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="13" splitType="Stretch">
 			<textField>
-				<reportElement x="-8" y="2" width="66" height="18" uuid="faee7e6f-7ef2-44d0-9ef9-037b0ba80f4d">
+				<reportElement x="-8" y="-9" width="66" height="18" uuid="faee7e6f-7ef2-44d0-9ef9-037b0ba80f4d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c7d2872-5140-4d65-aaee-1a754ec07c0d"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="66" y="2" width="114" height="18" uuid="4a77ecc0-e940-43a9-8404-2d92e5a565e5">
+				<reportElement x="66" y="-9" width="114" height="18" uuid="4a77ecc0-e940-43a9-8404-2d92e5a565e5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57c3f780-9511-4e1a-8321-0acf21bb1cb3"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="191" y="2" width="102" height="18" uuid="08dbaddc-2c84-4590-a3a1-9335227891cc">
+				<reportElement x="191" y="-9" width="102" height="18" uuid="08dbaddc-2c84-4590-a3a1-9335227891cc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f4dbd70c-e322-40a5-be9e-329e705f1744"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unitPrice_Box_Agency}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="310" y="3" width="100" height="17" isPrintInFirstWholeBand="true" uuid="e7ccfbe7-c8d1-4d4c-a21c-29e05ba83ad7">
+				<reportElement x="310" y="-8" width="100" height="17" isPrintInFirstWholeBand="true" uuid="e7ccfbe7-c8d1-4d4c-a21c-29e05ba83ad7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f17aa58-b5ba-4e55-a2df-27dd662fd708"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unitPrice_Box}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="419" y="1" width="103" height="22" uuid="8faeff68-58b7-43eb-a454-a1de5d07f459">
+				<reportElement x="419" y="-10" width="103" height="22" uuid="8faeff68-58b7-43eb-a454-a1de5d07f459">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a7b71bf6-c3b7-4e72-80f4-2cd7bbe68bf2"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itemCountInBox}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="537" y="3" width="70" height="21" uuid="e49dab4f-4ce5-40bd-877c-d75b307e3a81">
+				<reportElement x="537" y="-8" width="70" height="21" uuid="e49dab4f-4ce5-40bd-877c-d75b307e3a81">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ba5bfc9d-3588-42b8-8e39-47df334fa418"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{boxQty}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="623" y="1" width="73" height="23" uuid="f6ddb96e-ce45-4217-aeee-2915e92ed331">
+				<reportElement x="623" y="-10" width="73" height="23" uuid="f6ddb96e-ce45-4217-aeee-2915e92ed331">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f0bd22a-2257-4990-a881-deaaa4ad384b"/>
 				</reportElement>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itemQty}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="713" y="4" width="100" height="16" uuid="eb8a0103-cf5a-4ded-9589-c8d03950ad45"/>
+				<reportElement x="713" y="-7" width="100" height="16" uuid="eb8a0103-cf5a-4ded-9589-c8d03950ad45"/>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itemCountInBox} != 0 ? 
     new BigDecimal(($F{unitPrice_Box}.doubleValue() / $F{itemCountInBox}) * $F{itemQty} + $F{unitPrice_Box}.doubleValue() * $F{boxQty})
@@ -237,20 +237,20 @@ Lorry Stock]]></text>
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="29" splitType="Stretch">
+		<band height="19" splitType="Stretch">
 			<staticText>
-				<reportElement x="220" y="5" width="73" height="19" uuid="b45b232e-5b5e-4430-b751-24d0edf0b8b1">
+				<reportElement x="220" y="-5" width="73" height="19" uuid="b45b232e-5b5e-4430-b751-24d0edf0b8b1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f0bd22a-2257-4990-a881-deaaa4ad384b"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="300" y="3" width="100" height="21" uuid="3356d380-0ab5-4098-89cd-ffc9576cec1c"/>
+				<reportElement x="300" y="-7" width="100" height="21" uuid="3356d380-0ab5-4098-89cd-ffc9576cec1c"/>
 				<textElement>
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{TotalSum}]]></textFieldExpression>
 			</textField>
