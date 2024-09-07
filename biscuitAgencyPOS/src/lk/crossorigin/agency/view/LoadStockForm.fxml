@@ -36,25 +36,25 @@
       </TableView>
       <TextField fx:id="boxQtyTxt" layoutX="283.0" layoutY="89.0" prefHeight="38.0" prefWidth="158.0" promptText="Box QTY " style="-fx-background-color: #F3F7EC;">
          <font>
-            <Font size="20.0" />
+            <Font size="14.0" />
          </font></TextField>
       <JFXButton fx:id="btnUpdateStock" buttonType="RAISED" layoutX="689.0" layoutY="89.0" onAction="#UpdateStockOnAction" prefHeight="38.0" prefWidth="184.0" style="-fx-background-color: #26355D;" text="Add Stock" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font></JFXButton>
       <JFXComboBox fx:id="itemsCmbBox" layoutX="21.0" layoutY="86.0" prefHeight="38.0" prefWidth="230.0" promptText="Item Name" />
       <TextField fx:id="itemQtyTxt" layoutX="478.0" layoutY="89.0" prefHeight="38.0" prefWidth="158.0" promptText="Item QTY " style="-fx-background-color: #F3F7EC;">
          <font>
-            <Font size="20.0" />
+            <Font size="14.0" />
          </font></TextField>
       <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1017.0" layoutY="610.0" onAction="#printOnAction" prefHeight="38.0" prefWidth="246.0" style="-fx-background-color: #26355D;" text="Print" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
       <JFXButton fx:id="btnMainStock" buttonType="RAISED" layoutX="1040.0" layoutY="16.0" onAction="#MainStockOnAction" prefHeight="38.0" prefWidth="213.0" style="-fx-background-color: #26355D;" text="Main Stock &gt;&gt;&gt;&gt;" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
       <Label fx:id="lblTot" layoutX="537.0" layoutY="611.0" prefHeight="38.0" prefWidth="195.0" text="0.00">
@@ -64,7 +64,7 @@
       </Label>
       <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="991.0" layoutY="89.0" onAction="#DeleteOnAction" prefHeight="38.0" prefWidth="270.0" style="-fx-background-color: #26355D;" text="Delete" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
       <Label fx:id="lblTot1" layoutX="437.0" layoutY="611.0" prefHeight="38.0" prefWidth="82.0" text="Total :">

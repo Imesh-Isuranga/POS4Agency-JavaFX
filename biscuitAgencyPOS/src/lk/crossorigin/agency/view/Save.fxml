@@ -27,12 +27,12 @@
             <Font name="System Bold" size="27.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="596.0" layoutY="178.0" onAction="#saveOnAction" prefHeight="43.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Save" textFill="WHITE">
+      <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="596.0" layoutY="178.0" onAction="#saveOnAction" prefHeight="36.0" prefWidth="362.0" style="-fx-background-color: #26355D;" text="Save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXTextArea fx:id="txtSaveDescription" layoutX="94.0" layoutY="244.0" prefHeight="392.0" prefWidth="863.0" style="-fx-background-color: white;" text="hiuhykiulkiuliiliuli" unFocusColor="#1e1e1e">
+      <JFXTextArea fx:id="txtSaveDescription" layoutX="94.0" layoutY="244.0" prefHeight="392.0" prefWidth="863.0" style="-fx-background-color: white;" unFocusColor="#1e1e1e">
          <font>
             <Font size="30.0" />
          </font></JFXTextArea>
