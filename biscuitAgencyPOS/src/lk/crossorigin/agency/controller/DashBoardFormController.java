@@ -32,6 +32,8 @@ public class DashBoardFormController {
     private void checkTableData(){
         try {
             String last_order_orderId = orderBO.getLastOrderIdOrder();
+
+            if(orderBO.getOrderByOrderId(last_order_orderId))
             String last_discount_orderId = discountBO.getLastDiscountId();
             if(!(last_order_orderId.equals(last_discount_orderId))){
                 discountBO.deleteDiscount(last_discount_orderId);
