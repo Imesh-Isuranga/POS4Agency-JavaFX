@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.crossorigin.agency.bo.custom.*;
 import lk.crossorigin.agency.bo.custom.impl.*;
+import lk.crossorigin.agency.dto.OrderDetailsDTO;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,6 +25,8 @@ public class DashBoardFormController {
     OrderBookBO orderBookBO = new OrderBookBoImpl();
     ReturnStockBO returnStockBO = new ReturnStockBoImpl();
     DiscountBO discountBO = new DiscountBoImpl();
+    OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
+    ItemBO itemBO = new ItemBoImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
         checkTableData();
@@ -32,22 +35,28 @@ public class DashBoardFormController {
     private void checkTableData(){
         try {
             String last_order_orderId = orderBO.getLastOrderIdOrder();
+            OrderDetailsDTO orderDetailsDTO = orderDetailBO.getAllOrderDetailsByOrderId(last_order_orderId).get(0);
 
-            if(orderBO.getOrderByOrderId(last_order_orderId))
-            String last_discount_orderId = discountBO.getLastDiscountId();
-            if(!(last_order_orderId.equals(last_discount_orderId))){
-                discountBO.deleteDiscount(last_discount_orderId);
+            if(orderDetailsDTO.getDis_tot() != 0.00){
+                String last_discount_orderId = discountBO.getLastDiscountId();
+                if(!(last_order_orderId.equals(last_discount_orderId))){
+                    discountBO.deleteDiscount(last_discount_orderId);
+                }
             }
+
 
             String last_orderBook_orderId = orderBookBO.getLastOrderId();
             if(!(last_order_orderId.equals(last_orderBook_orderId))){
                 orderBookBO.deleteOrderBook(last_orderBook_orderId);
             }
 
-            String last_return_orderId = returnStockBO.getLastOrderIdReturn();
-            if(!(last_order_orderId.equals(last_return_orderId))){
-                returnStockBO.deleteReturn(last_return_orderId);
+            if(orderDetailsDTO.getDis_tot() != 0.00){
+                String last_return_orderId = returnStockBO.getLastOrderIdReturn();
+                if(!(last_order_orderId.equals(last_return_orderId))){
+                    returnStockBO.deleteReturn(last_return_orderId);
+                }
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
