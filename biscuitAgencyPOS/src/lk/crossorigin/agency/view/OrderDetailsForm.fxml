@@ -50,5 +50,65 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
+      <Label layoutX="412.0" layoutY="30.0" text="Total">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbltotal" layoutX="412.0" layoutY="60.0" prefHeight="26.0" prefWidth="61.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="523.0" layoutY="30.0" text="Cash">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblcash" layoutX="526.0" layoutY="59.0" prefHeight="26.0" prefWidth="62.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="628.0" layoutY="30.0" text="Credit">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblcredit" layoutX="628.0" layoutY="58.0" prefHeight="26.0" prefWidth="61.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="720.0" layoutY="29.0" text="Cheque">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblcheque" layoutX="720.0" layoutY="58.0" prefHeight="26.0" prefWidth="70.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="931.0" layoutY="60.0" text="M/R :">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblmr" layoutX="987.0" layoutY="60.0" prefHeight="26.0" prefWidth="61.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="1098.0" layoutY="59.0" text="Discount :">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbldis" layoutX="1194.0" layoutY="59.0" prefHeight="26.0" prefWidth="49.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

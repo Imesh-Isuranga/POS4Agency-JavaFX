@@ -47,6 +47,12 @@ public class OrderDetailsFormController {
     public JFXButton btnSearch;
     public JFXButton btnPrint;
     public TextField txtSearch;
+    public Label lbltotal;
+    public Label lblcash;
+    public Label lblcredit;
+    public Label lblcheque;
+    public Label lblmr;
+    public Label lbldis;
 
 
     OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
@@ -77,6 +83,13 @@ public class OrderDetailsFormController {
         try {
             double total = 0.00;
             double freeItemTotal = 0.00;
+
+            double totalsum = 0.00;
+            double cash = 0.00;
+            double credit = 0.00;
+            double cheque = 0.00;
+            double mr = 0.00;
+            double discount = 0.00;
 
             ArrayList<OrderBookDTO> dtoList = orderBookBO.getAllOrderBooks("%" + searchText + "%");
             for (OrderBookDTO dto:dtoList) {
@@ -155,6 +168,14 @@ public class OrderDetailsFormController {
                 }*/
 
 
+                totalsum += orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getTotal();
+                cash += cashAmount;
+                credit += creditAmount;
+                cheque += chequeAmount;
+                mr += orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getReturn_tot();
+                discount += orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total();
+
+
                 System.out.println("000000000000000000000000000000000000000");
                 System.out.println(dto.getId());
                 System.out.println( orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()));
@@ -172,6 +193,13 @@ public class OrderDetailsFormController {
                 );
                 obList.add(orderDetailsTM);
             }
+            lbltotal.setText(String.valueOf(totalsum));
+            lblcash.setText(String.valueOf(cash));
+            lblcredit.setText(String.valueOf(credit));
+            lblcheque.setText(String.valueOf(cheque));
+            lblmr.setText(String.valueOf(mr));
+            lbldis.setText(String.valueOf(discount));
+
             orderHistoryTbl.setItems(obList);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

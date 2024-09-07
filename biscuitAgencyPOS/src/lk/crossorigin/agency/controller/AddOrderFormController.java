@@ -413,20 +413,18 @@ public class AddOrderFormController {
                                                         selectedOption.ifPresent(option -> {
                                                             // Proceed with the selected option
                                                             try {
+                                                                System.out.println(option);
+                                                                System.out.println(selectedOption);
+                                                                System.out.println(selectedOption.get());
                                                                 OrderBookDTO orderBookDTO = new OrderBookDTO(
                                                                         orderBookBO.generateOrderId(bookNum, invoiceNum),
                                                                         bookNum,
                                                                         invoiceNum,
-                                                                        shopBO.getShop(shopIdlbl.getText()).getId()
+                                                                        option
                                                                 );
 
                                                                 if (orderBookBO.saveOrderBook(orderBookDTO)) {
-                                                                    System.out.println("111111111111111111111111111111111111111111111111");
                                                                     lblOrderId.setText(orderBookBO.generateOrderId(bookNum, invoiceNum));
-                                                                    System.out.println(selectedOption);
-                                                                    System.out.println(selectedOption.get());
-                                                                    System.out.println(option);
-                                                                    System.out.println("11111111111111112222222222222222");
                                                                     shopIdlbl.setText(option);
                                                                     Stage stage = (Stage) addOrderContext.getScene().getWindow();
                                                                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
