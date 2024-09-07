@@ -130,6 +130,7 @@ public class MainStockFormController {
                         total
                         );
                 obList.add(mainItemTM);
+                wholeTotal = Math.round(wholeTotal * 100.0) / 100.0;
                 lblTot.setText(String.valueOf(wholeTotal));
             }
             itemsTbl.setItems(obList);
