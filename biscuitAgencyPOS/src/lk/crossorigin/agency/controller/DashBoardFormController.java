@@ -35,6 +35,13 @@ public class DashBoardFormController {
     private void checkTableData(){
         try {
             String last_order_orderId = orderBO.getLastOrderIdOrder();
+
+
+            String last_orderBook_orderId = orderBookBO.getLastOrderId();
+            if(!(last_order_orderId.equals(last_orderBook_orderId))){
+                orderBookBO.deleteOrderBook(last_orderBook_orderId);
+            }
+            
             if(orderDetailBO.getAllOrderDetailsByOrderId(last_order_orderId).size()>0){
                 OrderDetailsDTO orderDetailsDTO = orderDetailBO.getAllOrderDetailsByOrderId(last_order_orderId).get(0);
                 if(orderDetailsDTO.getDis_tot() != 0.00){
@@ -42,12 +49,6 @@ public class DashBoardFormController {
                     if(!(last_order_orderId.equals(last_discount_orderId))){
                         discountBO.deleteDiscount(last_discount_orderId);
                     }
-                }
-
-
-                String last_orderBook_orderId = orderBookBO.getLastOrderId();
-                if(!(last_order_orderId.equals(last_orderBook_orderId))){
-                    orderBookBO.deleteOrderBook(last_orderBook_orderId);
                 }
 
                 if(orderDetailsDTO.getDis_tot() != 0.00){
