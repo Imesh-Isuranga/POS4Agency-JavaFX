@@ -126,7 +126,14 @@ public class OrderDetailsFormController {
 
 
             ArrayList<OrderDetailsDTO> OrderDetailsDTO = orderDetailBO.getOrderDetailsByDate(date);
+            System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+            System.out.println(OrderDetailsDTO);
+            String or_id = "";
             for (OrderDetailsDTO dto:OrderDetailsDTO) {
+                if(!dto.getOrderId().equals("") && dto.getOrderId().equals(or_id)){
+                    continue;
+                }
+                or_id = dto.getOrderId();
 
                 ArrayList<PaymentDTO> paymentDTOS = paymentBO.getPaymentByOrderId(dto.getOrderId());
                 double cashAmount = 0.00;
@@ -145,17 +152,6 @@ public class OrderDetailsFormController {
                     }
                 }
 
-                /*ArrayList<ReturnStockDTO> returnByOrderId = returnStockBO.getReturnByOrderId(dto.getId());
-                double returnAmount = 0.00;
-                for (ReturnStockDTO r:returnByOrderId) {
-                    ItemDTO itemDTO = itemBO.getItem(r.getItemCode());
-                    double unit_QTYPrice = r.getPerQty();
-                    int boxQTY = r.getBoxQty();
-                    int itemQTY = r.getItemQty();
-                    int itemsCount_in_box = itemDTO.getItemCountInBox();
-                    returnAmount+=(unit_QTYPrice*itemsCount_in_box*boxQTY + unit_QTYPrice*itemQTY);
-                }*/
-
                 ArrayList<DiscountDTO> allDiscountByOrderId = discountBO.getAllDiscountByOrderId(dto.getOrderId());
                 int dupCount = 1;
                 for (DiscountDTO d:allDiscountByOrderId) {
@@ -163,24 +159,6 @@ public class OrderDetailsFormController {
                         dupCount++;
                     }
                 }
-                /*double finalDisValue = 0.00;
-                for(int i=0; i<dupCount && allDiscountByOrderId.size()>0; i++){
-                    ArrayList<DiscountDTO> allDiscountByIdDup = discountBO.getAllDiscountByIdDup(dto.getId(), String.valueOf(i + 1));
-                    double totalDis = 0.00;
-                    for (DiscountDTO d:allDiscountByIdDup) {
-                        ItemDTO itemDTO = itemBO.getItem(d.getItemCode());
-                        double unit_boxPrice = itemDTO.getUnitPrice_Box();
-                        int itemsCount_in_box = itemDTO.getItemCountInBox();
-                        double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
-
-                        OrderDetailsDTO orderDetail = orderDetailBO.getOrderDetail(dto.getId(), d.getItemCode());
-
-                        totalDis+=(unit_boxPrice*orderDetail.getBoxQty() + per_item_Price*orderDetail.getItemQty());
-                    }
-                    System.out.println(allDiscountByIdDup.get(0));
-                    finalDisValue+=totalDis*(allDiscountByIdDup.get(0).getDiscountValue())/100;
-                }*/
-
 
                 totalsum += orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getTotal();
                 cash += cashAmount;
@@ -245,25 +223,7 @@ public class OrderDetailsFormController {
             ArrayList<OrderBookDTO> dtoList = orderBookBO.getAllOrderBooks("%" + searchText + "%");
             for (OrderBookDTO dto:dtoList) {
                 ArrayList<OrderDetailsDTO> OrderDetailsDTO = orderDetailBO.getAllOrderDetailsByOrderId(dto.getId());
-                /*for (OrderDetailsDTO o:OrderDetailsDTO) {
-                    System.out.println("-----------------------------------");
-                    System.out.println(o);
-                    double unit_boxPrice = o.getUnitPrice_Box();
-                    int freebox = o.getBoxQtyFree();
-                    int freeitem = o.getItemQtyFree();
-                    int itemsCount_in_box = itemBO.getItem(o.getItemCode()).getItemCountInBox();
-                    double per_item_Price = 0.0;
-                    if(itemsCount_in_box==0){
-                        per_item_Price = o.getUnitPrice_Box();
-                    }else{
-                        per_item_Price = o.getUnitPrice_Box()/itemsCount_in_box;
-                    }
-                    total=(unit_boxPrice*o.getBoxQty() + per_item_Price*o.getItemQty());
-                    System.out.println(freebox);
-                    System.out.println(freeitem);
-                    System.out.println(unit_boxPrice);
-                    freeItemTotal = freebox*unit_boxPrice + freeitem*per_item_Price;
-                }*/
+
 
                 ArrayList<PaymentDTO> paymentDTOS = paymentBO.getPaymentByOrderId(dto.getId());
                 double cashAmount = 0.00;
