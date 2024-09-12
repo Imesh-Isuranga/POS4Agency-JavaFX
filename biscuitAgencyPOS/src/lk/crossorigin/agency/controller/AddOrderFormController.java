@@ -435,7 +435,7 @@ public class AddOrderFormController {
                                                                     Stage stage = (Stage) addOrderContext.getScene().getWindow();
                                                                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
                                                                 } else {
-                                                                    new Alert(Alert.AlertType.WARNING, "Something went wrong! Please try again.", ButtonType.OK).show();
+                                                                    new Alert(Alert.AlertType.WARNING, "Order Was successfully added.But New order has something wrong.", ButtonType.OK).show();
                                                                 }
                                                             } catch (SQLException | ClassNotFoundException | IOException e) {
                                                                 throw new RuntimeException(e);
@@ -446,7 +446,7 @@ public class AddOrderFormController {
                                                         throw new RuntimeException(e);
                                                     }
                                                 } else {
-                                                    new Alert(Alert.AlertType.WARNING, "Something went wrong! Please try again.", ButtonType.CANCEL).show();
+                                                    new Alert(Alert.AlertType.WARNING, "Order Was successfully added.But New order has something wrong.", ButtonType.CANCEL).show();
                                                 }
                                             });
 

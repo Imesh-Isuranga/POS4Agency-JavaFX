@@ -126,8 +126,6 @@ public class OrderDetailsFormController {
 
 
             ArrayList<OrderDetailsDTO> OrderDetailsDTO = orderDetailBO.getOrderDetailsByDate(date);
-            System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-            System.out.println(OrderDetailsDTO);
             String or_id = "";
             for (OrderDetailsDTO dto:OrderDetailsDTO) {
                 if(!dto.getOrderId().equals("") && dto.getOrderId().equals(or_id)){
