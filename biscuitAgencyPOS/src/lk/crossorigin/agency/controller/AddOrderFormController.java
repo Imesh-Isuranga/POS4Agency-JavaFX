@@ -436,6 +436,8 @@ public class AddOrderFormController {
                                                                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
                                                                 } else {
                                                                     new Alert(Alert.AlertType.WARNING, "Order Was successfully added.But New order has something wrong.", ButtonType.OK).show();
+                                                                    Stage stage = (Stage) addOrderContext.getScene().getWindow();
+                                                                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
                                                                 }
                                                             } catch (SQLException | ClassNotFoundException | IOException e) {
                                                                 throw new RuntimeException(e);
@@ -447,6 +449,12 @@ public class AddOrderFormController {
                                                     }
                                                 } else {
                                                     new Alert(Alert.AlertType.WARNING, "Order Was successfully added.But New order has something wrong.", ButtonType.CANCEL).show();
+                                                    Stage stage = (Stage) addOrderContext.getScene().getWindow();
+                                                    try {
+                                                        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
+                                                    } catch (IOException e) {
+                                                        throw new RuntimeException(e);
+                                                    }
                                                 }
                                             });
 
