@@ -155,3 +155,8 @@ CREATE TABLE OrderHistory (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE SelectedOrder (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    or_id VARCHAR(100) NOT NULL,
+    UNIQUE (id)
+);

@@ -244,9 +244,7 @@ public class AddOrderFormController {
         int boxInMain = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString())).getBoxQty();
         int itemInMain = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString())).getItemQty();
         ItemDTO itemDTO = itemBO.getItem(itemMap.get(cmbItemCode.getValue().toString()));
-        if(txtBoxQty.getText().isEmpty() || txtItemQty.getText().isEmpty()){
-            new Alert(Alert.AlertType.WARNING,"Please enter box and item count.",ButtonType.CANCEL).show();
-        }else if((itemDTO.getBoxQty() < (boxCount)) || ((itemDTO.getItemQty() + itemDTO.getItemCountInBox()* itemDTO.getBoxQty()) < (itemCount + boxCount* itemDTO.getItemCountInBox()))){
+        if((itemDTO.getBoxQty() < (boxCount)) || ((itemDTO.getItemQty() + itemDTO.getItemCountInBox()* itemDTO.getBoxQty()) < (itemCount + boxCount* itemDTO.getItemCountInBox()))){
             new Alert(Alert.AlertType.CONFIRMATION,"No Stock", ButtonType.OK).show();
         }else if(boxCount==0 && itemCount==0){
             new Alert(Alert.AlertType.CONFIRMATION,"Please Add Some Stock", ButtonType.OK).show();
@@ -369,8 +367,6 @@ public class AddOrderFormController {
 
 
                     ItemDTO itemDTO = new ItemDTO(orderDetail.getItemCode(),boxQTY,itemQTY);
-                    System.out.println("111111111111111111111111111111111");
-                    System.out.println(itemDTO);
                     if(orderDetailBO.saveOrderDetails(orderDetailsDTO) && itemBO.updateItemQtyDecrease(itemDTO)){
                         if(k==(orderDetailList.size())){
                             if(savePayment()){

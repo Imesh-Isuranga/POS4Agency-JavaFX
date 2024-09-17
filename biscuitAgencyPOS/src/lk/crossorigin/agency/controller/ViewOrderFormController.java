@@ -114,8 +114,8 @@ public class ViewOrderFormController {
         ArrayList<OrderDetailsDTO> dtoList = orderDetailBO.getAllOrderDetailsByOrderId(orderIdtoView);
         if(dtoList.size() > 0){
             lbldis.setText(String.valueOf(dtoList.get(0).getDis_tot()));
-            returnTotallbl.setText(String.valueOf(dtoList.get(0).getDis_tot()));
-            double total = (Double.parseDouble(lblTotalwithoutAny.getText()))-((dtoList.get(0).getDis_tot())+(dtoList.get(0).getDis_tot()));
+            returnTotallbl.setText(String.valueOf(dtoList.get(0).getReturn_tot()));
+            double total = (Double.parseDouble(lblTotalwithoutAny.getText()))-((dtoList.get(0).getDis_tot())+(dtoList.get(0).getReturn_tot()));
             lblTotal.setText(String.valueOf(total));
 
             double paymentTot = 0.00;
@@ -160,6 +160,7 @@ public class ViewOrderFormController {
                     total = dto.getUnitPrice_Box()*dto.getBoxQty() + (dto.getUnitPrice_Box()/itemBO.getItem(dto.getItemCode()).getItemCountInBox())*dto.getItemQty();
                 }
                 total = Math.round(total * 100.0) / 100.0;
+                wholeTotal += total;
 
                 OrderTM orderTM = new OrderTM(
                         dto.getItemCode(),

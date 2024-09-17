@@ -33,7 +33,7 @@
         </columns>
       </TableView>
       <JFXComboBox fx:id="cmbItemCode" layoutX="339.0" layoutY="77.0" prefHeight="26.0" prefWidth="170.0" promptText="Item Code" style="-fx-background-color: #F3F7EC;" />
-      <TextField fx:id="txtBoxQty" layoutX="532.0" layoutY="75.0" prefHeight="31.0" prefWidth="82.0" promptText="Box QTY">
+      <TextField fx:id="txtBoxQty" layoutX="532.0" layoutY="75.0" prefHeight="31.0" prefWidth="82.0" promptText="0">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -64,7 +64,7 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></JFXButton>
-      <TextField fx:id="txtItemQty" layoutX="629.0" layoutY="76.0" prefHeight="22.0" prefWidth="82.0" promptText="Item QTY">
+      <TextField fx:id="txtItemQty" layoutX="629.0" layoutY="76.0" prefHeight="22.0" prefWidth="82.0" promptText="0">
          <font>
             <Font size="14.0" />
          </font></TextField>
