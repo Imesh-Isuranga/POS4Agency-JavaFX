@@ -1,5 +1,7 @@
 package lk.crossorigin.agency.view.tm;
 
+import javafx.scene.control.Button;
+
 import java.util.Date;
 
 public class OrderDetailsTM {
@@ -15,11 +17,12 @@ public class OrderDetailsTM {
     private double MR;
     private String discount;
     private Date date;
+    private Button viewBtn;
 
     public OrderDetailsTM() {
     }
 
-    public OrderDetailsTM(int no,Date date ,String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, String discount) {
+    public OrderDetailsTM(int no,Date date ,String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, String discount, Button viewBtn) {
         this.no = no;
         this.invNo = invNo;
         NameofDealer = nameofDealer;
@@ -31,6 +34,7 @@ public class OrderDetailsTM {
         this.MR = MR;
         this.discount = discount;
         this.date = date;
+        this.viewBtn = viewBtn;
     }
 
     public int getNo() {
@@ -121,6 +125,14 @@ public class OrderDetailsTM {
         this.date = date;
     }
 
+    public Button getViewBtn() {
+        return viewBtn;
+    }
+
+    public void setViewBtn(Button viewBtn) {
+        this.viewBtn = viewBtn;
+    }
+
     @Override
     public String toString() {
         return "OrderDetailsTM{" +
@@ -135,6 +147,7 @@ public class OrderDetailsTM {
                 ", MR=" + MR +
                 ", discount='" + discount + '\'' +
                 ", date=" + date +
+                ", viewBtn=" + viewBtn +
                 '}';
     }
 }

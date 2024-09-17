@@ -50,6 +50,23 @@ public class ShopBoImpl implements ShopBO {
         }
         return dtoList;
     }
+
+    public ArrayList<ShopDTO> getAllShopsByAddress(String text) throws ClassNotFoundException, SQLException {
+        ArrayList<ShopDTO> dtoList = new ArrayList<>();
+        ArrayList<Shop> entityList= shopDAO.getAllShops(text);
+        for (Shop s:entityList) {
+            ShopDTO shopDTO = new ShopDTO(
+                    s.getSh_id(),
+                    s.getId(),
+                    s.getName(),
+                    s.getAddress(),
+                    s.getCredit_uptoNow()
+            );
+            dtoList.add(shopDTO);
+        }
+        return dtoList;
+    }
+
     public String generateShopId(String name,String address) throws SQLException, ClassNotFoundException {
         return shopDAO.generateShopId(name,address);
     }

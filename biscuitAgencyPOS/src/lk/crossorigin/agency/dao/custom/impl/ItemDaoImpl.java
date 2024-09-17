@@ -27,7 +27,11 @@ public class ItemDaoImpl implements ItemDAO {
     }
     @Override
     public boolean updateItemQtyDecrease(Item i) throws SQLException, ClassNotFoundException {
+        System.out.println("111111111111111111111111111111111111112222222222");
         Item item = getItem(i.getCode());
+        System.out.println("Item " + item);
+        System.out.println("i.getBoxQty() " + i.getBoxQty());
+        System.out.println("i.getItemQty() " + i.getItemQty());
         if(i.getBoxQty() == 0 && i.getItemQty() > 0){
             if(item.getItemQty() >= i.getItemQty()){
                 int ItemQTY = item.getItemQty() - i.getItemQty();
@@ -43,7 +47,9 @@ public class ItemDaoImpl implements ItemDAO {
                 return false;
             }
         } else if (i.getItemQty() == 0 && i.getBoxQty() > 0) {
+            System.out.println("99000000000000");
             if(item.getBoxQty() >= i.getBoxQty()){
+                System.out.println("99000000000000999999999999999");
                 int BoxQTY = item.getBoxQty() - i.getBoxQty();
                 String sql = "UPDATE Item SET boxQty=?  WHERE code=?";
                 return CrudUtil.executeUpdate(sql,BoxQTY,i.getCode());
@@ -52,7 +58,30 @@ public class ItemDaoImpl implements ItemDAO {
                 return false;
             }
         }else{
-            if((item.getBoxQty() >= i.getBoxQty()) && (item.getItemQty() >= i.getItemQty())){
+            if(item.getItemQty() < i.getItemQty()){
+                int boxQTY = i.getBoxQty();
+                int itemQTY = i.getItemQty();
+                int itemQTYtoUpdate;
+                int boxQTYtoUpdate;
+                if(i.getItemQty() < item.getItemCountInBox()){
+                    boxQTY += (itemQTY/item.getItemCountInBox());
+                    itemQTY += (itemQTY%item.getItemCountInBox());
+
+                    if(item.getItemQty() < itemQTY){
+                        itemQTYtoUpdate = item.getItemQty() + item.getItemCountInBox() - i.getItemQty();
+                        boxQTYtoUpdate = item.getBoxQty() - boxQTY -1;
+                    }else{
+                        itemQTYtoUpdate = item.getItemQty() - itemQTY;
+                        boxQTYtoUpdate = item.getItemQty() - boxQTY;
+                    }
+                }else{
+                    itemQTYtoUpdate = item.getItemQty() + item.getItemCountInBox() - itemQTY;
+                    boxQTYtoUpdate = item.getBoxQty() -boxQTY - 1;
+                }
+
+                String sql = "UPDATE Item SET boxQty=?, itemQty=?  WHERE code=?";
+                return CrudUtil.executeUpdate(sql,boxQTYtoUpdate,itemQTYtoUpdate,i.getCode());
+            }else if((item.getBoxQty() >= i.getBoxQty()) && (item.getItemQty() >= i.getItemQty())){
                 int ItemQTY = item.getItemQty() - i.getItemQty();
                 int BoxQTY = item.getBoxQty() - i.getBoxQty();
                 String sql = "UPDATE Item SET boxQty=?, itemQty=?  WHERE code=?";

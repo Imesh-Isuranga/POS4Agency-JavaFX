@@ -14,6 +14,13 @@ public class FreeItemsTM {
     public FreeItemsTM() {
     }
 
+    public FreeItemsTM(String freeItemCode, int freeBoxQty, int freeItemQty, double discountItemTotal) {
+        this.freeItemCode = freeItemCode;
+        this.freeBoxQty = freeBoxQty;
+        this.freeItemQty = freeItemQty;
+        this.discountItemTotal = discountItemTotal;
+    }
+
     public FreeItemsTM(String freeItemCode, int freeBoxQty, int freeItemQty, double discountItemTotal, Button btn) {
         this.freeItemCode = freeItemCode;
         this.freeBoxQty = freeBoxQty;

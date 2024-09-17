@@ -13,6 +13,13 @@ public class ReturnStockTM {
     public ReturnStockTM() {
     }
 
+    public ReturnStockTM(String itemCode, int boxQty, int itemQty, double perQty) {
+        this.itemCode = itemCode;
+        this.boxQty = boxQty;
+        this.itemQty = itemQty;
+        this.perQty = perQty;
+    }
+
     public ReturnStockTM(String itemCode, int boxQty, int itemQty, double perQty, Button btn) {
         this.itemCode = itemCode;
         this.boxQty = boxQty;

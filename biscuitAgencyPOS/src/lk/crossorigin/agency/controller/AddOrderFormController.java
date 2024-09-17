@@ -308,7 +308,9 @@ public class AddOrderFormController {
     }
 
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, ParseException, IOException {
-        if((Double.parseDouble(lblTotal.getText()) <= Double.parseDouble(paidAmountlbl.getText())) || ((Double.parseDouble(lblTotal.getText()) > Double.parseDouble(paidAmountlbl.getText())) && creditcbx.isSelected()) && Double.parseDouble(lblTotal.getText())!=0.00 ){
+        if(!orderDetailBO.getAllOrderDetailsByOrderId(lblOrderId.getText()).isEmpty()){
+            new Alert(Alert.AlertType.WARNING,"Already Added",ButtonType.CANCEL).show();
+        }else if((Double.parseDouble(lblTotal.getText()) <= Double.parseDouble(paidAmountlbl.getText())) || ((Double.parseDouble(lblTotal.getText()) > Double.parseDouble(paidAmountlbl.getText())) && creditcbx.isSelected()) && Double.parseDouble(lblTotal.getText())!=0.00 ){
             ArrayList <OrderDetail>orderDetailList=new ArrayList<>();
 
 
@@ -367,11 +369,13 @@ public class AddOrderFormController {
 
 
                     ItemDTO itemDTO = new ItemDTO(orderDetail.getItemCode(),boxQTY,itemQTY);
+                    System.out.println("111111111111111111111111111111111");
+                    System.out.println(itemDTO);
                     if(orderDetailBO.saveOrderDetails(orderDetailsDTO) && itemBO.updateItemQtyDecrease(itemDTO)){
                         if(k==(orderDetailList.size())){
                             if(savePayment()){
                                 if(shopBO.updateShopCredit(shopIdlbl.getText(),Double.parseDouble(shopCreditUptoNowlbl.getText()))){
-                                    Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,"Order was Added.Do you want to add new order?",ButtonType.YES,ButtonType.CANCEL);
+                                    Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,"Order was Successfully Added.Do you want to add new order?",ButtonType.YES,ButtonType.CANCEL);
                                         Optional<ButtonType> confirmState = confirmation.showAndWait();
                                         if(confirmState.get().equals(ButtonType.YES)){
                                             TextInputDialog inputDialog = new TextInputDialog();
@@ -400,7 +404,7 @@ public class AddOrderFormController {
                                                         ComboBox<String> comboBox = new ComboBox<>();
                                                         comboBox.setPromptText("Select Shop");
 
-                                                        comboBox.setItems(loadAllShopIds());
+                                                        comboBox.setItems(loadAllShopIds(shopBO.getShop(shopIdlbl.getText()).getAddress()));
                                                         // Layout for the dialog content
 
                                                         comboBoxDialog.getDialogPane().setContent(comboBox);
@@ -463,14 +467,14 @@ public class AddOrderFormController {
                                             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/DashBoardForm.fxml"))));
                                         }
                                 }else {
-                                    new Alert(Alert.AlertType.WARNING,"Something went wrong about Credit! Please try again.",ButtonType.CANCEL).show();
+                                    new Alert(Alert.AlertType.WARNING,"1-Something went wrong about Credit! Please try again.",ButtonType.CANCEL).show();
                                 }
                             }else {
-                                new Alert(Alert.AlertType.WARNING,"Something went wrong about Payment! Please try again.",ButtonType.CANCEL).show();
+                                new Alert(Alert.AlertType.WARNING,"2-Something went wrong about Payment! Please try again.",ButtonType.CANCEL).show();
                             }
                         }
                     }else {
-                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        new Alert(Alert.AlertType.WARNING,"3-Something went wrong! Please try again.",ButtonType.CANCEL).show();
                     }
                 }
                 discountGeneratedId=1;
@@ -534,9 +538,9 @@ public class AddOrderFormController {
         return itemCodesObList;
     }
 
-    private ObservableList<String> loadAllShopIds() throws SQLException, ClassNotFoundException {
+    private ObservableList<String> loadAllShopIds(String address) throws SQLException, ClassNotFoundException {
         ObservableList<String> shopIdsObList = FXCollections.observableArrayList();;
-        ArrayList<ShopDTO> shopDTOArrayList = shopBO.getAllShops("%"+""+"%");
+        ArrayList<ShopDTO> shopDTOArrayList = shopBO.getAllShopsByAddress("%"+ address +"%");
 
         for (ShopDTO shopDTO:shopDTOArrayList) {
             shopIdsObList.add(shopDTO.getId());
@@ -977,9 +981,7 @@ public class AddOrderFormController {
                 new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
             }
         }
-        System.out.println("11111111111111111111111111----------------");
         lblTotal.setText(String.valueOf(calculateTotalValue()));
-        System.out.println("22222222222222222222222222222---------------");
     }
 
 

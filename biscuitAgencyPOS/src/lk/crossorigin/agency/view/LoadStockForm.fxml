@@ -72,5 +72,10 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnUndo" buttonType="RAISED" layoutX="283.0" layoutY="21.0" onAction="#UndoOnAction" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #26355D;" text="UNDO" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

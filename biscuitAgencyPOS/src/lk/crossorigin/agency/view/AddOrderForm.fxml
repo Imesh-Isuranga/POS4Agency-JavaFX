@@ -96,11 +96,11 @@
          <children>
             <TableView fx:id="tblReturn" layoutX="10.0" layoutY="40.0" prefHeight="110.0" prefWidth="478.0">
                <columns>
-                  <TableColumn fx:id="colItemCodeReturn" prefWidth="156.79998779296875" text="Item Code" />
-                  <TableColumn fx:id="colReturnBoxQty" prefWidth="176.79998779296875" text="Box" />
-                  <TableColumn fx:id="colReturnItemQty" prefWidth="160.00006103515625" text="Item" />
-                  <TableColumn fx:id="colPer_Qty" prefWidth="95.99993896484375" text="Per_QTY" />
-                  <TableColumn fx:id="colReturnRemove" prefWidth="91.2000732421875" text="Remove" />
+                  <TableColumn fx:id="colItemCodeReturn" prefWidth="93.60000610351562" text="Item Code" />
+                  <TableColumn fx:id="colReturnBoxQty" prefWidth="64.0" text="Box" />
+                  <TableColumn fx:id="colReturnItemQty" prefWidth="60.0" text="Item" />
+                  <TableColumn fx:id="colPer_Qty" prefWidth="148.79998779296875" text="Per_QTY" />
+                  <TableColumn fx:id="colReturnRemove" prefWidth="112.00006103515625" text="Remove" />
                </columns>
             </TableView>
             <JFXButton fx:id="btnAddReturnToTable" buttonType="RAISED" layoutX="446.0" layoutY="5.0" onAction="#addReturnToTableOnAction" prefHeight="18.0" prefWidth="32.0" style="-fx-background-color: #26355D;" text="+" textFill="WHITE">
@@ -164,10 +164,10 @@
             <TableView fx:id="addFreeTbl" layoutX="9.0" layoutY="38.0" prefHeight="131.0" prefWidth="950.0">
               <columns>
                 <TableColumn fx:id="colFreeItemCode" prefWidth="228.79999923706055" text="Item Code" />
-                <TableColumn fx:id="colFreeBoxCount" prefWidth="252.00001525878906" text="Free Box" />
-                  <TableColumn fx:id="colFreeItemCount" prefWidth="237.5999755859375" text="Free Item" />
-                  <TableColumn fx:id="colFreeItemTotal" prefWidth="206.4000244140625" text="Total" />
-                  <TableColumn fx:id="colRemove" prefWidth="228.80010986328125" text="Remove" />
+                <TableColumn fx:id="colFreeBoxCount" prefWidth="171.20001220703125" text="Free Box" />
+                  <TableColumn fx:id="colFreeItemCount" prefWidth="179.99996948242188" text="Free Item" />
+                  <TableColumn fx:id="colFreeItemTotal" prefWidth="227.20001220703125" text="Total" />
+                  <TableColumn fx:id="colRemove" prefWidth="138.39996337890625" text="Remove" />
               </columns>
             </TableView>
             <JFXButton fx:id="btnAddFree" buttonType="RAISED" layoutX="744.0" layoutY="4.0" onAction="#addFreeOnAction" prefHeight="31.0" prefWidth="214.0" style="-fx-background-color: #26355D;" text="Add Free Item" textFill="WHITE">

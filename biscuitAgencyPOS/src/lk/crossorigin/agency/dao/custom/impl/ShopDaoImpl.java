@@ -79,6 +79,25 @@ public class ShopDaoImpl implements ShopDAO {
     }
 
     @Override
+    public ArrayList<Shop> getAllShopsByAddress(String text) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM Shop WHERE address LIKE ?";
+
+        ResultSet rst = CrudUtil.executeQuery(sql,text,text,text,text,text);
+        ArrayList<Shop> entityList = new ArrayList<>();
+        while (rst.next()) {
+            Shop shop = new Shop(
+                    rst.getInt(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4),
+                    rst.getDouble(5)
+            );
+            entityList.add(shop);
+        }
+        return entityList;
+    }
+
+    @Override
     public String generateShopId(String name,String address) throws SQLException, ClassNotFoundException {
         String sql = "SELECT sh_id FROM Shop ORDER BY sh_id DESC LIMIT 1";
         ResultSet rst = CrudUtil.executeQuery(sql);

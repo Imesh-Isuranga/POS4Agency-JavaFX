@@ -14,6 +14,7 @@ public interface ShopBO extends SuperBO{
     public boolean deleteShop(String id) throws ClassNotFoundException, SQLException ;
     public ShopDTO getShop(String id) throws SQLException, ClassNotFoundException ;
     public ArrayList<ShopDTO> getAllShops(String text) throws ClassNotFoundException, SQLException ;
+    public ArrayList<ShopDTO> getAllShopsByAddress(String text) throws ClassNotFoundException, SQLException ;
     public String generateShopId(String name,String address) throws SQLException, ClassNotFoundException;
 
 }

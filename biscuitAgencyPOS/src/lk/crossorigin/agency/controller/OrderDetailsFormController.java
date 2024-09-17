@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class OrderDetailsFormController {
     public AnchorPane orderHistoryContext;
@@ -59,7 +60,7 @@ public class OrderDetailsFormController {
     public JFXButton btnDate;
 
     public Date selected_date;
-
+    public TableColumn colView;
 
     OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
     OrderBookBO orderBookBO = new OrderBookBoImpl();
@@ -69,8 +70,9 @@ public class OrderDetailsFormController {
     DiscountBO discountBO = new DiscountBoImpl();
     OrderHistoryBO orderHistoryBO = new OrderHistoryBoImpl();
     ShopCreditBO shopCreditBO = new ShopCreditBOImpl();
+    SelectedOrderBO selectedOrderBO = new SelectedOrderBoImpl();
 
-    public void initialize(){
+    public void initialize() throws SQLException, ClassNotFoundException {
         colNum.setCellValueFactory(new PropertyValueFactory<>("no"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colInvNo.setCellValueFactory(new PropertyValueFactory<>("invNo"));
@@ -82,6 +84,9 @@ public class OrderDetailsFormController {
         colChequeNo.setCellValueFactory(new PropertyValueFactory<>("chequeNum"));
         colMR.setCellValueFactory(new PropertyValueFactory<>("MR"));
         colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+        colView.setCellValueFactory(new PropertyValueFactory<>("viewBtn"));
+
+        selectedOrderBO.deleteOrderId();
 
         loadAllDetails("");
 
@@ -177,6 +182,7 @@ public class OrderDetailsFormController {
                 System.out.println(dto.getOrderId());
                 OrderBookDTO orderBookDTO = orderBookBO.getOrderBook(dto.getOrderId());
                 System.out.println(orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()));
+                Button viewBtn = new Button("View");
                 OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
                         orderBookDTO.getOb_id(),
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getOrderDate(),
@@ -188,9 +194,31 @@ public class OrderDetailsFormController {
                         chequeAmount,
                         chequeNum,
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getReturn_tot(),
-                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getFree_total())
+                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getFree_total()),
+                        viewBtn
                 );
                 obList.add(orderDetailsTM);
+
+                //View------------------------
+                viewBtn.setOnAction(e->{
+                    try {
+                        if(selectedOrderBO.saveOrderId(new SelectedOrderDTO(String.valueOf(orderBookDTO.getId())))){
+                            Stage stage = (Stage) orderHistoryContext.getScene().getWindow();
+                            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ViewOrderForm.fxml"))));
+                        }else{
+                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        }
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                //View------------------------
+
             }
             lbltotal.setText(String.valueOf(totalsum));
             lblcash.setText(String.valueOf(cash + getTotalCreditByDate(date)));
@@ -240,17 +268,6 @@ public class OrderDetailsFormController {
                     }
                 }
 
-                /*ArrayList<ReturnStockDTO> returnByOrderId = returnStockBO.getReturnByOrderId(dto.getId());
-                double returnAmount = 0.00;
-                for (ReturnStockDTO r:returnByOrderId) {
-                    ItemDTO itemDTO = itemBO.getItem(r.getItemCode());
-                    double unit_QTYPrice = r.getPerQty();
-                    int boxQTY = r.getBoxQty();
-                    int itemQTY = r.getItemQty();
-                    int itemsCount_in_box = itemDTO.getItemCountInBox();
-                    returnAmount+=(unit_QTYPrice*itemsCount_in_box*boxQTY + unit_QTYPrice*itemQTY);
-                }*/
-
                 ArrayList<DiscountDTO> allDiscountByOrderId = discountBO.getAllDiscountByOrderId(dto.getId());
                 int dupCount = 1;
                 for (DiscountDTO d:allDiscountByOrderId) {
@@ -258,24 +275,6 @@ public class OrderDetailsFormController {
                         dupCount++;
                     }
                 }
-                /*double finalDisValue = 0.00;
-                for(int i=0; i<dupCount && allDiscountByOrderId.size()>0; i++){
-                    ArrayList<DiscountDTO> allDiscountByIdDup = discountBO.getAllDiscountByIdDup(dto.getId(), String.valueOf(i + 1));
-                    double totalDis = 0.00;
-                    for (DiscountDTO d:allDiscountByIdDup) {
-                        ItemDTO itemDTO = itemBO.getItem(d.getItemCode());
-                        double unit_boxPrice = itemDTO.getUnitPrice_Box();
-                        int itemsCount_in_box = itemDTO.getItemCountInBox();
-                        double per_item_Price = itemDTO.getUnitPrice_Box()/itemsCount_in_box;
-
-                        OrderDetailsDTO orderDetail = orderDetailBO.getOrderDetail(dto.getId(), d.getItemCode());
-
-                        totalDis+=(unit_boxPrice*orderDetail.getBoxQty() + per_item_Price*orderDetail.getItemQty());
-                    }
-                    System.out.println(allDiscountByIdDup.get(0));
-                    finalDisValue+=totalDis*(allDiscountByIdDup.get(0).getDiscountValue())/100;
-                }*/
-
 
                 totalsum += orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getTotal();
                 cash += cashAmount;
@@ -292,9 +291,7 @@ public class OrderDetailsFormController {
                 mr = Math.round(mr * 100.0) / 100.0;
                 discount = Math.round(discount * 100.0) / 100.0;
 
-                System.out.println("000000000000000000000000000000000000000");
-                System.out.println(dto.getId());
-                System.out.println(orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()));
+                Button viewBtn = new Button("View");
                 OrderDetailsTM orderDetailsTM = new OrderDetailsTM(
                         dto.getOb_id(),
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getOrderDate(),
@@ -306,9 +303,30 @@ public class OrderDetailsFormController {
                         chequeAmount,
                         chequeNum,
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getReturn_tot(),
-                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total())
+                        orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total()),
+                        viewBtn
                 );
                 obList.add(orderDetailsTM);
+
+                //View------------------------
+                viewBtn.setOnAction(e->{
+                    try {
+                        if(selectedOrderBO.saveOrderId(new SelectedOrderDTO(String.valueOf(dto.getId())))){
+                            Stage stage = (Stage) orderHistoryContext.getScene().getWindow();
+                            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ViewOrderForm.fxml"))));
+                        }else{
+                            new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                        }
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                //View------------------------
             }
             lbltotal.setText(String.valueOf(totalsum));
             lblcash.setText(String.valueOf(cash));

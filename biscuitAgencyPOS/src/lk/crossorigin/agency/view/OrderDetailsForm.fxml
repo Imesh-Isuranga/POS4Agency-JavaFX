@@ -31,11 +31,12 @@
             <TableColumn fx:id="colNameodDealer" prefWidth="148.8000030517578" text="Name of Dealer" />
             <TableColumn fx:id="colTotal" prefWidth="125.60003662109375" text="Total" />
             <TableColumn fx:id="colCash" prefWidth="83.20004272460938" text="Cash" />
-            <TableColumn fx:id="colCredit" prefWidth="123.20001220703125" text="Credit" />
-            <TableColumn fx:id="colCheque" prefWidth="84.0" text="Cheque" />
-            <TableColumn fx:id="colChequeNo" prefWidth="158.4000244140625" text="Cheque No" />
-            <TableColumn fx:id="colMR" prefWidth="92.0" text="M/R" />
-            <TableColumn fx:id="colDiscount" prefWidth="132.7999267578125" text="Discount" />
+            <TableColumn fx:id="colCredit" prefWidth="95.199951171875" text="Credit" />
+            <TableColumn fx:id="colCheque" prefWidth="96.0" text="Cheque" />
+            <TableColumn fx:id="colChequeNo" prefWidth="114.39996337890625" text="Cheque No" />
+            <TableColumn fx:id="colMR" prefWidth="96.00006103515625" text="M/R" />
+            <TableColumn fx:id="colDiscount" prefWidth="93.60009765625" text="Discount" />
+            <TableColumn fx:id="colView" prefWidth="95.9998779296875" text="View" />
         </columns>
       </TableView>
       <TextField fx:id="txtSearch" layoutX="15.0" layoutY="107.0" prefHeight="34.0" prefWidth="201.0" promptText="Search here">
