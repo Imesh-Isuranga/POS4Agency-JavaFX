@@ -53,9 +53,9 @@
 	<title>
 		<band height="43" splitType="Stretch">
 			<staticText>
-				<reportElement x="200" y="-24" width="420" height="62" uuid="d9bd3fba-04b8-4f6c-91dd-dff9d87998dc"/>
-				<textElement textAlignment="Center">
-					<font size="24" isBold="true"/>
+				<reportElement x="200" y="-19" width="420" height="58" uuid="d9bd3fba-04b8-4f6c-91dd-dff9d87998dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="21" isBold="true"/>
 				</textElement>
 				<text><![CDATA[M.A Distributor
 Lorry Stock]]></text>
