@@ -340,7 +340,12 @@ public class AddOrderFormController {
             }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             OrderDTO orderDTO=new OrderDTO(lblOrderId.getText(), format.parse(lblDate.getText()),shopIdlbl.getText());
-            boolean isAdded = orderBO.saveOrder(orderDTO);
+            boolean isAdded ;
+            if(Double.parseDouble(lblTotalwithoutAny.getText())<=0.00){
+                isAdded = false;
+            }else{
+                isAdded = orderBO.saveOrder(orderDTO);
+            }
 
             if (isAdded) {
                 int k = 0;
