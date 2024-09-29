@@ -61,6 +61,9 @@ public class OrderDetailsFormController {
 
     public Date selected_date;
     public TableColumn colView;
+    public JFXButton btnDelete;
+
+    public OrderDetailsTM selectedOrderDetailsTM;
 
     OrderDetailBO orderDetailBO = new OrderDetailBoImpl();
     OrderBookBO orderBookBO = new OrderBookBoImpl();
@@ -94,6 +97,12 @@ public class OrderDetailsFormController {
             selected_date = java.sql.Date.valueOf(datePicker.getValue());
             System.out.println("Selected Date: " + selected_date);
             // You can also call any other methods here if you want to do something with the selected date
+        });
+
+        orderHistoryTbl.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
+                selectedOrderDetailsTM = newValue;
+            }
         });
     }
 
@@ -195,7 +204,8 @@ public class OrderDetailsFormController {
                         chequeNum,
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getReturn_tot(),
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getOrderId()).get(0).getFree_total()),
-                        viewBtn
+                        viewBtn,
+                        orderBookDTO.getId()
                 );
                 obList.add(orderDetailsTM);
 
@@ -304,7 +314,8 @@ public class OrderDetailsFormController {
                         chequeNum,
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getReturn_tot(),
                         orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + "+" + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total() + " = " + (orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getDis_tot() + orderDetailBO.getAllOrderDetailsByOrderId(dto.getId()).get(0).getFree_total()),
-                        viewBtn
+                        viewBtn,
+                        dto.getId()
                 );
                 obList.add(orderDetailsTM);
 
@@ -412,5 +423,68 @@ public class OrderDetailsFormController {
         }else{
             new Alert(Alert.AlertType.WARNING,"Please enter date.",ButtonType.CANCEL).show();
         }
+    }
+
+    public void deleteOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        String or_id = selectedOrderDetailsTM.getOr_id();
+        System.out.println("111111111111111111111111111111111111111111111111111");
+        System.out.println(returnStockBO.deleteReturn(or_id));
+
+
+
+        int count = 0;
+        ArrayList<OrderDetailsDTO> allOrderDetailsByOrderId = orderDetailBO.getAllOrderDetailsByOrderId(or_id);
+
+
+
+        Alert confirmation = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "ARE YOU SURE ?",
+                ButtonType.YES,ButtonType.CANCEL
+        );
+        Optional<ButtonType> confirmState = confirmation.showAndWait();
+        if(confirmState.get().equals(ButtonType.YES)){
+            if(orderBookBO.deleteOrderBook(or_id)){
+                for (OrderDetailsDTO orderDetailsDTO : allOrderDetailsByOrderId) {
+                    count++;
+                    int totBoxtoAddtoLorry = 0;
+                    int totItemtoAddtoLorry = 0;
+                    String itemCode = "";
+                    int itemsCountInBox = 0;
+
+                    totBoxtoAddtoLorry += orderDetailsDTO.getBoxQty() + orderDetailsDTO.getBoxQtyFree();
+                    totItemtoAddtoLorry += orderDetailsDTO.getItemQty() + orderDetailsDTO.getItemQtyFree();
+                    itemCode = orderDetailsDTO.getItemCode();
+                    itemsCountInBox = itemBO.getItem(itemCode).getItemCountInBox();
+
+                    if(totItemtoAddtoLorry >= itemsCountInBox){
+                        totBoxtoAddtoLorry += (totItemtoAddtoLorry / itemsCountInBox);
+                        totItemtoAddtoLorry = (totItemtoAddtoLorry % itemsCountInBox);
+                    }
+
+                    ItemDTO itemDTO = new ItemDTO(itemCode,totBoxtoAddtoLorry,totItemtoAddtoLorry);
+
+                    if(itemBO.updateItemQtysIncrease(itemDTO)){
+                        if(count==allOrderDetailsByOrderId.size()){
+                            if(returnStockBO.getReturnByOrderId(or_id).size()>0){
+                                if(returnStockBO.deleteReturn(or_id)){
+                                    new Alert(Alert.AlertType.CONFIRMATION,"Succefully deleted Order", ButtonType.OK).show();
+                                }else{
+                                    new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                                }
+                            }else{
+                                new Alert(Alert.AlertType.CONFIRMATION,"Succefully deleted Order", ButtonType.OK).show();
+                            }
+                        }
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+                    }
+
+                }            }else{
+                new Alert(Alert.AlertType.WARNING,"Something went wrong! Please try again.",ButtonType.CANCEL).show();
+            }
+        }
+
+        loadAllDetails("");
     }
 }

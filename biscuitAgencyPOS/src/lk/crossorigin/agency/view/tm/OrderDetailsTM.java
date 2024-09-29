@@ -19,6 +19,8 @@ public class OrderDetailsTM {
     private Date date;
     private Button viewBtn;
 
+    private String or_id;
+
     public OrderDetailsTM() {
     }
 
@@ -35,6 +37,22 @@ public class OrderDetailsTM {
         this.discount = discount;
         this.date = date;
         this.viewBtn = viewBtn;
+    }
+
+    public OrderDetailsTM(int no,Date date ,String invNo, String nameofDealer, double total, double cash, double credit, double cheque, String chequeNum, double MR, String discount, Button viewBtn, String or_id) {
+        this.no = no;
+        this.invNo = invNo;
+        NameofDealer = nameofDealer;
+        this.total = total;
+        this.cash = cash;
+        this.credit = credit;
+        this.cheque = cheque;
+        this.chequeNum = chequeNum;
+        this.MR = MR;
+        this.discount = discount;
+        this.date = date;
+        this.viewBtn = viewBtn;
+        this.or_id = or_id;
     }
 
     public int getNo() {
@@ -131,6 +149,14 @@ public class OrderDetailsTM {
 
     public void setViewBtn(Button viewBtn) {
         this.viewBtn = viewBtn;
+    }
+
+    public String getOr_id() {
+        return or_id;
+    }
+
+    public void setOr_id(String or_id) {
+        this.or_id = or_id;
     }
 
     @Override

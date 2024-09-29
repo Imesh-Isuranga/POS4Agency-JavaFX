@@ -437,6 +437,7 @@ public class AddOrderFormController {
                                                                 if (orderBookBO.saveOrderBook(orderBookDTO)) {
                                                                     lblOrderId.setText(orderBookBO.generateOrderId(bookNum, invoiceNum));
                                                                     shopIdlbl.setText(option);
+                                                                    shopIdlbl.setText(option);
                                                                     Stage stage = (Stage) addOrderContext.getScene().getWindow();
                                                                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/AddOrderForm.fxml"))));
                                                                 } else {

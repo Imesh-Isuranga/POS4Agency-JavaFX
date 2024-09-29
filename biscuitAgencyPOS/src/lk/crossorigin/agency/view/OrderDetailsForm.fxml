@@ -119,5 +119,10 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="1025.0" layoutY="110.0" onAction="#deleteOnAction" prefHeight="34.0" prefWidth="165.0" style="-fx-background-color: #26355D;" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

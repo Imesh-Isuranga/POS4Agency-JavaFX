@@ -158,7 +158,7 @@ public class MainUpdateItemsController {
                 if(mainItemBO.deleteItem(itemMap.get(selectedCode))) {
                     ItemDTO item = itemBO.getItem(itemMap.get(selectedCode));
                     if(((item != null)  && (itemBO.deleteItem(itemMap.get(selectedCode)))) || item == null){
-                        new Alert(Alert.AlertType.CONFIRMATION,"Shop was Deleted", ButtonType.OK).show();
+                        new Alert(Alert.AlertType.CONFIRMATION,"Item was Deleted", ButtonType.OK).show();
                         clearAll();
                         cmbItems.setItems(loadComboBox(""));
                     }else {
